@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: fhir-bridge
+  
+  # Database configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fhir_bridge
+    username: ${DB_USERNAME:fhir_user}
+    password: ${DB_PASSWORD:fhir_password}
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  
+  # Redis configuration
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 2000ms
+  
+  # Security configuration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${JWT_ISSUER_URI:}
+
+# Management endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# Logging configuration
+logging:
+  level:
+    com.bridge: INFO
+    org.springframework.security: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# Application-specific configuration
+fhir-bridge:
+  transformation:
+    timeout: 30s
+  consent:
+    cache-ttl: 300s
+  audit:
+    enabled: true
