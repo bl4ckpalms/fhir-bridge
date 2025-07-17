@@ -11,71 +11,124 @@
   - Set up Spring Boot configuration classes for security and database
   - _Requirements: 1.1, 4.1_
 
-- [ ] 2. Implement core data models and validation
-  - [ ] 2.1 Create domain model classes for HL7 messages and FHIR resources
+- [x] 2. Implement core data models and validation
+
+
+
+
+
+
+
+
+
+  - [x] 2.1 Create domain model classes for HL7 messages and FHIR resources
+
+
     - Write Hl7Message, FhirResource, ConsentRecord, and AuditEvent classes
     - Add validation annotations and custom validators
     - Create unit tests for model validation logic
     - _Requirements: 1.1, 3.1_
 
-  - [ ] 2.2 Implement database entities and repositories
+  - [x] 2.2 Implement database entities and repositories
+
+
     - Create JPA entities for consent records and audit events
     - Implement Spring Data repositories with custom query methods
     - Write repository integration tests with test database
     - _Requirements: 3.2, 5.1_
 
-- [ ] 3. Build authentication and authorization framework
-  - [ ] 3.1 Implement JWT authentication service
+- [-] 3. Build authentication and authorization framework
+
+
+  - [x] 3.1 Implement JWT authentication service
+
+
+
     - Create JWT token validation and generation logic
     - Implement OAuth 2.0 integration with Spring Security
     - Write authentication filter and security configuration
     - Create unit tests for authentication flows
     - _Requirements: 2.1, 2.3_
 
-  - [ ] 3.2 Implement role-based authorization service
+  - [x] 3.2 Implement role-based authorization service
+
+
+
+
+
     - Create RBAC system with healthcare-specific roles
     - Implement method-level security annotations
     - Write authorization tests for different user roles
     - _Requirements: 2.3, 4.3_
 
-- [ ] 4. Develop HL7 v2 message validation and parsing
-  - [ ] 4.1 Create HL7 v2 message validator
+- [-] 4. Develop HL7 v2 message validation and parsing
+
+
+
+
+
+
+  - [x] 4.1 Create HL7 v2 message validator
+
+
+
     - Implement message structure validation using HAPI HL7 library
     - Add business rule validation for healthcare data
     - Create comprehensive error reporting with field-level details
     - Write unit tests with various HL7 message samples
     - _Requirements: 1.1, 1.4_
 
-  - [ ] 4.2 Implement message parsing and extraction service
+  - [x] 4.2 Implement message parsing and extraction service
+
+
+
+
+
     - Create service to extract patient and clinical data from HL7 messages
     - Add support for common message types (ADT, ORM, ORU)
     - Write parsing tests with real-world HL7 message examples
     - _Requirements: 1.1_
 
-- [ ] 5. Build HL7 to FHIR transformation engine
-  - [ ] 5.1 Implement core transformation service
+- [x] 5. Build HL7 to FHIR transformation engine
+
+
+
+
+  - [x] 5.1 Implement core transformation service
+
+
     - Create transformation service using HAPI FHIR library
     - Implement mapping rules for common HL7 segments to FHIR resources
     - Add configurable transformation rules support
     - Write transformation unit tests with before/after validation
     - _Requirements: 1.2, 1.3_
 
-  - [ ] 5.2 Add FHIR resource validation
+  - [x] 5.2 Add FHIR resource validation
+
+
     - Implement FHIR R4 resource validation using HAPI validator
     - Add US Core and TEFCA profile validation
     - Create validation error handling and reporting
     - Write validation tests for different FHIR resource types
     - _Requirements: 1.3_
+- [x] 6. Implement consent management system
+
+
 
 - [ ] 6. Implement consent management system
-  - [ ] 6.1 Create consent verification service
+
+  - [x] 6.1 Create consent verification service
+
+
     - Implement patient consent lookup and verification logic
     - Add consent policy enforcement rules
     - Create consent expiration checking and handling
     - Write consent verification tests with various scenarios
     - _Requirements: 3.1, 3.2_
 
-  - [ ] 6.2 Build consent-based data filtering
+  - [x] 6.2 Build consent-based data filtering
+
+
     - Implement data filtering based on consent preferences
     - Add support for granular data category restrictions
     - Create filtered response generation logic
