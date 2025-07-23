@@ -1,0 +1,7 @@
+MSH|^~\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20240720140000||ADT^A04^ADT_A04|MSG-000005|P|2.4|||||||
+EVN||20240720140000|||DR-030|20240720140000|
+PID|1||PAT-000005^^^MRN||Wilson^Jordan^Taylor||19880418|F|||2468 Oak Ave^^Westfield^CA^90210^USA||(555)567-8901|||S|HISP|PAT-000005|567-89-0123||||||||||||
+NK1|1|Wilson^Alex^Morgan|BRO|2468 Oak Ave^^Westfield^CA^90210^USA|(555)567-8902|EC|||||||||||||||||||||||||||||
+PV1|1|O|CLINIC-B^2^MAIN||||DR-030^Doctor^Primary|||FAM|||R|||DR-030^Doctor^Primary|REG|||||||||||||||||||||20240720140000|
+PV2|||Routine registration for follow-up||||||||||||||||||||||||||||
+IN1|1|COMM|INS-001^Blue Cross^HL70072||1234 Insurance Way^^Metro City^CA^90211^USA|(555)123-0000||||GRP|Wilson^Jordan^Taylor|18|19880418|2468 Oak Ave^^Westfield^CA^90210^USA|||||||||||||||||POL-123456789||||||F||||||||||

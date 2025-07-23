@@ -1,0 +1,14 @@
+MSH|^~\&|GERIATRIC_SYSTEM|SENIOR_CARE|BRIDGE|FHIR_BRIDGE|20240721030000||ADT^A01^ADT_A01|MSG-000017|P|2.4|||||||
+EVN||20240721030000|||DR-090^Doctor^Geriatric|20240721030000|
+PID|1||PAT-000017^^^MRN^MR||Johnson^Harold^William||19350422|M|||987 Retirement Blvd^Apt 15C^Golden Years^FL^33102^USA^H^^FL||(555)789-0123^PRN^PH|||W|CAUC|PAT-000017|789-01-2345||||||||||||
+NK1|1|Johnson^Margaret^Rose|SPO^Spouse^HL70063|987 Retirement Blvd^Apt 15C^Golden Years^FL^33102^USA^H^^FL|(555)789-0123^PRN^PH|EC^Emergency Contact^HL70131||||||||||||||||||||||||||||
+NK1|2|Johnson^David^Harold|SON^Son^HL70063|123 Family Street^^Nearby City^FL^33103^USA^H^^FL|(555)890-1234^PRN^PH|N^Next of Kin^HL70131||||||||||||||||||||||||||||
+PV1|1|I|GER^201^A^SENIOR_CARE^R^BED^3||||DR-090^Doctor^Geriatric^MD|||GER^Geriatrics^HL70069||I^Inpatient^HL70007|||DR-090^Doctor^Geriatric^MD|INP^Inpatient^HL70018|||||||||||||||||||||20240721030000|
+PV2|||Fall at home with possible hip fracture|||||||||||||||||||||||||||||
+OBX|1|NM|8480-6^Systolic Blood Pressure^LN|1|160|mmHg|90-140|H|||F|||20240721030500|NURSE-003|
+OBX|2|NM|8462-4^Diastolic Blood Pressure^LN|2|95|mmHg|60-90|H|||F|||20240721030500|NURSE-003|
+OBX|3|NM|8867-4^Heart Rate^LN|3|72|/min|60-100||||F|||20240721030500|NURSE-003|
+AL1|1||DRUG^Aspirin^HL70127|MO^Moderate^HL70128|Gastrointestinal upset|
+AL1|2||DRUG^Warfarin^HL70127|SV^Severe^HL70128|Excessive bleeding|
+DG1|1|I10|S72.001A^Fracture of unspecified part of neck of right femur, initial encounter^ICD10||20240721030000|A^Admitting^HL70052||W^Working^HL70053|
+DG1|2|I10|I10^Essential hypertension^ICD10||20240721030000|2^Secondary^HL70052||W^Working^HL70053|

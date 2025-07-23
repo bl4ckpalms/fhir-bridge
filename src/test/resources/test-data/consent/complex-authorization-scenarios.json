@@ -1,0 +1,256 @@
+[
+  {
+    "patientId": "PAT-COMPLEX-001",
+    "organizationId": "ORG-HOSPITAL-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "LAB_RESULTS", "IMAGING", "MEDICATIONS", "VITAL_SIGNS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX001",
+    "description": "Primary hospital - comprehensive care consent"
+  },
+  {
+    "patientId": "PAT-COMPLEX-001",
+    "organizationId": "ORG-MENTAL-HEALTH-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MENTAL_HEALTH", "CLINICAL_NOTES"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX002",
+    "description": "Mental health provider - restricted to behavioral health data"
+  },
+  {
+    "patientId": "PAT-COMPLEX-001",
+    "organizationId": "ORG-RESEARCH-001",
+    "status": "DENIED",
+    "allowedCategories": ["DEMOGRAPHICS", "GENETIC_DATA", "LAB_RESULTS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX003",
+    "description": "Research institution - patient denied genetic research participation"
+  },
+  {
+    "patientId": "PAT-COMPLEX-002",
+    "organizationId": "ORG-PEDIATRIC-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "IMMUNIZATIONS", "ALLERGIES", "VITAL_SIGNS", "LAB_RESULTS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-12-14T00:00:00",
+    "policyReference": "POLICY-COMPLEX004",
+    "description": "Pediatric patient - comprehensive care until age of majority"
+  },
+  {
+    "patientId": "PAT-COMPLEX-002",
+    "organizationId": "ORG-SCHOOL-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "IMMUNIZATIONS", "ALLERGIES", "EMERGENCY_CONTACTS"],
+    "effectiveDate": "2024-08-01T00:00:00",
+    "expirationDate": "2025-06-30T00:00:00",
+    "policyReference": "POLICY-COMPLEX005",
+    "description": "School health services - academic year consent"
+  },
+  {
+    "patientId": "PAT-COMPLEX-002",
+    "organizationId": "ORG-MENTAL-HEALTH-002",
+    "status": "SUSPENDED",
+    "allowedCategories": ["DEMOGRAPHICS", "MENTAL_HEALTH", "SUBSTANCE_ABUSE"],
+    "effectiveDate": "2024-03-01T00:00:00",
+    "expirationDate": "2024-09-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX006",
+    "description": "Adolescent mental health - suspended due to parent/guardian dispute"
+  },
+  {
+    "patientId": "PAT-COMPLEX-003",
+    "organizationId": "ORG-ONCOLOGY-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["ALL"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2026-01-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX007",
+    "description": "Cancer treatment - full access for comprehensive oncology care"
+  },
+  {
+    "patientId": "PAT-COMPLEX-003",
+    "organizationId": "ORG-CLINICAL-TRIAL-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "LAB_RESULTS", "GENETIC_DATA", "CLINICAL_NOTES", "IMAGING"],
+    "effectiveDate": "2024-03-01T00:00:00",
+    "expirationDate": "2027-03-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX008",
+    "description": "Clinical trial participation - research data sharing"
+  },
+  {
+    "patientId": "PAT-COMPLEX-003",
+    "organizationId": "ORG-INSURANCE-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "FINANCIAL", "MEDICAL_HISTORY", "LAB_RESULTS", "IMAGING"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX009",
+    "description": "Insurance company - claims processing and prior authorization"
+  },
+  {
+    "patientId": "PAT-COMPLEX-004",
+    "organizationId": "ORG-EMERGENCY-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "ALLERGIES", "MEDICATIONS", "EMERGENCY_CONTACTS", "VITAL_SIGNS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX010",
+    "description": "Emergency services - critical care data, no expiration"
+  },
+  {
+    "patientId": "PAT-COMPLEX-004",
+    "organizationId": "ORG-HOSPITAL-002",
+    "status": "REVOKED",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "LAB_RESULTS", "MEDICATIONS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2024-04-15T00:00:00",
+    "policyReference": "POLICY-COMPLEX011",
+    "description": "Hospital consent revoked due to billing dispute"
+  },
+  {
+    "patientId": "PAT-COMPLEX-004",
+    "organizationId": "ORG-CLINIC-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICATIONS", "ALLERGIES", "VITAL_SIGNS", "LAB_RESULTS"],
+    "effectiveDate": "2024-05-01T00:00:00",
+    "expirationDate": "2025-05-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX012",
+    "description": "Primary care clinic - new consent after hospital revocation"
+  },
+  {
+    "patientId": "PAT-COMPLEX-005",
+    "organizationId": "ORG-REHAB-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "SUBSTANCE_ABUSE", "MENTAL_HEALTH", "CLINICAL_NOTES", "MEDICATIONS"],
+    "effectiveDate": "2024-02-01T00:00:00",
+    "expirationDate": "2024-08-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX013",
+    "description": "Substance abuse rehabilitation - 6-month treatment program"
+  },
+  {
+    "patientId": "PAT-COMPLEX-005",
+    "organizationId": "ORG-SUPPORT-GROUP-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "SUBSTANCE_ABUSE", "MENTAL_HEALTH"],
+    "effectiveDate": "2024-02-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX014",
+    "description": "Support group - ongoing peer support, no expiration"
+  },
+  {
+    "patientId": "PAT-COMPLEX-005",
+    "organizationId": "ORG-EMPLOYER-001",
+    "status": "DENIED",
+    "allowedCategories": ["DEMOGRAPHICS", "SUBSTANCE_ABUSE", "MENTAL_HEALTH"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX015",
+    "description": "Employer health program - patient denied workplace access to substance abuse data"
+  },
+  {
+    "patientId": "PAT-COMPLEX-006",
+    "organizationId": "ORG-SPECIALIST-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "LAB_RESULTS", "IMAGING", "CLINICAL_NOTES"],
+    "effectiveDate": "2024-03-01T00:00:00",
+    "expirationDate": "2024-09-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX016",
+    "description": "Cardiology specialist - 6-month consultation period"
+  },
+  {
+    "patientId": "PAT-COMPLEX-006",
+    "organizationId": "ORG-TELEHEALTH-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "VITAL_SIGNS", "MEDICATIONS", "CLINICAL_NOTES"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX017",
+    "description": "Remote monitoring platform - chronic disease management"
+  },
+  {
+    "patientId": "PAT-COMPLEX-006",
+    "organizationId": "ORG-PHARMACY-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICATIONS", "ALLERGIES"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX018",
+    "description": "Pharmacy chain - medication management and drug interaction checking"
+  },
+  {
+    "patientId": "PAT-COMPLEX-007",
+    "organizationId": "ORG-GENETICS-001",
+    "status": "PENDING",
+    "allowedCategories": ["DEMOGRAPHICS", "GENETIC_DATA", "MEDICAL_HISTORY", "LAB_RESULTS"],
+    "effectiveDate": "2024-08-01T00:00:00",
+    "expirationDate": "2029-08-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX019",
+    "description": "Genetic counseling - pending approval for 5-year genetic study"
+  },
+  {
+    "patientId": "PAT-COMPLEX-007",
+    "organizationId": "ORG-FAMILY-PLANNING-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "GENETIC_DATA", "MEDICAL_HISTORY", "LAB_RESULTS", "CLINICAL_NOTES"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX020",
+    "description": "Family planning clinic - reproductive health and genetic counseling"
+  },
+  {
+    "patientId": "PAT-COMPLEX-008",
+    "organizationId": "ORG-WORKPLACE-HEALTH-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "IMMUNIZATIONS", "VITAL_SIGNS", "LAB_RESULTS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2024-12-31T23:59:59",
+    "policyReference": "POLICY-COMPLEX021",
+    "description": "Occupational health - annual workplace health screening"
+  },
+  {
+    "patientId": "PAT-COMPLEX-008",
+    "organizationId": "ORG-TRAVEL-CLINIC-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "IMMUNIZATIONS", "ALLERGIES", "MEDICAL_HISTORY"],
+    "effectiveDate": "2024-06-01T00:00:00",
+    "expirationDate": "2025-06-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX022",
+    "description": "Travel medicine clinic - international travel health requirements"
+  },
+  {
+    "patientId": "PAT-COMPLEX-009",
+    "organizationId": "ORG-SPORTS-MEDICINE-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "VITAL_SIGNS", "IMAGING", "LAB_RESULTS"],
+    "effectiveDate": "2024-03-01T00:00:00",
+    "expirationDate": "2025-03-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX023",
+    "description": "Sports medicine - athletic performance and injury management"
+  },
+  {
+    "patientId": "PAT-COMPLEX-009",
+    "organizationId": "ORG-PHYSICAL-THERAPY-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "IMAGING", "CLINICAL_NOTES", "VITAL_SIGNS"],
+    "effectiveDate": "2024-04-01T00:00:00",
+    "expirationDate": "2024-10-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX024",
+    "description": "Physical therapy - 6-month rehabilitation program"
+  },
+  {
+    "patientId": "PAT-COMPLEX-010",
+    "organizationId": "ORG-HOSPICE-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["ALL"],
+    "effectiveDate": "2024-05-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX025",
+    "description": "Hospice care - comprehensive end-of-life care, no expiration"
+  },
+  {
+    "patientId": "PAT-COMPLEX-010",
+    "organizationId": "ORG-PALLIATIVE-CARE-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "MEDICATIONS", "CLINICAL_NOTES", "MENTAL_HEALTH"],
+    "effectiveDate": "2024-03-01T00:00:00",
+    "policyReference": "POLICY-COMPLEX026",
+    "description": "Palliative care - comfort care and symptom management, no expiration"
+  }
+]

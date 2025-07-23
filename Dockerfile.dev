@@ -1,0 +1,97 @@
+# =============================================================================
+# Development Dockerfile for FHIR Bridge
+# Optimized for development with hot reload and debugging capabilities
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Stage 1: Development Base
+# -----------------------------------------------------------------------------
+FROM eclipse-temurin:17-jdk-alpine AS development
+
+# Install development tools
+RUN apk add --no-cache \
+    curl \
+    dumb-init \
+    dos2unix \
+    git \
+    && rm -rf /var/cache/apk/*
+
+# Create non-root user for development
+RUN addgroup -g 1001 -S fhirbridge && \
+    adduser -u 1001 -S fhirbridge -G fhirbridge
+
+WORKDIR /app
+
+# Copy Maven wrapper and make it executable
+COPY mvnw .
+COPY .mvn .mvn
+RUN dos2unix mvnw && chmod +x ./mvnw && chown -R fhirbridge:fhirbridge /app
+
+# Copy POM file for dependency caching
+COPY pom.xml .
+RUN chown fhirbridge:fhirbridge pom.xml
+
+# Switch to non-root user
+USER fhirbridge:fhirbridge
+
+# Download dependencies (this layer will be cached unless POM changes)
+RUN ./mvnw dependency:go-offline -B
+
+# Copy source code
+COPY --chown=fhirbridge:fhirbridge src src
+
+# Create directories for logs and temp files
+RUN mkdir -p /app/logs /app/tmp
+
+# Development JVM options with debugging enabled
+ENV JAVA_OPTS="-XX:+UseContainerSupport \
+               -XX:MaxRAMPercentage=50.0 \
+               -XX:+UseG1GC \
+               -Djava.security.egd=file:/dev/./urandom \
+               -Djava.awt.headless=true \
+               -Dfile.encoding=UTF-8 \
+               -Duser.timezone=UTC \
+               -Djava.io.tmpdir=/app/tmp \
+               -Dspring.devtools.restart.enabled=true \
+               -Dspring.devtools.livereload.enabled=true \
+               -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+
+# Development environment variables
+ENV SPRING_PROFILES_ACTIVE=dev
+ENV SERVER_PORT=8080
+ENV MANAGEMENT_SERVER_PORT=8081
+
+# Expose ports
+EXPOSE 8080 8081 5005
+
+# Health check for development
+HEALTHCHECK --interval=30s \
+            --timeout=10s \
+            --start-period=60s \
+            --retries=3 \
+            CMD curl -f http://localhost:8081/actuator/health || exit 1
+
+# Use dumb-init to handle signals properly
+ENTRYPOINT ["dumb-init", "--"]
+
+# Development command - run with Maven for hot reload
+CMD ["./mvnw", "spring-boot:run", "-Dspring-boot.run.profiles=dev", "-Dspring-boot.run.jvmArguments=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"]
+
+# -----------------------------------------------------------------------------
+# Stage 2: Test Runner (for running tests in container)
+# -----------------------------------------------------------------------------
+FROM development AS test
+
+# Copy test resources
+COPY --chown=fhirbridge:fhirbridge src/test src/test
+
+# Run tests
+CMD ["./mvnw", "test"]
+
+# -----------------------------------------------------------------------------
+# Metadata
+# -----------------------------------------------------------------------------
+LABEL maintainer="FHIR Bridge Team"
+LABEL version="0.1.0-dev"
+LABEL description="Development FHIR Bridge - HL7 v2 to FHIR R4 transformation service"
+LABEL stage="development"

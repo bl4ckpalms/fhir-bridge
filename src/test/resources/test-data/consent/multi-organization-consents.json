@@ -1,0 +1,199 @@
+[
+  {
+    "patientId": "PAT-000001",
+    "organizationId": "ORG-HOSPITAL-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "LAB_RESULTS", "IMAGING", "MEDICATIONS", "VITAL_SIGNS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-HOSPITAL001",
+    "description": "Hospital system consent - comprehensive clinical data"
+  },
+  {
+    "patientId": "PAT-000001",
+    "organizationId": "ORG-CLINIC-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICATIONS", "ALLERGIES", "IMMUNIZATIONS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-CLINIC001",
+    "description": "Primary care clinic consent - basic care data"
+  },
+  {
+    "patientId": "PAT-000001",
+    "organizationId": "ORG-LAB-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "LAB_RESULTS", "LABORATORY_RESULTS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-LAB001",
+    "description": "Laboratory consent - lab results only"
+  },
+  {
+    "patientId": "PAT-000001",
+    "organizationId": "ORG-PHARMACY-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICATIONS", "ALLERGIES"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-PHARMACY001",
+    "description": "Pharmacy consent - medication and allergy data"
+  },
+  {
+    "patientId": "PAT-000001",
+    "organizationId": "ORG-INSURANCE-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "FINANCIAL", "EMERGENCY_CONTACTS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-INSURANCE001",
+    "description": "Insurance company consent - billing and contact data"
+  },
+  {
+    "patientId": "PAT-000002",
+    "organizationId": "ORG-HOSPITAL-002",
+    "status": "ACTIVE",
+    "allowedCategories": ["ALL"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "policyReference": "POLICY-HOSPITAL002",
+    "description": "Hospital system consent - full access, no expiration"
+  },
+  {
+    "patientId": "PAT-000002",
+    "organizationId": "ORG-RESEARCH-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "GENETIC_DATA", "LAB_RESULTS", "CLINICAL_NOTES"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2027-01-01T00:00:00",
+    "policyReference": "POLICY-RESEARCH001",
+    "description": "Research institution consent - genetic and clinical research data"
+  },
+  {
+    "patientId": "PAT-000002",
+    "organizationId": "ORG-MENTAL-HEALTH-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MENTAL_HEALTH", "SUBSTANCE_ABUSE", "CLINICAL_NOTES"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-MENTAL001",
+    "description": "Mental health provider consent - behavioral health data"
+  },
+  {
+    "patientId": "PAT-000003",
+    "organizationId": "ORG-HOSPITAL-001",
+    "status": "REVOKED",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "LAB_RESULTS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2024-06-01T00:00:00",
+    "policyReference": "POLICY-HOSPITAL003",
+    "description": "Revoked hospital consent - patient withdrew consent"
+  },
+  {
+    "patientId": "PAT-000003",
+    "organizationId": "ORG-CLINIC-002",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICATIONS", "ALLERGIES", "VITAL_SIGNS"],
+    "effectiveDate": "2024-06-15T00:00:00",
+    "expirationDate": "2025-06-15T00:00:00",
+    "policyReference": "POLICY-CLINIC002",
+    "description": "New clinic consent after revoking hospital consent"
+  },
+  {
+    "patientId": "PAT-000004",
+    "organizationId": "ORG-HOSPITAL-003",
+    "status": "SUSPENDED",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "MEDICATIONS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2024-12-31T23:59:59",
+    "policyReference": "POLICY-HOSPITAL004",
+    "description": "Suspended hospital consent - temporary suspension due to billing dispute"
+  },
+  {
+    "patientId": "PAT-000004",
+    "organizationId": "ORG-EMERGENCY-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "ALLERGIES", "MEDICATIONS", "EMERGENCY_CONTACTS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "policyReference": "POLICY-EMERGENCY001",
+    "description": "Emergency services consent - critical care data, no expiration"
+  },
+  {
+    "patientId": "PAT-000005",
+    "organizationId": "ORG-PEDIATRIC-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "IMMUNIZATIONS", "ALLERGIES", "VITAL_SIGNS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-12-14T00:00:00",
+    "policyReference": "POLICY-PEDIATRIC001",
+    "description": "Pediatric care consent - expires when patient turns 18"
+  },
+  {
+    "patientId": "PAT-000005",
+    "organizationId": "ORG-SCHOOL-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "IMMUNIZATIONS", "ALLERGIES", "EMERGENCY_CONTACTS"],
+    "effectiveDate": "2024-08-01T00:00:00",
+    "expirationDate": "2025-06-30T00:00:00",
+    "policyReference": "POLICY-SCHOOL001",
+    "description": "School health services consent - academic year duration"
+  },
+  {
+    "patientId": "PAT-000006",
+    "organizationId": "ORG-SPECIALIST-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "LAB_RESULTS", "IMAGING", "CLINICAL_NOTES"],
+    "effectiveDate": "2024-03-01T00:00:00",
+    "expirationDate": "2024-09-01T00:00:00",
+    "policyReference": "POLICY-SPECIALIST001",
+    "description": "Specialist referral consent - 6-month treatment period"
+  },
+  {
+    "patientId": "PAT-000006",
+    "organizationId": "ORG-TELEHEALTH-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "VITAL_SIGNS", "MEDICATIONS", "CLINICAL_NOTES"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-TELEHEALTH001",
+    "description": "Telehealth platform consent - remote monitoring data"
+  },
+  {
+    "patientId": "PAT-000007",
+    "organizationId": "ORG-REHAB-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "SUBSTANCE_ABUSE", "MENTAL_HEALTH", "CLINICAL_NOTES"],
+    "effectiveDate": "2024-02-01T00:00:00",
+    "expirationDate": "2024-08-01T00:00:00",
+    "policyReference": "POLICY-REHAB001",
+    "description": "Rehabilitation facility consent - substance abuse treatment"
+  },
+  {
+    "patientId": "PAT-000007",
+    "organizationId": "ORG-SUPPORT-GROUP-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MENTAL_HEALTH", "SUBSTANCE_ABUSE"],
+    "effectiveDate": "2024-02-01T00:00:00",
+    "policyReference": "POLICY-SUPPORT001",
+    "description": "Support group consent - peer support services, no expiration"
+  },
+  {
+    "patientId": "PAT-000008",
+    "organizationId": "ORG-ONCOLOGY-001",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "LAB_RESULTS", "IMAGING", "MEDICATIONS", "GENETIC_DATA", "CLINICAL_NOTES"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2026-01-01T00:00:00",
+    "policyReference": "POLICY-ONCOLOGY001",
+    "description": "Oncology treatment consent - comprehensive cancer care data"
+  },
+  {
+    "patientId": "PAT-000008",
+    "organizationId": "ORG-CLINICAL-TRIAL-001",
+    "status": "PENDING",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "LAB_RESULTS", "GENETIC_DATA", "CLINICAL_NOTES"],
+    "effectiveDate": "2024-08-01T00:00:00",
+    "expirationDate": "2027-08-01T00:00:00",
+    "policyReference": "POLICY-TRIAL001",
+    "description": "Clinical trial consent - pending approval for cancer research study"
+  }
+]

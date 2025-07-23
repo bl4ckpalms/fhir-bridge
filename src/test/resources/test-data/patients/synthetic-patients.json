@@ -1,0 +1,573 @@
+[
+  {
+    "patientId": "PAT-000001",
+    "medicalRecordNumber": "MRN-00100001",
+    "firstName": "Alex",
+    "lastName": "Smith",
+    "middleName": "Jordan",
+    "dateOfBirth": "1985-03-15",
+    "gender": "M",
+    "address": "1234 Main St",
+    "city": "Springfield",
+    "state": "CA",
+    "zipCode": "90210",
+    "phoneNumber": "(555) 123-4567",
+    "email": "alex.smith@email.example",
+    "maritalStatus": "M",
+    "race": "White",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Jordan Smith",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 123-4568"
+    },
+    "insurance": {
+      "provider": "Blue Cross Blue Shield",
+      "policyNumber": "BCBS-001-12345",
+      "groupNumber": "GRP-001"
+    }
+  },
+  {
+    "patientId": "PAT-000002",
+    "medicalRecordNumber": "MRN-00100002",
+    "firstName": "Taylor",
+    "lastName": "Johnson",
+    "dateOfBirth": "1992-07-22",
+    "gender": "F",
+    "address": "5678 Oak Ave",
+    "city": "Franklin",
+    "state": "TX",
+    "zipCode": "75201",
+    "phoneNumber": "(555) 234-5678",
+    "email": "taylor.johnson@email.example",
+    "maritalStatus": "S",
+    "race": "Hispanic",
+    "ethnicity": "Hispanic",
+    "language": "Spanish",
+    "emergencyContact": {
+      "name": "Maria Johnson",
+      "relationship": "Mother",
+      "phoneNumber": "(555) 234-5679"
+    },
+    "insurance": {
+      "provider": "Aetna",
+      "policyNumber": "AET-002-23456",
+      "groupNumber": "GRP-002"
+    }
+  },
+  {
+    "patientId": "PAT-000003",
+    "medicalRecordNumber": "MRN-00100003",
+    "firstName": "Casey",
+    "lastName": "Williams",
+    "middleName": "Morgan",
+    "dateOfBirth": "1978-11-08",
+    "gender": "F",
+    "address": "9012 Pine Rd",
+    "city": "Georgetown",
+    "state": "FL",
+    "zipCode": "33101",
+    "phoneNumber": "(555) 345-6789",
+    "email": "casey.williams@email.example",
+    "maritalStatus": "D",
+    "race": "Black",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Michael Williams",
+      "relationship": "Brother",
+      "phoneNumber": "(555) 345-6790"
+    },
+    "insurance": {
+      "provider": "Cigna",
+      "policyNumber": "CIG-003-34567",
+      "groupNumber": "GRP-003"
+    }
+  },
+  {
+    "patientId": "PAT-000004",
+    "medicalRecordNumber": "MRN-00100004",
+    "firstName": "Riley",
+    "lastName": "Brown",
+    "dateOfBirth": "1965-05-30",
+    "gender": "M",
+    "address": "3456 Elm Dr",
+    "city": "Madison",
+    "state": "NY",
+    "zipCode": "10001",
+    "phoneNumber": "(555) 456-7890",
+    "email": "riley.brown@email.example",
+    "maritalStatus": "M",
+    "race": "Asian",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Susan Brown",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 456-7891"
+    },
+    "insurance": {
+      "provider": "UnitedHealthcare",
+      "policyNumber": "UHC-004-45678",
+      "groupNumber": "GRP-004"
+    }
+  },
+  {
+    "patientId": "PAT-000005",
+    "medicalRecordNumber": "MRN-00100005",
+    "firstName": "Avery",
+    "lastName": "Jones",
+    "middleName": "Quinn",
+    "dateOfBirth": "2001-12-14",
+    "gender": "O",
+    "address": "7890 Maple Ln",
+    "city": "Washington",
+    "state": "PA",
+    "zipCode": "19101",
+    "phoneNumber": "(555) 567-8901",
+    "email": "avery.jones@email.example",
+    "maritalStatus": "S",
+    "race": "Other",
+    "ethnicity": "Unknown",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Patricia Jones",
+      "relationship": "Mother",
+      "phoneNumber": "(555) 567-8902"
+    },
+    "insurance": {
+      "provider": "Humana",
+      "policyNumber": "HUM-005-56789",
+      "groupNumber": "GRP-005"
+    }
+  },
+  {
+    "patientId": "PAT-000006",
+    "medicalRecordNumber": "MRN-00100006",
+    "firstName": "Morgan",
+    "lastName": "Davis",
+    "middleName": "Lee",
+    "dateOfBirth": "1990-01-12",
+    "gender": "F",
+    "address": "2468 Cedar St",
+    "city": "Austin",
+    "state": "TX",
+    "zipCode": "73301",
+    "phoneNumber": "(555) 678-9012",
+    "email": "morgan.davis@email.example",
+    "maritalStatus": "M",
+    "race": "White",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "David Davis",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 678-9013"
+    },
+    "insurance": {
+      "provider": "Kaiser Permanente",
+      "policyNumber": "KP-006-67890",
+      "groupNumber": "GRP-006"
+    }
+  },
+  {
+    "patientId": "PAT-000007",
+    "medicalRecordNumber": "MRN-00100007",
+    "firstName": "Jamie",
+    "lastName": "Miller",
+    "dateOfBirth": "1975-09-03",
+    "gender": "M",
+    "address": "1357 Birch Ave",
+    "city": "Phoenix",
+    "state": "AZ",
+    "zipCode": "85001",
+    "phoneNumber": "(555) 789-0123",
+    "email": "jamie.miller@email.example",
+    "maritalStatus": "D",
+    "race": "Native American",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Sarah Miller",
+      "relationship": "Sister",
+      "phoneNumber": "(555) 789-0124"
+    },
+    "insurance": {
+      "provider": "Anthem",
+      "policyNumber": "ANT-007-78901",
+      "groupNumber": "GRP-007"
+    }
+  },
+  {
+    "patientId": "PAT-000008",
+    "medicalRecordNumber": "MRN-00100008",
+    "firstName": "Sage",
+    "lastName": "Wilson",
+    "middleName": "River",
+    "dateOfBirth": "1988-06-18",
+    "gender": "F",
+    "address": "9753 Willow Dr",
+    "city": "Denver",
+    "state": "CO",
+    "zipCode": "80201",
+    "phoneNumber": "(555) 890-1234",
+    "email": "sage.wilson@email.example",
+    "maritalStatus": "S",
+    "race": "Mixed Race",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Robert Wilson",
+      "relationship": "Father",
+      "phoneNumber": "(555) 890-1235"
+    },
+    "insurance": {
+      "provider": "Molina Healthcare",
+      "policyNumber": "MOL-008-89012",
+      "groupNumber": "GRP-008"
+    }
+  },
+  {
+    "patientId": "PAT-000009",
+    "medicalRecordNumber": "MRN-00100009",
+    "firstName": "Drew",
+    "lastName": "Garcia",
+    "middleName": "Alex",
+    "dateOfBirth": "1995-04-25",
+    "gender": "M",
+    "address": "4680 Spruce Rd",
+    "city": "Miami",
+    "state": "FL",
+    "zipCode": "33102",
+    "phoneNumber": "(555) 901-2345",
+    "email": "drew.garcia@email.example",
+    "maritalStatus": "S",
+    "race": "Hispanic",
+    "ethnicity": "Hispanic",
+    "language": "Spanish",
+    "emergencyContact": {
+      "name": "Carmen Garcia",
+      "relationship": "Mother",
+      "phoneNumber": "(555) 901-2346"
+    },
+    "insurance": {
+      "provider": "WellCare",
+      "policyNumber": "WC-009-90123",
+      "groupNumber": "GRP-009"
+    }
+  },
+  {
+    "patientId": "PAT-000010",
+    "medicalRecordNumber": "MRN-00100010",
+    "firstName": "Reese",
+    "lastName": "Martinez",
+    "dateOfBirth": "1982-08-07",
+    "gender": "F",
+    "address": "8024 Aspen Ct",
+    "city": "Seattle",
+    "state": "WA",
+    "zipCode": "98101",
+    "phoneNumber": "(555) 012-3456",
+    "email": "reese.martinez@email.example",
+    "maritalStatus": "M",
+    "race": "Hispanic",
+    "ethnicity": "Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Luis Martinez",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 012-3457"
+    },
+    "insurance": {
+      "provider": "Blue Cross Blue Shield",
+      "policyNumber": "BCBS-010-01234",
+      "groupNumber": "GRP-010"
+    }
+  },
+  {
+    "patientId": "PAT-000011",
+    "medicalRecordNumber": "MRN-00100011",
+    "firstName": "Skyler",
+    "lastName": "Anderson",
+    "middleName": "Blake",
+    "dateOfBirth": "1970-02-14",
+    "gender": "M",
+    "address": "5791 Poplar St",
+    "city": "Chicago",
+    "state": "IL",
+    "zipCode": "60601",
+    "phoneNumber": "(555) 123-4567",
+    "email": "skyler.anderson@email.example",
+    "maritalStatus": "M",
+    "race": "White",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Jennifer Anderson",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 123-4568"
+    },
+    "insurance": {
+      "provider": "Aetna",
+      "policyNumber": "AET-011-12345",
+      "groupNumber": "GRP-011"
+    }
+  },
+  {
+    "patientId": "PAT-000012",
+    "medicalRecordNumber": "MRN-00100012",
+    "firstName": "Phoenix",
+    "lastName": "Thomas",
+    "dateOfBirth": "1998-10-31",
+    "gender": "O",
+    "address": "3146 Hickory Ln",
+    "city": "Portland",
+    "state": "OR",
+    "zipCode": "97201",
+    "phoneNumber": "(555) 234-5678",
+    "email": "phoenix.thomas@email.example",
+    "maritalStatus": "S",
+    "race": "Asian",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Linda Thomas",
+      "relationship": "Mother",
+      "phoneNumber": "(555) 234-5679"
+    },
+    "insurance": {
+      "provider": "Cigna",
+      "policyNumber": "CIG-012-23456",
+      "groupNumber": "GRP-012"
+    }
+  },
+  {
+    "patientId": "PAT-000013",
+    "medicalRecordNumber": "MRN-00100013",
+    "firstName": "River",
+    "lastName": "Jackson",
+    "middleName": "Storm",
+    "dateOfBirth": "1963-12-05",
+    "gender": "F",
+    "address": "7258 Walnut Ave",
+    "city": "Atlanta",
+    "state": "GA",
+    "zipCode": "30301",
+    "phoneNumber": "(555) 345-6789",
+    "email": "river.jackson@email.example",
+    "maritalStatus": "W",
+    "race": "Black",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Marcus Jackson",
+      "relationship": "Son",
+      "phoneNumber": "(555) 345-6790"
+    },
+    "insurance": {
+      "provider": "UnitedHealthcare",
+      "policyNumber": "UHC-013-34567",
+      "groupNumber": "GRP-013"
+    }
+  },
+  {
+    "patientId": "PAT-000014",
+    "medicalRecordNumber": "MRN-00100014",
+    "firstName": "Sage",
+    "lastName": "White",
+    "dateOfBirth": "1987-07-19",
+    "gender": "M",
+    "address": "9630 Cherry Dr",
+    "city": "Boston",
+    "state": "MA",
+    "zipCode": "02101",
+    "phoneNumber": "(555) 456-7890",
+    "email": "sage.white@email.example",
+    "maritalStatus": "S",
+    "race": "White",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Nancy White",
+      "relationship": "Mother",
+      "phoneNumber": "(555) 456-7891"
+    },
+    "insurance": {
+      "provider": "Humana",
+      "policyNumber": "HUM-014-45678",
+      "groupNumber": "GRP-014"
+    }
+  },
+  {
+    "patientId": "PAT-000015",
+    "medicalRecordNumber": "MRN-00100015",
+    "firstName": "Dakota",
+    "lastName": "Harris",
+    "middleName": "Sky",
+    "dateOfBirth": "1993-03-28",
+    "gender": "F",
+    "address": "1472 Peach St",
+    "city": "Nashville",
+    "state": "TN",
+    "zipCode": "37201",
+    "phoneNumber": "(555) 567-8901",
+    "email": "dakota.harris@email.example",
+    "maritalStatus": "M",
+    "race": "Mixed Race",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "James Harris",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 567-8902"
+    },
+    "insurance": {
+      "provider": "Kaiser Permanente",
+      "policyNumber": "KP-015-56789",
+      "groupNumber": "GRP-015"
+    }
+  },
+  {
+    "patientId": "PAT-000016",
+    "medicalRecordNumber": "MRN-00100016",
+    "firstName": "Emery",
+    "lastName": "Clark",
+    "dateOfBirth": "1979-11-16",
+    "gender": "M",
+    "address": "8147 Plum Rd",
+    "city": "Las Vegas",
+    "state": "NV",
+    "zipCode": "89101",
+    "phoneNumber": "(555) 678-9012",
+    "email": "emery.clark@email.example",
+    "maritalStatus": "D",
+    "race": "White",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Michelle Clark",
+      "relationship": "Ex-Spouse",
+      "phoneNumber": "(555) 678-9013"
+    },
+    "insurance": {
+      "provider": "Anthem",
+      "policyNumber": "ANT-016-67890",
+      "groupNumber": "GRP-016"
+    }
+  },
+  {
+    "patientId": "PAT-000017",
+    "medicalRecordNumber": "MRN-00100017",
+    "firstName": "Finley",
+    "lastName": "Lewis",
+    "middleName": "Rain",
+    "dateOfBirth": "2000-05-09",
+    "gender": "O",
+    "address": "2583 Apple Ln",
+    "city": "Salt Lake City",
+    "state": "UT",
+    "zipCode": "84101",
+    "phoneNumber": "(555) 789-0123",
+    "email": "finley.lewis@email.example",
+    "maritalStatus": "S",
+    "race": "White",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Karen Lewis",
+      "relationship": "Mother",
+      "phoneNumber": "(555) 789-0124"
+    },
+    "insurance": {
+      "provider": "Molina Healthcare",
+      "policyNumber": "MOL-017-78901",
+      "groupNumber": "GRP-017"
+    }
+  },
+  {
+    "patientId": "PAT-000018",
+    "medicalRecordNumber": "MRN-00100018",
+    "firstName": "Hayden",
+    "lastName": "Walker",
+    "dateOfBirth": "1984-01-23",
+    "gender": "F",
+    "address": "6925 Grape Ave",
+    "city": "Minneapolis",
+    "state": "MN",
+    "zipCode": "55401",
+    "phoneNumber": "(555) 890-1234",
+    "email": "hayden.walker@email.example",
+    "maritalStatus": "M",
+    "race": "Black",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Kevin Walker",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 890-1235"
+    },
+    "insurance": {
+      "provider": "WellCare",
+      "policyNumber": "WC-018-89012",
+      "groupNumber": "GRP-018"
+    }
+  },
+  {
+    "patientId": "PAT-000019",
+    "medicalRecordNumber": "MRN-00100019",
+    "firstName": "Indigo",
+    "lastName": "Hall",
+    "middleName": "Moon",
+    "dateOfBirth": "1991-08-11",
+    "gender": "M",
+    "address": "4037 Orange Dr",
+    "city": "San Diego",
+    "state": "CA",
+    "zipCode": "92101",
+    "phoneNumber": "(555) 901-2345",
+    "email": "indigo.hall@email.example",
+    "maritalStatus": "S",
+    "race": "Pacific Islander",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Maria Hall",
+      "relationship": "Sister",
+      "phoneNumber": "(555) 901-2346"
+    },
+    "insurance": {
+      "provider": "Blue Cross Blue Shield",
+      "policyNumber": "BCBS-019-90123",
+      "groupNumber": "GRP-019"
+    }
+  },
+  {
+    "patientId": "PAT-000020",
+    "medicalRecordNumber": "MRN-00100020",
+    "firstName": "Justice",
+    "lastName": "Allen",
+    "dateOfBirth": "1976-04-02",
+    "gender": "F",
+    "address": "1694 Lemon St",
+    "city": "Detroit",
+    "state": "MI",
+    "zipCode": "48201",
+    "phoneNumber": "(555) 012-3456",
+    "email": "justice.allen@email.example",
+    "maritalStatus": "D",
+    "race": "Black",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Angela Allen",
+      "relationship": "Sister",
+      "phoneNumber": "(555) 012-3457"
+    },
+    "insurance": {
+      "provider": "Aetna",
+      "policyNumber": "AET-020-01234",
+      "groupNumber": "GRP-020"
+    }
+  }
+]

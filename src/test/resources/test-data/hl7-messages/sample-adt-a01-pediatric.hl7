@@ -1,0 +1,12 @@
+MSH|^~\&|PEDS_SYSTEM|CHILDREN_HOSPITAL|BRIDGE|FHIR_BRIDGE|20240721020000||ADT^A01^ADT_A01|MSG-000016|P|2.4|||||||
+EVN||20240721020000|||DR-085^Doctor^Pediatric|20240721020000|
+PID|1||PAT-000016^^^MRN^MR||Smith^Emma^Grace||20200815|F|||321 Sunshine Lane^^Happy Valley^CA^90213^USA^H^^CA||(555)678-9012^PRN^PH|||S|CAUC|PAT-000016|678-90-1234||||||||||||
+NK1|1|Smith^Jennifer^Anne|MTH^Mother^HL70063|321 Sunshine Lane^^Happy Valley^CA^90213^USA^H^^CA|(555)678-9012^PRN^PH|EC^Emergency Contact^HL70131||||||||||||||||||||||||||||
+NK1|2|Smith^Robert^James|FTH^Father^HL70063|321 Sunshine Lane^^Happy Valley^CA^90213^USA^H^^CA|(555)678-9013^WPN^PH|EC^Emergency Contact^HL70131||||||||||||||||||||||||||||
+PV1|1|I|PEDS^101^A^CHILDREN_HOSPITAL^R^CRIB^1||||DR-085^Doctor^Pediatric^MD|||PEDS^Pediatrics^HL70069||I^Inpatient^HL70007|||DR-085^Doctor^Pediatric^MD|INP^Inpatient^HL70018|||||||||||||||||||||20240721020000|
+PV2|||Fever and respiratory distress|||||||||||||||||||||||||||||
+OBX|1|NM|8310-5^Body Temperature^LN|1|38.9|Cel|36.1-37.2|H|||F|||20240721020500|NURSE-002|
+OBX|2|NM|8867-4^Heart Rate^LN|2|140|/min|80-120|H|||F|||20240721020500|NURSE-002|
+OBX|3|NM|9279-1^Respiratory Rate^LN|3|35|/min|20-30|H|||F|||20240721020500|NURSE-002|
+OBX|4|NM|29463-7^Body Weight^LN|4|12.5|kg|10-15||||F|||20240721020500|NURSE-002|
+DG1|1|I10|J06.9^Acute upper respiratory infection, unspecified^ICD10||20240721020000|A^Admitting^HL70052||W^Working^HL70053|

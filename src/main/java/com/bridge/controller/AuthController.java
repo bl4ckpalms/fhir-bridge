@@ -2,9 +2,18 @@ package com.bridge.controller;
 
 import com.bridge.model.UserPrincipal;
 import com.bridge.service.AuthenticationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +25,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/v1/auth")
+@Tag(name = "Authentication", description = "OAuth2 authentication and token management operations")
 public class AuthController {
     
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
@@ -29,9 +39,61 @@ public class AuthController {
     /**
      * OAuth2 authorization code flow endpoint
      */
-    @PostMapping("/oauth2/token")
+    @Operation(
+        summary = "OAuth2 authorization code token exchange",
+        description = """
+            Exchanges an OAuth2 authorization code for access and refresh tokens.
+            This endpoint implements the OAuth2 authorization code flow for user authentication.
+            """,
+        tags = {"Authentication"}
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Authentication successful",
+            content = @Content(
+                mediaType = MediaType.APPLICATION_JSON_VALUE,
+                examples = @ExampleObject(
+                    name = "Successful authentication",
+                    value = """
+                        {
+                          "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                          "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                          "token_type": "Bearer",
+                          "expires_in": 900,
+                          "user_id": "user-123",
+                          "username": "john.doe",
+                          "organization_id": "org-456"
+                        }
+                        """
+                )
+            )
+        ),
+        @ApiResponse(
+            responseCode = "401",
+            description = "Authentication failed",
+            content = @Content(
+                mediaType = MediaType.APPLICATION_JSON_VALUE,
+                examples = @ExampleObject(
+                    name = "Authentication error",
+                    value = """
+                        {
+                          "error": "authentication_failed",
+                          "error_description": "Invalid authorization code"
+                        }
+                        """
+                )
+            )
+        ),
+        @ApiResponse(responseCode = "400", description = "Invalid request parameters")
+    })
+    @PostMapping(value = "/oauth2/token", 
+                 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+                 produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> oauth2Token(
+            @Parameter(description = "OAuth2 authorization code", required = true)
             @RequestParam("code") String authorizationCode,
+            @Parameter(description = "Redirect URI used in authorization request", required = true)
             @RequestParam("redirect_uri") String redirectUri) {
         
         try {

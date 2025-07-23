@@ -1,0 +1,8 @@
+MSH|^~\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20240720083000||ADT^A01^ADT_A01|MSG-000001|P|2.4|||||||
+EVN||20240720083000|||DR-015|20240720083000|
+PID|1||PAT-000001^^^MRN||Smith^Alex^Jordan||19850315|M|||1234 Main St^^Springfield^CA^90210^USA||(555)123-4567|||M|NON|PAT-000001|123-45-6789||||||||||||
+NK1|1|Smith^Jane^Marie|SPO|5678 Main St^^Springfield^CA^90210^USA|(555)123-4568|EC|||||||||||||||||||||||||||||
+PV1|1|O|201^A^MAIN||||DR-015^Doctor^Attending|||MED|||R|||DR-015^Doctor^Attending|OUT|||||||||||||||||||||20240720080000|20240720163000|
+PV2|||Routine outpatient visit||||||||||||||||||||||||||||
+OBX|1|NM|33747-0^Hemoglobin^LN|1|14.2|g/dL|12.0-15.5||||F|||20240720093000|LAB-1|
+OBX|2|NM|6690-2^White Blood Cell Count^LN|2|7500|/uL|4500-11000||||F|||20240720093000|LAB-1|

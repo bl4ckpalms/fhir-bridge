@@ -1,0 +1,150 @@
+[
+  {
+    "patientId": "PAT-000001",
+    "organizationId": "ORG-006",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS"],
+    "effectiveDate": "2024-07-21T23:59:59",
+    "expirationDate": "2024-07-22T00:00:01",
+    "policyReference": "POLICY-EDGE001",
+    "description": "Very short duration consent (2 seconds) for testing expiration edge cases"
+  },
+  {
+    "patientId": "PAT-000002",
+    "organizationId": "ORG-007",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS", "MEDICAL_HISTORY", "LAB_RESULTS", "IMAGING", "MEDICATIONS", "ALLERGIES", "IMMUNIZATIONS", "VITAL_SIGNS", "MENTAL_HEALTH", "SUBSTANCE_ABUSE", "GENETIC_DATA", "FINANCIAL", "EMERGENCY_CONTACTS", "CLINICAL_NOTES", "LABORATORY_RESULTS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2030-12-31T23:59:59",
+    "policyReference": "POLICY-EDGE002",
+    "description": "Maximum categories consent with very long duration"
+  },
+  {
+    "patientId": "PAT-000003",
+    "organizationId": "ORG-008",
+    "status": "ACTIVE",
+    "allowedCategories": [],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "policyReference": "POLICY-EDGE003",
+    "description": "Empty categories list - should deny all data access except demographics"
+  },
+  {
+    "patientId": "PAT-000004",
+    "organizationId": "ORG-009",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS"],
+    "effectiveDate": "2025-01-01T00:00:00",
+    "expirationDate": "2026-01-01T00:00:00",
+    "policyReference": "POLICY-EDGE004",
+    "description": "Future effective date - should not be active yet"
+  },
+  {
+    "patientId": "PAT-000005",
+    "organizationId": "ORG-010",
+    "status": "EXPIRED",
+    "allowedCategories": ["ALL"],
+    "effectiveDate": "2020-01-01T00:00:00",
+    "expirationDate": "2021-01-01T00:00:00",
+    "policyReference": "POLICY-EDGE005",
+    "description": "Long expired consent with ALL categories"
+  },
+  {
+    "patientId": "PAT-000006",
+    "organizationId": "ORG-011",
+    "status": "ACTIVE",
+    "allowedCategories": ["DEMOGRAPHICS"],
+    "effectiveDate": "2024-07-21T12:00:00",
+    "policyReference": "POLICY-EDGE006",
+    "description": "No expiration date - indefinite consent"
+  },
+  {
+    "patientId": "PAT-000007",
+    "organizationId": "ORG-012",
+    "status": "PENDING",
+    "allowedCategories": ["ALL"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-EDGE007",
+    "description": "Pending status with ALL categories - should not grant access"
+  },
+  {
+    "patientId": "PAT-000008",
+    "organizationId": "ORG-013",
+    "status": "REVOKED",
+    "allowedCategories": ["ALL"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-EDGE008",
+    "description": "Revoked consent with ALL categories - should deny access"
+  },
+  {
+    "patientId": "PAT-000009",
+    "organizationId": "ORG-014",
+    "status": "SUSPENDED",
+    "allowedCategories": ["ALL"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-EDGE009",
+    "description": "Suspended consent with ALL categories - should deny access"
+  },
+  {
+    "patientId": "PAT-000010",
+    "organizationId": "ORG-015",
+    "status": "DENIED",
+    "allowedCategories": ["ALL"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-EDGE010",
+    "description": "Denied consent with ALL categories - should deny access"
+  },
+  {
+    "patientId": "PAT-000011",
+    "organizationId": "ORG-016",
+    "status": "INACTIVE",
+    "allowedCategories": ["ALL"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-EDGE011",
+    "description": "Inactive consent with ALL categories - should deny access"
+  },
+  {
+    "patientId": "PAT-000012",
+    "organizationId": "ORG-017",
+    "status": "ACTIVE",
+    "allowedCategories": ["MENTAL_HEALTH", "SUBSTANCE_ABUSE"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-EDGE012",
+    "description": "Sensitive data only consent - mental health and substance abuse"
+  },
+  {
+    "patientId": "PAT-000013",
+    "organizationId": "ORG-018",
+    "status": "ACTIVE",
+    "allowedCategories": ["GENETIC_DATA"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-EDGE013",
+    "description": "Genetic data only consent - highly sensitive research data"
+  },
+  {
+    "patientId": "PAT-000014",
+    "organizationId": "ORG-019",
+    "status": "ACTIVE",
+    "allowedCategories": ["FINANCIAL"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-EDGE014",
+    "description": "Financial data only consent - billing and insurance information"
+  },
+  {
+    "patientId": "PAT-000015",
+    "organizationId": "ORG-020",
+    "status": "ACTIVE",
+    "allowedCategories": ["EMERGENCY_CONTACTS"],
+    "effectiveDate": "2024-01-01T00:00:00",
+    "expirationDate": "2025-01-01T00:00:00",
+    "policyReference": "POLICY-EDGE015",
+    "description": "Emergency contacts only consent - minimal contact information"
+  }
+]

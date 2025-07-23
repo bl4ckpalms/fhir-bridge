@@ -1,0 +1,344 @@
+[
+  {
+    "patientId": "PAT-DIV-001",
+    "medicalRecordNumber": "MRN-DIV-001",
+    "firstName": "Aisha",
+    "lastName": "Hassan",
+    "middleName": "Fatima",
+    "dateOfBirth": "1988-04-15",
+    "gender": "F",
+    "address": "123 Diversity Blvd",
+    "city": "Dearborn",
+    "state": "MI",
+    "zipCode": "48124",
+    "phoneNumber": "(555) 111-0001",
+    "email": "aisha.hassan@email.example",
+    "maritalStatus": "M",
+    "race": "Middle Eastern",
+    "ethnicity": "Non-Hispanic",
+    "language": "Arabic",
+    "religion": "Islam",
+    "emergencyContact": {
+      "name": "Omar Hassan",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 111-0002"
+    },
+    "insurance": {
+      "provider": "Blue Cross Blue Shield",
+      "policyNumber": "BCBS-DIV-001",
+      "groupNumber": "GRP-DIV-001"
+    },
+    "culturalConsiderations": [
+      "Requires female healthcare providers when possible",
+      "Observes Ramadan fasting",
+      "Halal dietary restrictions"
+    ]
+  },
+  {
+    "patientId": "PAT-DIV-002",
+    "medicalRecordNumber": "MRN-DIV-002",
+    "firstName": "Kenji",
+    "lastName": "Tanaka",
+    "dateOfBirth": "1975-08-22",
+    "gender": "M",
+    "address": "456 International Way",
+    "city": "Los Angeles",
+    "state": "CA",
+    "zipCode": "90012",
+    "phoneNumber": "(555) 222-0003",
+    "email": "kenji.tanaka@email.example",
+    "maritalStatus": "M",
+    "race": "Asian",
+    "ethnicity": "Non-Hispanic",
+    "language": "Japanese",
+    "emergencyContact": {
+      "name": "Yuki Tanaka",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 222-0004"
+    },
+    "insurance": {
+      "provider": "Kaiser Permanente",
+      "policyNumber": "KP-DIV-002",
+      "groupNumber": "GRP-DIV-002"
+    },
+    "culturalConsiderations": [
+      "Prefers traditional Japanese medicine integration",
+      "Family involvement in medical decisions important"
+    ]
+  },
+  {
+    "patientId": "PAT-DIV-003",
+    "medicalRecordNumber": "MRN-DIV-003",
+    "firstName": "Kwame",
+    "lastName": "Asante",
+    "middleName": "Kofi",
+    "dateOfBirth": "1992-12-07",
+    "gender": "M",
+    "address": "789 Heritage Dr",
+    "city": "Atlanta",
+    "state": "GA",
+    "zipCode": "30309",
+    "phoneNumber": "(555) 333-0005",
+    "email": "kwame.asante@email.example",
+    "maritalStatus": "S",
+    "race": "Black",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "countryOfOrigin": "Ghana",
+    "emergencyContact": {
+      "name": "Ama Asante",
+      "relationship": "Mother",
+      "phoneNumber": "(555) 333-0006"
+    },
+    "insurance": {
+      "provider": "Aetna",
+      "policyNumber": "AET-DIV-003",
+      "groupNumber": "GRP-DIV-003"
+    },
+    "culturalConsiderations": [
+      "Recent immigrant - may need cultural health education",
+      "Extended family involvement in care decisions"
+    ]
+  },
+  {
+    "patientId": "PAT-DIV-004",
+    "medicalRecordNumber": "MRN-DIV-004",
+    "firstName": "Maria",
+    "lastName": "Gonzalez-Rodriguez",
+    "middleName": "Carmen",
+    "dateOfBirth": "1983-03-18",
+    "gender": "F",
+    "address": "321 Cultura Ave",
+    "city": "San Antonio",
+    "state": "TX",
+    "zipCode": "78205",
+    "phoneNumber": "(555) 444-0007",
+    "email": "maria.gonzalez@email.example",
+    "maritalStatus": "M",
+    "race": "Hispanic",
+    "ethnicity": "Hispanic",
+    "language": "Spanish",
+    "emergencyContact": {
+      "name": "Carlos Rodriguez",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 444-0008"
+    },
+    "insurance": {
+      "provider": "Medicaid",
+      "policyNumber": "MCD-DIV-004",
+      "groupNumber": "GRP-DIV-004"
+    },
+    "culturalConsiderations": [
+      "Prefers Spanish-speaking healthcare providers",
+      "Traditional Mexican remedies used alongside modern medicine",
+      "Large extended family support system"
+    ]
+  },
+  {
+    "patientId": "PAT-DIV-005",
+    "medicalRecordNumber": "MRN-DIV-005",
+    "firstName": "Running Bear",
+    "lastName": "Crow Feather",
+    "dateOfBirth": "1970-11-25",
+    "gender": "M",
+    "address": "654 Reservation Rd",
+    "city": "Flagstaff",
+    "state": "AZ",
+    "zipCode": "86001",
+    "phoneNumber": "(555) 555-0009",
+    "email": "runningbear.crowfeather@email.example",
+    "maritalStatus": "M",
+    "race": "Native American",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "tribe": "Navajo Nation",
+    "emergencyContact": {
+      "name": "White Dove Crow Feather",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 555-0010"
+    },
+    "insurance": {
+      "provider": "Indian Health Service",
+      "policyNumber": "IHS-DIV-005",
+      "groupNumber": "GRP-DIV-005"
+    },
+    "culturalConsiderations": [
+      "Traditional healing practices important",
+      "Spiritual ceremonies may affect treatment timing",
+      "Tribal elder consultation for major decisions"
+    ]
+  },
+  {
+    "patientId": "PAT-DIV-006",
+    "medicalRecordNumber": "MRN-DIV-006",
+    "firstName": "Priya",
+    "lastName": "Sharma",
+    "middleName": "Devi",
+    "dateOfBirth": "1991-06-10",
+    "gender": "F",
+    "address": "987 Temple St",
+    "city": "Edison",
+    "state": "NJ",
+    "zipCode": "08817",
+    "phoneNumber": "(555) 666-0011",
+    "email": "priya.sharma@email.example",
+    "maritalStatus": "M",
+    "race": "Asian",
+    "ethnicity": "Non-Hispanic",
+    "language": "Hindi",
+    "religion": "Hindu",
+    "emergencyContact": {
+      "name": "Raj Sharma",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 666-0012"
+    },
+    "insurance": {
+      "provider": "UnitedHealthcare",
+      "policyNumber": "UHC-DIV-006",
+      "groupNumber": "GRP-DIV-006"
+    },
+    "culturalConsiderations": [
+      "Vegetarian diet for religious reasons",
+      "Ayurvedic medicine practices",
+      "Modesty concerns during examinations"
+    ]
+  },
+  {
+    "patientId": "PAT-DIV-007",
+    "medicalRecordNumber": "MRN-DIV-007",
+    "firstName": "Dmitri",
+    "lastName": "Volkov",
+    "middleName": "Aleksandrovich",
+    "dateOfBirth": "1985-01-30",
+    "gender": "M",
+    "address": "147 Brighton Beach Ave",
+    "city": "Brooklyn",
+    "state": "NY",
+    "zipCode": "11235",
+    "phoneNumber": "(555) 777-0013",
+    "email": "dmitri.volkov@email.example",
+    "maritalStatus": "M",
+    "race": "White",
+    "ethnicity": "Non-Hispanic",
+    "language": "Russian",
+    "countryOfOrigin": "Russia",
+    "emergencyContact": {
+      "name": "Natasha Volkova",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 777-0014"
+    },
+    "insurance": {
+      "provider": "Cigna",
+      "policyNumber": "CIG-DIV-007",
+      "groupNumber": "GRP-DIV-007"
+    },
+    "culturalConsiderations": [
+      "Prefers Russian-speaking healthcare providers",
+      "Traditional Russian folk medicine beliefs",
+      "Direct communication style preferred"
+    ]
+  },
+  {
+    "patientId": "PAT-DIV-008",
+    "medicalRecordNumber": "MRN-DIV-008",
+    "firstName": "Fatou",
+    "lastName": "Diallo",
+    "dateOfBirth": "1989-09-14",
+    "gender": "F",
+    "address": "258 African Heritage Blvd",
+    "city": "Minneapolis",
+    "state": "MN",
+    "zipCode": "55404",
+    "phoneNumber": "(555) 888-0015",
+    "email": "fatou.diallo@email.example",
+    "maritalStatus": "M",
+    "race": "Black",
+    "ethnicity": "Non-Hispanic",
+    "language": "French",
+    "countryOfOrigin": "Senegal",
+    "emergencyContact": {
+      "name": "Mamadou Diallo",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 888-0016"
+    },
+    "insurance": {
+      "provider": "HealthPartners",
+      "policyNumber": "HP-DIV-008",
+      "groupNumber": "GRP-DIV-008"
+    },
+    "culturalConsiderations": [
+      "French-speaking interpreter needed",
+      "Traditional West African healing practices",
+      "Community elder involvement in health decisions"
+    ]
+  },
+  {
+    "patientId": "PAT-DIV-009",
+    "medicalRecordNumber": "MRN-DIV-009",
+    "firstName": "Leilani",
+    "lastName": "Nakamura",
+    "middleName": "Kai",
+    "dateOfBirth": "1994-07-04",
+    "gender": "F",
+    "address": "369 Pacific Islander Way",
+    "city": "Honolulu",
+    "state": "HI",
+    "zipCode": "96813",
+    "phoneNumber": "(555) 999-0017",
+    "email": "leilani.nakamura@email.example",
+    "maritalStatus": "S",
+    "race": "Pacific Islander",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "emergencyContact": {
+      "name": "Keoni Nakamura",
+      "relationship": "Father",
+      "phoneNumber": "(555) 999-0018"
+    },
+    "insurance": {
+      "provider": "Hawaii Medical Service Association",
+      "policyNumber": "HMSA-DIV-009",
+      "groupNumber": "GRP-DIV-009"
+    },
+    "culturalConsiderations": [
+      "Traditional Hawaiian healing practices (La'au Lapa'au)",
+      "Ohana (family) involvement in care decisions",
+      "Spiritual connection to nature important for healing"
+    ]
+  },
+  {
+    "patientId": "PAT-DIV-010",
+    "medicalRecordNumber": "MRN-DIV-010",
+    "firstName": "Alejandro",
+    "lastName": "Mendoza-Silva",
+    "middleName": "Eduardo",
+    "dateOfBirth": "1987-05-12",
+    "gender": "M",
+    "address": "741 Multicultural Dr",
+    "city": "Phoenix",
+    "state": "AZ",
+    "zipCode": "85004",
+    "phoneNumber": "(555) 000-0019",
+    "email": "alejandro.mendoza@email.example",
+    "maritalStatus": "M",
+    "race": "Mixed Race",
+    "ethnicity": "Hispanic",
+    "language": "Spanish",
+    "countryOfOrigin": "Colombia",
+    "emergencyContact": {
+      "name": "Isabella Silva",
+      "relationship": "Spouse",
+      "phoneNumber": "(555) 000-0020"
+    },
+    "insurance": {
+      "provider": "Banner Health Network",
+      "policyNumber": "BHN-DIV-010",
+      "groupNumber": "GRP-DIV-010"
+    },
+    "culturalConsiderations": [
+      "Recent immigrant - may need health system navigation help",
+      "Traditional Colombian folk medicine practices",
+      "Extended family support system important"
+    ]
+  }
+]

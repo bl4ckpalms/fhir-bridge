@@ -1,0 +1,11 @@
+MSH|^~\&|MICRO_LAB|CENTRAL_LAB|BRIDGE|FHIR_BRIDGE|20240721050000||ORU^R01^ORU_R01|MSG-000018|P|2.4|||||||
+PID|1||PAT-000018^^^MRN^MR||Davis^Patricia^Lynn||19601115|F|||654 Maple Street^^Riverside^NY^10001^USA^H^^NY||(555)890-1234^PRN^PH|||M|CAUC|PAT-000018|890-12-3456||||||||||||
+PV1|1|I|ICU^301^A^MAIN_HOSPITAL^R^BED^7||||DR-095^Doctor^Infectious^MD|||ICU^Intensive Care^HL70069||I^Inpatient^HL70007|||DR-095^Doctor^Infectious^MD|INP^Inpatient^HL70018|||||||||||||||||||||20240720120000|
+OBR|1|CULT-000001|SPEC-000002|87086^Urine Culture^CPT|||20240720180000|20240721050000||||A^Abnormal^HL70078|||||DR-095^Doctor^Infectious^MD||||||||F^Final^HL70085||^^^^^F|
+OBX|1|ST|87086^Urine Culture^CPT|1|>100,000 CFU/mL E. coli||||A|||F|||20240721050000|MICRO-TECH-001|
+OBX|2|ST|87186^Susceptibility^CPT|2|Ampicillin: Resistant||||A|||F|||20240721050000|MICRO-TECH-001|
+OBX|3|ST|87186^Susceptibility^CPT|3|Ciprofloxacin: Sensitive||||A|||F|||20240721050000|MICRO-TECH-001|
+OBX|4|ST|87186^Susceptibility^CPT|4|Nitrofurantoin: Sensitive||||A|||F|||20240721050000|MICRO-TECH-001|
+OBX|5|ST|87186^Susceptibility^CPT|5|Trimethoprim-Sulfamethoxazole: Resistant||||A|||F|||20240721050000|MICRO-TECH-001|
+NTE|1||Organism identified as E. coli with extended spectrum beta-lactamase|
+NTE|2||Recommend infectious disease consultation|

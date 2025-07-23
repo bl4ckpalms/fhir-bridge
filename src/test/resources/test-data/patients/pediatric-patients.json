@@ -1,0 +1,186 @@
+[
+  {
+    "patientId": "PAT-PED-001",
+    "medicalRecordNumber": "MRN-PED-001",
+    "firstName": "Emma",
+    "lastName": "Johnson",
+    "dateOfBirth": "2020-03-15",
+    "gender": "F",
+    "address": "123 Sunshine Ave",
+    "city": "Orlando",
+    "state": "FL",
+    "zipCode": "32801",
+    "phoneNumber": "(555) 111-2222",
+    "email": "parent.johnson@email.example",
+    "maritalStatus": "S",
+    "race": "White",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "guardian": {
+      "name": "Sarah Johnson",
+      "relationship": "Mother",
+      "phoneNumber": "(555) 111-2222",
+      "email": "sarah.johnson@email.example"
+    },
+    "emergencyContact": {
+      "name": "Michael Johnson",
+      "relationship": "Father",
+      "phoneNumber": "(555) 111-2223"
+    },
+    "insurance": {
+      "provider": "Blue Cross Blue Shield",
+      "policyNumber": "BCBS-PED-001",
+      "groupNumber": "GRP-PED-001"
+    },
+    "birthWeight": "3.2 kg",
+    "birthLength": "50 cm"
+  },
+  {
+    "patientId": "PAT-PED-002",
+    "medicalRecordNumber": "MRN-PED-002",
+    "firstName": "Liam",
+    "lastName": "Rodriguez",
+    "dateOfBirth": "2018-07-22",
+    "gender": "M",
+    "address": "456 Rainbow Dr",
+    "city": "San Antonio",
+    "state": "TX",
+    "zipCode": "78201",
+    "phoneNumber": "(555) 222-3333",
+    "email": "parent.rodriguez@email.example",
+    "maritalStatus": "S",
+    "race": "Hispanic",
+    "ethnicity": "Hispanic",
+    "language": "Spanish",
+    "guardian": {
+      "name": "Maria Rodriguez",
+      "relationship": "Mother",
+      "phoneNumber": "(555) 222-3333",
+      "email": "maria.rodriguez@email.example"
+    },
+    "emergencyContact": {
+      "name": "Carlos Rodriguez",
+      "relationship": "Father",
+      "phoneNumber": "(555) 222-3334"
+    },
+    "insurance": {
+      "provider": "Medicaid",
+      "policyNumber": "MCD-PED-002",
+      "groupNumber": "GRP-PED-002"
+    },
+    "allergies": ["Peanuts", "Tree nuts"]
+  },
+  {
+    "patientId": "PAT-PED-003",
+    "medicalRecordNumber": "MRN-PED-003",
+    "firstName": "Zoe",
+    "lastName": "Chen",
+    "dateOfBirth": "2015-11-08",
+    "gender": "F",
+    "address": "789 Playground St",
+    "city": "San Francisco",
+    "state": "CA",
+    "zipCode": "94101",
+    "phoneNumber": "(555) 333-4444",
+    "email": "parent.chen@email.example",
+    "maritalStatus": "S",
+    "race": "Asian",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "guardian": {
+      "name": "Li Chen",
+      "relationship": "Mother",
+      "phoneNumber": "(555) 333-4444",
+      "email": "li.chen@email.example"
+    },
+    "emergencyContact": {
+      "name": "Wei Chen",
+      "relationship": "Father",
+      "phoneNumber": "(555) 333-4445"
+    },
+    "insurance": {
+      "provider": "Kaiser Permanente",
+      "policyNumber": "KP-PED-003",
+      "groupNumber": "GRP-PED-003"
+    },
+    "schoolInfo": {
+      "schoolName": "Sunny Elementary School",
+      "grade": "3rd Grade",
+      "nurseContact": "(555) 333-4446"
+    }
+  },
+  {
+    "patientId": "PAT-PED-004",
+    "medicalRecordNumber": "MRN-PED-004",
+    "firstName": "Noah",
+    "lastName": "Williams",
+    "dateOfBirth": "2022-01-14",
+    "gender": "M",
+    "address": "321 Teddy Bear Ln",
+    "city": "Charlotte",
+    "state": "NC",
+    "zipCode": "28201",
+    "phoneNumber": "(555) 444-5555",
+    "email": "parent.williams@email.example",
+    "maritalStatus": "S",
+    "race": "Black",
+    "ethnicity": "Non-Hispanic",
+    "language": "English",
+    "guardian": {
+      "name": "Jasmine Williams",
+      "relationship": "Mother",
+      "phoneNumber": "(555) 444-5555",
+      "email": "jasmine.williams@email.example"
+    },
+    "emergencyContact": {
+      "name": "Grandmother Williams",
+      "relationship": "Grandmother",
+      "phoneNumber": "(555) 444-5556"
+    },
+    "insurance": {
+      "provider": "Medicaid",
+      "policyNumber": "MCD-PED-004",
+      "groupNumber": "GRP-PED-004"
+    },
+    "birthWeight": "2.8 kg",
+    "birthLength": "48 cm",
+    "premature": true,
+    "gestationalAge": "36 weeks"
+  },
+  {
+    "patientId": "PAT-PED-005",
+    "medicalRecordNumber": "MRN-PED-005",
+    "firstName": "Sophia",
+    "lastName": "Patel",
+    "dateOfBirth": "2019-09-30",
+    "gender": "F",
+    "address": "654 Carousel Ave",
+    "city": "Houston",
+    "state": "TX",
+    "zipCode": "77001",
+    "phoneNumber": "(555) 555-6666",
+    "email": "parent.patel@email.example",
+    "maritalStatus": "S",
+    "race": "Asian",
+    "ethnicity": "Non-Hispanic",
+    "language": "Hindi",
+    "guardian": {
+      "name": "Priya Patel",
+      "relationship": "Mother",
+      "phoneNumber": "(555) 555-6666",
+      "email": "priya.patel@email.example"
+    },
+    "emergencyContact": {
+      "name": "Raj Patel",
+      "relationship": "Father",
+      "phoneNumber": "(555) 555-6667"
+    },
+    "insurance": {
+      "provider": "UnitedHealthcare",
+      "policyNumber": "UHC-PED-005",
+      "groupNumber": "GRP-PED-005"
+    },
+    "allergies": ["Shellfish"],
+    "medications": ["Albuterol inhaler"]
+  }
+]

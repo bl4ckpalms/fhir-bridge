@@ -6,6 +6,8 @@ import com.bridge.repository.ConsentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -34,6 +36,7 @@ public class ConsentVerificationServiceImpl implements ConsentVerificationServic
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "consent-records", key = "'patient:' + #patientId + ':org:' + #organizationId")
     public ConsentVerificationResult verifyConsent(String patientId, String organizationId) {
         logger.debug("Verifying consent for patient: {} and organization: {}", patientId, organizationId);
 
@@ -197,6 +200,7 @@ public class ConsentVerificationServiceImpl implements ConsentVerificationServic
 
     @Override
     @Transactional
+    @CacheEvict(value = "consent-records", key = "'patient:' + #patientId + ':org:' + #organizationId")
     public boolean checkAndUpdateExpiredConsent(String patientId, String organizationId) {
         logger.debug("Checking and updating expired consent for patient: {} and organization: {}", 
             patientId, organizationId);

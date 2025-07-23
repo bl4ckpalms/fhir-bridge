@@ -1,0 +1,11 @@
+MSH|^~\&|PATH_LAB|PATHOLOGY|BRIDGE|FHIR_BRIDGE|20240721060000||ORU^R01^ORU_R01|MSG-000019|P|2.4|||||||
+PID|1||PAT-000019^^^MRN^MR||Wilson^Robert^Charles||19550930|M|||852 Oak Street^^Metro City^CA^90214^USA^H^^CA||(555)901-2345^PRN^PH|||M|CAUC|PAT-000019|901-23-4567||||||||||||
+PV1|1|O|SURG^OR-5^MAIN||||DR-100^Doctor^Surgeon^MD|||SURG^Surgery^HL70069||O^Outpatient^HL70007|||DR-100^Doctor^Surgeon^MD|OUT^Outpatient^HL70018|||||||||||||||||||||20240720140000|20240720160000|
+OBR|1|PATH-000001|SPEC-000003|88305^Surgical Pathology^CPT|||20240720150000|20240721060000||||A^Abnormal^HL70078|||||DR-105^Doctor^Pathologist^MD||||||||F^Final^HL70085||^^^^^F|
+OBX|1|TX|88305^Surgical Pathology^CPT|1|SPECIMEN: Colon, sigmoid, biopsy||||A|||F|||20240721060000|PATH-001|
+OBX|2|TX|88305^Surgical Pathology^CPT|2|CLINICAL HISTORY: 65-year-old male with change in bowel habits||||A|||F|||20240721060000|PATH-001|
+OBX|3|TX|88305^Surgical Pathology^CPT|3|GROSS DESCRIPTION: Received are multiple fragments of tan-pink tissue||||A|||F|||20240721060000|PATH-001|
+OBX|4|TX|88305^Surgical Pathology^CPT|4|MICROSCOPIC DESCRIPTION: Sections show colonic mucosa with moderate chronic inflammation||||A|||F|||20240721060000|PATH-001|
+OBX|5|TX|88305^Surgical Pathology^CPT|5|DIAGNOSIS: Sigmoid colon biopsy - Chronic colitis, consistent with inflammatory bowel disease||||A|||F|||20240721060000|PATH-001|
+NTE|1||Recommend clinical correlation and possible colonoscopy follow-up|
+NTE|2||Report reviewed and signed by Dr. Pathologist|

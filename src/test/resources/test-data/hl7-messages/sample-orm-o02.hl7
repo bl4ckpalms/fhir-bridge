@@ -1,0 +1,6 @@
+MSH|^~\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20240720170000||ORM^O02^ORM_O01|MSG-000007|P|2.4|||||||
+PID|1||PAT-000007^^^MRN||Garcia^Taylor^Morgan||19850910|F|||9876 Cedar Rd^^Franklin^FL^33101^USA||(555)789-0123|||M|HISP|PAT-000007|789-01-2345||||||||||||
+PV1|1|I|ICU^401^A||||DR-040^Doctor^Attending|||ICU|||E|||DR-040^Doctor^Attending|INP|||||||||||||||||||||20240720080000|
+ORC|CA|PLC-000004|FIL-000004||CA||||20240720170000|||DR-040^Doctor^Attending|
+OBR|1|PLC-000004|FIL-000004|CBC^Complete Blood Count^L|||20240720170000|||||||||DR-040^Doctor^Attending||||||||CA||^^^^^CA|
+NTE|1||Order cancelled due to patient discharge|

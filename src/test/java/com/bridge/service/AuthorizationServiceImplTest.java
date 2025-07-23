@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -76,8 +77,8 @@ class AuthorizationServiceImplTest {
 
         // Assert
         assertTrue(result);
-        verify(auditService).logAuthorizationCheck(
-                eq("physician-1"), eq("read:patient-data"), eq(true));
+        verify(auditService).logAuthorization(
+                eq("physician-1"), eq("read:patient-data"), eq("CHECK"), eq("SUCCESS"), any(Map.class));
     }
 
     @Test
@@ -91,8 +92,8 @@ class AuthorizationServiceImplTest {
 
         // Assert
         assertFalse(result);
-        verify(auditService).logAuthorizationCheck(
-                eq("nurse-1"), eq("manage:system"), eq(false));
+        verify(auditService).logAuthorization(
+                eq("nurse-1"), eq("manage:system"), eq("CHECK"), eq("FAILURE"), any(Map.class));
     }
 
     @Test

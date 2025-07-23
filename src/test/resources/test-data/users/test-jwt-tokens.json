@@ -1,0 +1,167 @@
+[
+  {
+    "userId": "TEST-SYSADMIN-001",
+    "username": "system.admin",
+    "roles": ["SYSTEM_ADMIN"],
+    "organizationId": "TEST-ORG-001",
+    "tokenType": "Bearer",
+    "expiresIn": 3600,
+    "scope": "full_access",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULVNZU0FETUlOLTAwMSIsInVzZXJuYW1lIjoic3lzdGVtLmFkbWluIiwicm9sZXMiOlsiU1lTVEVNX0FETUlOIl0sIm9yZ2FuaXphdGlvbklkIjoiVEVTVC1PUkctMDAxIiwiaWF0IjoxNzM3MDI0MDAwLCJleHAiOjE3MzcwMjc2MDB9.sample_signature_system_admin",
+    "description": "Full system administrator token"
+  },
+  {
+    "userId": "TEST-PHYSICIAN-001",
+    "username": "dr.johnson",
+    "roles": ["PHYSICIAN"],
+    "organizationId": "TEST-ORG-001",
+    "tokenType": "Bearer",
+    "expiresIn": 3600,
+    "scope": "clinical_access",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULVBIWVNJQ0lBTi0wMDEiLCJ1c2VybmFtZSI6ImRyLmpvaG5zb24iLCJyb2xlcyI6WyJQSFlTSUNJQU4iXSwib3JnYW5pemF0aW9uSWQiOiJURVNULU9SRy0wMDEiLCJpYXQiOjE3MzcwMjQwMDAsImV4cCI6MTczNzAyNzYwMH0.sample_signature_physician",
+    "description": "Physician access token"
+  },
+  {
+    "userId": "TEST-NURSE-001",
+    "username": "nurse.williams",
+    "roles": ["NURSE"],
+    "organizationId": "TEST-ORG-001",
+    "tokenType": "Bearer",
+    "expiresIn": 3600,
+    "scope": "nursing_access",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULU5VUlNFLTAwMSIsInVzZXJuYW1lIjoibnVyc2Uud2lsbGlhbXMiLCJyb2xlcyI6WyJOVVJTRSJdLCJvcmdhbml6YXRpb25JZCI6IlRFU1QtT1JHLTC9MSIsImlhdCI6MTczNzAyNDAwMCwiZXhwIjoxNzM3MDI3NjAwfQ.sample_signature_nurse",
+    "description": "Nurse access token"
+  },
+  {
+    "userId": "TEST-PHARMACIST-001",
+    "username": "pharm.davis",
+    "roles": ["PHARMACIST"],
+    "organizationId": "TEST-ORG-002",
+    "tokenType": "Bearer",
+    "expiresIn": 3600,
+    "scope": "pharmacy_access",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULVBIQVJNQUNJU1QtMDAxIiwidXNlcm5hbWUiOiJwaGFybS5kYXZpcyIsInJvbGVzIjpbIlBIQVJNQUNJU1QiXSwib3JnYW5pemF0aW9uSWQiOiJURVNULU9SRy0wMDIiLCJpYXQiOjE3MzcwMjQwMDAsImV4cCI6MTczNzAyNzYwMH0.sample_signature_pharmacist",
+    "description": "Pharmacist access token"
+  },
+  {
+    "userId": "TEST-TECHNICIAN-001",
+    "username": "tech.brown",
+    "roles": ["TECHNICIAN"],
+    "organizationId": "TEST-ORG-002",
+    "tokenType": "Bearer",
+    "expiresIn": 3600,
+    "scope": "technician_access",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULVRFQ0hOSUNJQU4tMDAxIiwidXNlcm5hbWUiOiJ0ZWNoLmJyb3duIiwicm9sZXMiOlsiVEVDSE5JQ0lBTiJdLCJvcmdhbml6YXRpb25JZCI6IlRFU1QtT1JHLTC9MiIsImlhdCI6MTczNzAyNDAwMCwiZXhwIjoxNzM3MDI3NjAwfQ.sample_signature_technician",
+    "description": "Technician access token"
+  },
+  {
+    "userId": "TEST-HIM-001",
+    "username": "him.manager",
+    "roles": ["HEALTH_INFO_MANAGER"],
+    "organizationId": "TEST-ORG-001",
+    "tokenType": "Bearer",
+    "expiresIn": 3600,
+    "scope": "him_access",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULUhJTS0wMDEiLCJ1c2VybmFtZSI6ImhpbS5tYW5hZ2VyIiwicm9sZXMiOlsiSEVBTFRIX0lORk9fTUFOQUdFUiJdLCJvcmdhbml6YXRpb25JZCI6IlRFU1QtT1JHLTC9MSIsImlhdCI6MTczNzAyNDAwMCwiZXhwIjoxNzM3MDI3NjAwfQ.sample_signature_him",
+    "description": "Health Information Manager access token"
+  },
+  {
+    "userId": "TEST-COMPLIANCE-001",
+    "username": "compliance.officer",
+    "roles": ["COMPLIANCE_OFFICER"],
+    "organizationId": "TEST-ORG-001",
+    "tokenType": "Bearer",
+    "expiresIn": 3600,
+    "scope": "compliance_access",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULUNPTVBMSUFOQ0UtMDAxIiwidXNlcm5hbWUiOiJjb21wbGlhbmNlLm9mZmljZXIiLCJyb2xlcyI6WyJDT01QTElBTkNFX09GRklDRVIiXSwib3JnYW5pemF0aW9uSWQiOiJURVNULU9SRy0wMDEiLCJpYXQiOjE3MzcwMjQwMDAsImV4cCI6MTczNzAyNzYwMH0.sample_signature_compliance",
+    "description": "Compliance Officer access token"
+  },
+  {
+    "userId": "TEST-ANALYST-001",
+    "username": "data.analyst",
+    "roles": ["DATA_ANALYST"],
+    "organizationId": "TEST-ORG-003",
+    "tokenType": "Bearer",
+    "expiresIn": 3600,
+    "scope": "analytics_access",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULUFOQUxZU1QtMDAxIiwidXNlcm5hbWUiOiJkYXRhLmFuYWx5c3QiLCJyb2xlcyI6WyJEQVRBX0FOQUxZU1QiXSwib3JnYW5pemF0aW9uSWQiOiJURVNULU9SRy0wMDMiLCJpYXQiOjE3MzcwMjQwMDAsImV4cCI6MTczNzAyNzYwMH0.sample_signature_analyst",
+    "description": "Data Analyst access token"
+  },
+  {
+    "userId": "TEST-TEFCA-PARTICIPANT-001",
+    "username": "tefca.participant",
+    "roles": ["TEFCA_PARTICIPANT"],
+    "organizationId": "TEST-ORG-004",
+    "tokenType": "Bearer",
+    "expiresIn": 3600,
+    "scope": "tefca_participant",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULVRFRkNBLVBBUlRJQ0lQQU5ULTC9MSIsInVzZXJuYW1lIjoidGVmY2EucGFydGljaXBhbnQiLCJyb2xlcyI6WyJURUZDQV9QQVJUSUNJUEFOVCI6XSwib3JnYW5pemF0aW9uSWQiOiJURVNULU9SRy0wMDQiLCJpYXQiOjE3MzcwMjQwMDAsImV4cCI6MTczNzAyNzYwMH0.sample_signature_tefca_participant",
+    "description": "TEFCA Participant access token"
+  },
+  {
+    "userId": "TEST-TEFCA-ADMIN-001",
+    "username": "tefca.admin",
+    "roles": ["TEFCA_ADMIN"],
+    "organizationId": "TEST-ORG-005",
+    "tokenType": "Bearer",
+    "expiresIn": 3600,
+    "scope": "tefca_admin",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULVRFRkNBLUFETUlOLTAwMSIsInVzZXJuYW1lIjoidGVmY2EuYWRtaW4iLCJyb2xlcyI6WyJURUZDQV9BRE1JTiJdLCJvcmdhbml6YXRpb25JZCI6IlRFU1QtT1JHLTC9NSIsImlhdCI6MTczNzAyNDAwMCwiZXhwIjoxNzM3MDI3NjAwfQ.sample_signature_tefca_admin",
+    "description": "TEFCA Administrator access token"
+  },
+  {
+    "userId": "TEST-PATIENT-001",
+    "username": "patient.smith",
+    "roles": ["PATIENT"],
+    "organizationId": "TEST-ORG-001",
+    "tokenType": "Bearer",
+    "expiresIn": 1800,
+    "scope": "patient_access",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULVBBVElFTlQtMDAxIiwidXNlcm5hbWUiOiJwYXRpZW50LnNtaXRoIiwicm9sZXMiOlsiUEFUSUVOVCJdLCJvcmdhbml6YXRpb25JZCI6IlRFU1QtT1JHLTC9MSIsInBhdGllbnRJZCI6IlBBVC1URVNULTAwMSIsImlhdCI6MTczNzAyNDAwMCwiZXhwIjoxNzM3MDI1ODAwfQ.sample_signature_patient",
+    "description": "Patient self-access token (shorter expiry)"
+  },
+  {
+    "userId": "TEST-PATIENT-PROXY-001",
+    "username": "proxy.jones",
+    "roles": ["PATIENT_PROXY"],
+    "organizationId": "TEST-ORG-001",
+    "tokenType": "Bearer",
+    "expiresIn": 1800,
+    "scope": "patient_proxy",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULVBBVElFTlQtUFJPWFktMDAxIiwidXNlcm5hbWUiOiJwcm94eS5qb25lcyIsInJvbGVzIjpbIlBBVElFTlRfUFJPWFkiXSwib3JnYW5pemF0aW9uSWQiOiJURVNULU9SRy0wMDEiLCJwcm94eUZvclBhdGllbnRJZCI6IlBBVC1URVNULTAwMiIsImlhdCI6MTczNzAyNDAwMCwiZXhwIjoxNzM3MDI1ODAwfQ.sample_signature_patient_proxy",
+    "description": "Patient proxy access token (shorter expiry)"
+  },
+  {
+    "userId": "TEST-API-CLIENT-001",
+    "username": "api.client.system",
+    "roles": ["API_CLIENT"],
+    "organizationId": "TEST-ORG-006",
+    "tokenType": "Bearer",
+    "expiresIn": 7200,
+    "scope": "system_access",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULUFQSS1DTElFTlQtMDAxIiwidXNlcm5hbWUiOiJhcGkuY2xpZW50LnN5c3RlbSIsInJvbGVzIjpbIkFQSV9DTElFTlQiXSwib3JnYW5pemF0aW9uSWQiOiJURVNULU9SRy0wMDYiLCJjbGllbnRJZCI6IkNMSUVOVC1TWVMtMDAxIiwiaWF0IjoxNzM3MDI0MDAwLCJleHAiOjE3MzcwMzEyMDB9.sample_signature_api_client",
+    "description": "System API client token (longer expiry)"
+  },
+  {
+    "userId": "TEST-MULTI-ROLE-001",
+    "username": "multi.role.user",
+    "roles": ["PHYSICIAN", "TEFCA_PARTICIPANT"],
+    "organizationId": "TEST-ORG-001",
+    "tokenType": "Bearer",
+    "expiresIn": 3600,
+    "scope": "clinical_tefca_access",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULU1VTFRJLVJPTEUTC9MSIsInVzZXJuYW1lIjoibXVsdGkucm9sZS51c2VyIiwicm9sZXMiOlsiUEhZU0lDSUFOIiwiVEVGQ0FfUEFSVElDSVBBTlQiXSwib3JnYW5pemF0aW9uSWQiOiJURVNULU9SRy0wMDEiLCJ0ZWZjYUlkIjoiVEVGQ0EtUEFSVC0wMDIiLCJpYXQiOjE3MzcwMjQwMDAsImV4cCI6MTczNzAyNzYwMH0.sample_signature_multi_role",
+    "description": "Multi-role user token (Physician + TEFCA Participant)"
+  },
+  {
+    "userId": "TEST-LIMITED-001",
+    "username": "limited.access",
+    "roles": ["TECHNICIAN"],
+    "organizationId": "TEST-ORG-003",
+    "tokenType": "Bearer",
+    "expiresIn": 3600,
+    "scope": "limited_access",
+    "sampleToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJURVNULUxJTUlURUQtMDAxIiwidXNlcm5hbWUiOiJsaW1pdGVkLmFjY2VzcyIsInJvbGVzIjpbIlRFQ0hOSUNJQU4iXSwib3JnYW5pemF0aW9uSWQiOiJURVNULU9SRy0wMDMiLCJhY2Nlc3NSZXN0cmljdGlvbnMiOlsiUmVhZC1vbmx5IGFjY2VzcyIsIkxpbWl0ZWQgdG8gb3duIG9yZ2FuaXphdGlvbiJdLCJpYXQiOjE3MzcwMjQwMDAsImV4cCI6MTczNzAyNzYwMH0.sample_signature_limited",
+    "description": "Limited access user token (minimal permissions)"
+  }
+]

@@ -1,0 +1,156 @@
+# =============================================================================
+# Docker Compose Configuration for Local Testing with Dependencies
+# Simplified setup for developers to quickly spin up the application with dependencies
+# =============================================================================
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: fhir-bridge-local-db
+    environment:
+      POSTGRES_DB: fhir_bridge
+      POSTGRES_USER: fhir_user
+      POSTGRES_PASSWORD: fhir_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_local_data:/var/lib/postgresql/data
+      - ./infra/db/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - fhir-bridge-local
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fhir_user -d fhir_bridge"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: fhir-bridge-local-cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_local_data:/data
+      - ./infra/redis/redis-local.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - fhir-bridge-local
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    command: redis-server /usr/local/etc/redis/redis.conf
+    restart: unless-stopped
+
+  # FHIR Bridge Application (optional - can be run locally via IDE/Maven)
+  fhir-bridge:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    container_name: fhir-bridge-local-app
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: fhir_bridge
+      DB_USERNAME: fhir_user
+      DB_PASSWORD: fhir_password
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+      JWT_ISSUER_URI: http://localhost:8080/auth
+      # Development-specific settings
+      LOGGING_LEVEL_COM_BRIDGE: DEBUG
+      JAVA_OPTS: >-
+        -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=50.0
+        -XX:+UseG1GC
+        -Djava.security.egd=file:/dev/./urandom
+        -Djava.awt.headless=true
+        -Dfile.encoding=UTF-8
+        -Duser.timezone=UTC
+        -Dspring.jpa.show-sql=true
+        -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    ports:
+      - "8080:8080"  # Application port
+      - "8081:8081"  # Management/Actuator port
+      - "5005:5005"  # Debug port
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - fhir-bridge-local
+    volumes:
+      - ./logs:/app/logs
+      - ./target:/app/target
+      - ./src/test/resources:/app/test-resources:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    profiles:
+      - app  # Use profile to make app service optional
+
+  # PostgreSQL Admin (optional)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: fhir-bridge-local-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@fhirbridge.local
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_local_data:/var/lib/pgadmin
+      - ./infra/db/pgadmin-servers.json:/pgadmin4/servers.json:ro
+    depends_on:
+      - postgres
+    networks:
+      - fhir-bridge-local
+    restart: unless-stopped
+    profiles:
+      - admin  # Use profile to make admin tools optional
+
+  # Redis Commander (optional)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: fhir-bridge-local-redis-commander
+    environment:
+      REDIS_HOSTS: local:redis:6379
+      HTTP_USER: admin
+      HTTP_PASSWORD: admin123
+    ports:
+      - "8082:8081"
+    depends_on:
+      - redis
+    networks:
+      - fhir-bridge-local
+    restart: unless-stopped
+    profiles:
+      - admin  # Use profile to make admin tools optional
+
+volumes:
+  postgres_local_data:
+    driver: local
+  redis_local_data:
+    driver: local
+  pgadmin_local_data:
+    driver: local
+
+networks:
+  fhir-bridge-local:
+    driver: bridge
+    name: fhir-bridge-local-network

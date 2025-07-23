@@ -1,0 +1,9 @@
+MSH|^~\&|ADT_SYSTEM|MAIN_HOSPITAL|BRIDGE|FHIR_BRIDGE|20240721070000||ADT^A02^ADT_A02|MSG-000020|P|2.4|||||||
+EVN||20240721070000|||DR-110^Doctor^Attending|20240721070000|
+PID|1||PAT-000020^^^MRN^MR||Anderson^Lisa^Marie||19700825|F|||963 Cedar Lane^^Franklin^TX^75202^USA^H^^TX||(555)012-3456^PRN^PH|||M|AA|PAT-000020|012-34-5678||||||||||||
+PV1|1|I|ICU^401^B^MAIN_HOSPITAL^R^BED^8||||DR-110^Doctor^Attending^MD|||ICU^Intensive Care^HL70069||I^Inpatient^HL70007|||DR-110^Doctor^Attending^MD|INP^Inpatient^HL70018|||||||||||||||||||||20240720080000|
+PV2|||Transfer from ICU to Medical Floor - condition improved|||||||||||||||||||||||||||||
+OBX|1|NM|8480-6^Systolic Blood Pressure^LN|1|125|mmHg|90-140||||F|||20240721065000|NURSE-004|
+OBX|2|NM|8462-4^Diastolic Blood Pressure^LN|2|78|mmHg|60-90||||F|||20240721065000|NURSE-004|
+OBX|3|NM|8867-4^Heart Rate^LN|3|82|/min|60-100||||F|||20240721065000|NURSE-004|
+OBX|4|ST|72133-2^Glasgow Coma Scale^LN|4|15||||F|||20240721065000|NURSE-004|

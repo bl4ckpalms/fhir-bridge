@@ -1,0 +1,377 @@
+[
+  {
+    "scenarioId": "PERF-SEC-001",
+    "category": "Load Testing Security",
+    "title": "Security Under Load Conditions",
+    "description": "Test security controls effectiveness under various load conditions",
+    "testCases": [
+      {
+        "testId": "PERF-SEC-001-01",
+        "name": "Authentication Performance Under Load",
+        "description": "Verify authentication system performance under high load",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "concurrentUsers": 100,
+          "requestsPerUser": 10,
+          "maxResponseTime": "2000ms",
+          "authenticationMethod": "JWT",
+          "expectedSuccessRate": "99%"
+        }
+      },
+      {
+        "testId": "PERF-SEC-001-02",
+        "name": "Authorization Performance Under Load",
+        "description": "Verify authorization system performance under high load",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "concurrentUsers": 100,
+          "requestsPerUser": 20,
+          "maxResponseTime": "1000ms",
+          "authorizationChecks": "RBAC",
+          "expectedSuccessRate": "99%"
+        }
+      },
+      {
+        "testId": "PERF-SEC-001-03",
+        "name": "Audit Logging Performance Under Load",
+        "description": "Verify audit logging system performance under high load",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "concurrentUsers": 200,
+          "auditEventsPerSecond": 1000,
+          "maxAuditLatency": "100ms",
+          "auditEventLoss": "0%",
+          "expectedThroughput": "1000 events/sec"
+        }
+      },
+      {
+        "testId": "PERF-SEC-001-04",
+        "name": "Encryption Performance Under Load",
+        "description": "Verify encryption/decryption performance under high load",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "concurrentOperations": 500,
+          "encryptionAlgorithm": "AES-256-GCM",
+          "maxEncryptionLatency": "50ms",
+          "maxDecryptionLatency": "50ms",
+          "expectedThroughput": "10000 ops/sec"
+        }
+      },
+      {
+        "testId": "PERF-SEC-001-05",
+        "name": "Rate Limiting Effectiveness Under Attack",
+        "description": "Verify rate limiting effectiveness during simulated attacks",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "attackType": "BRUTE_FORCE",
+          "attackIntensity": "10000 requests/minute",
+          "rateLimitThreshold": "100 requests/minute",
+          "expectedBlockRate": "99%",
+          "systemStability": "MAINTAINED"
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "PERF-SEC-002",
+    "category": "Stress Testing Security",
+    "title": "Security Under Stress Conditions",
+    "description": "Test security controls under extreme stress conditions",
+    "testCases": [
+      {
+        "testId": "PERF-SEC-002-01",
+        "name": "Memory Exhaustion Attack Resistance",
+        "description": "Verify system resistance to memory exhaustion attacks",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "attackType": "MEMORY_EXHAUSTION",
+          "memoryPressure": "90%",
+          "securityControlsActive": true,
+          "systemRecovery": "AUTOMATIC",
+          "maxDowntime": "30 seconds"
+        }
+      },
+      {
+        "testId": "PERF-SEC-002-02",
+        "name": "CPU Exhaustion Attack Resistance",
+        "description": "Verify system resistance to CPU exhaustion attacks",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "attackType": "CPU_EXHAUSTION",
+          "cpuUtilization": "95%",
+          "securityControlsActive": true,
+          "responseTimeIncrease": "<200%",
+          "systemStability": "MAINTAINED"
+        }
+      },
+      {
+        "testId": "PERF-SEC-002-03",
+        "name": "Database Connection Pool Exhaustion",
+        "description": "Verify security under database connection pool exhaustion",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "attackType": "CONNECTION_EXHAUSTION",
+          "connectionPoolSize": 100,
+          "attackConnections": 500,
+          "securityControlsActive": true,
+          "gracefulDegradation": true
+        }
+      },
+      {
+        "testId": "PERF-SEC-002-04",
+        "name": "Disk Space Exhaustion Handling",
+        "description": "Verify security controls under disk space exhaustion",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "diskUtilization": "95%",
+          "auditLoggingContinuity": true,
+          "securityEventLogging": true,
+          "alertGeneration": true,
+          "systemProtection": "ACTIVE"
+        }
+      },
+      {
+        "testId": "PERF-SEC-002-05",
+        "name": "Network Bandwidth Saturation",
+        "description": "Verify security under network bandwidth saturation",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "bandwidthUtilization": "95%",
+          "securityTrafficPriority": "HIGH",
+          "auditTrafficPriority": "HIGH",
+          "qosImplementation": true,
+          "criticalSecurityFunctions": "MAINTAINED"
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "PERF-SEC-003",
+    "category": "Concurrent Attack Simulation",
+    "title": "Multiple Concurrent Attack Scenarios",
+    "description": "Test security controls against multiple concurrent attack vectors",
+    "testCases": [
+      {
+        "testId": "PERF-SEC-003-01",
+        "name": "Multi-Vector Attack Simulation",
+        "description": "Simulate multiple concurrent attack vectors",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "attackVectors": [
+            "BRUTE_FORCE_LOGIN",
+            "SQL_INJECTION",
+            "XSS_ATTEMPTS",
+            "DOS_ATTACK",
+            "PRIVILEGE_ESCALATION"
+          ],
+          "concurrentAttacks": 5,
+          "attackDuration": "10 minutes",
+          "systemResilience": "HIGH",
+          "securityControlsEffectiveness": ">95%"
+        }
+      },
+      {
+        "testId": "PERF-SEC-003-02",
+        "name": "Distributed Attack Simulation",
+        "description": "Simulate distributed attacks from multiple sources",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "attackSources": 100,
+          "attackType": "DISTRIBUTED_DOS",
+          "attackIntensity": "HIGH",
+          "mitigationResponse": "AUTOMATIC",
+          "mitigationEffectiveness": ">90%"
+        }
+      },
+      {
+        "testId": "PERF-SEC-003-03",
+        "name": "Advanced Persistent Threat Simulation",
+        "description": "Simulate advanced persistent threat scenarios",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "threatDuration": "24 hours",
+          "threatSophistication": "HIGH",
+          "detectionCapability": "ADVANCED",
+          "responseTime": "<5 minutes",
+          "containmentEffectiveness": ">95%"
+        }
+      },
+      {
+        "testId": "PERF-SEC-003-04",
+        "name": "Insider Threat Simulation",
+        "description": "Simulate insider threat scenarios with privileged access",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "insiderAccessLevel": "PRIVILEGED",
+          "maliciousActivities": [
+            "UNAUTHORIZED_DATA_ACCESS",
+            "DATA_EXFILTRATION_ATTEMPT",
+            "PRIVILEGE_ABUSE",
+            "AUDIT_LOG_TAMPERING"
+          ],
+          "detectionMechanisms": "BEHAVIORAL_ANALYSIS",
+          "detectionTime": "<1 hour"
+        }
+      },
+      {
+        "testId": "PERF-SEC-003-05",
+        "name": "Zero-Day Exploit Simulation",
+        "description": "Simulate response to unknown attack patterns",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "exploitType": "UNKNOWN_PATTERN",
+          "detectionMethod": "ANOMALY_DETECTION",
+          "responseStrategy": "ADAPTIVE",
+          "containmentTime": "<30 minutes",
+          "systemRecovery": "AUTOMATIC"
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "PERF-SEC-004",
+    "category": "Scalability Security Testing",
+    "title": "Security Scalability Under Growth",
+    "description": "Test security controls scalability as system grows",
+    "testCases": [
+      {
+        "testId": "PERF-SEC-004-01",
+        "name": "User Base Scaling Security",
+        "description": "Verify security controls scale with growing user base",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "userGrowthPattern": "EXPONENTIAL",
+          "maxUsers": 10000,
+          "authenticationScaling": "LINEAR",
+          "authorizationScaling": "LINEAR",
+          "performanceDegradation": "<10%"
+        }
+      },
+      {
+        "testId": "PERF-SEC-004-02",
+        "name": "Data Volume Scaling Security",
+        "description": "Verify security controls scale with growing data volume",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "dataGrowthPattern": "LINEAR",
+          "maxDataVolume": "10TB",
+          "encryptionPerformance": "MAINTAINED",
+          "auditLogPerformance": "MAINTAINED",
+          "searchPerformance": "MAINTAINED"
+        }
+      },
+      {
+        "testId": "PERF-SEC-004-03",
+        "name": "Transaction Volume Scaling Security",
+        "description": "Verify security controls scale with transaction volume",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "transactionGrowthPattern": "EXPONENTIAL",
+          "maxTransactionsPerSecond": 10000,
+          "securityOverhead": "<5%",
+          "auditingOverhead": "<3%",
+          "responseTimeIncrease": "<20%"
+        }
+      },
+      {
+        "testId": "PERF-SEC-004-04",
+        "name": "Geographic Distribution Security",
+        "description": "Verify security controls across geographic distribution",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "geographicRegions": 5,
+          "networkLatency": "VARIABLE",
+          "securityConsistency": "GLOBAL",
+          "auditSynchronization": "REAL_TIME",
+          "complianceUniformity": "MAINTAINED"
+        }
+      },
+      {
+        "testId": "PERF-SEC-004-05",
+        "name": "Multi-Tenant Security Scaling",
+        "description": "Verify security isolation scales with tenant growth",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "tenantCount": 1000,
+          "isolationLevel": "STRICT",
+          "crossTenantLeakage": "ZERO",
+          "performanceIsolation": "MAINTAINED",
+          "securityBoundaries": "ENFORCED"
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "PERF-SEC-005",
+    "category": "Recovery and Resilience Testing",
+    "title": "Security During Recovery Operations",
+    "description": "Test security controls during system recovery and failover",
+    "testCases": [
+      {
+        "testId": "PERF-SEC-005-01",
+        "name": "Disaster Recovery Security",
+        "description": "Verify security controls during disaster recovery",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "recoveryScenario": "COMPLETE_SITE_FAILURE",
+          "recoveryTime": "4 hours",
+          "securityControlsRestoration": "AUTOMATIC",
+          "auditContinuity": "MAINTAINED",
+          "dataIntegrity": "VERIFIED"
+        }
+      },
+      {
+        "testId": "PERF-SEC-005-02",
+        "name": "Failover Security Continuity",
+        "description": "Verify security continuity during system failover",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "failoverType": "AUTOMATIC",
+          "failoverTime": "30 seconds",
+          "securityStateMaintenance": "COMPLETE",
+          "sessionContinuity": "MAINTAINED",
+          "auditTrailContinuity": "UNINTERRUPTED"
+        }
+      },
+      {
+        "testId": "PERF-SEC-005-03",
+        "name": "Backup System Security",
+        "description": "Verify security of backup and restore operations",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "backupFrequency": "HOURLY",
+          "backupEncryption": "AES-256",
+          "backupIntegrity": "VERIFIED",
+          "restoreTime": "2 hours",
+          "restoreVerification": "COMPLETE"
+        }
+      },
+      {
+        "testId": "PERF-SEC-005-04",
+        "name": "Security During Maintenance",
+        "description": "Verify security controls during maintenance operations",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "maintenanceType": "SECURITY_PATCH",
+          "maintenanceWindow": "2 hours",
+          "securityControlsContinuity": "MAINTAINED",
+          "zeroDowntimeDeployment": true,
+          "rollbackCapability": "IMMEDIATE"
+        }
+      },
+      {
+        "testId": "PERF-SEC-005-05",
+        "name": "Security Incident Recovery",
+        "description": "Verify recovery procedures after security incidents",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "incidentType": "DATA_BREACH",
+          "containmentTime": "1 hour",
+          "eradicationTime": "4 hours",
+          "recoveryTime": "8 hours",
+          "lessonsLearnedIntegration": "IMMEDIATE"
+        }
+      }
+    ]
+  }
+]

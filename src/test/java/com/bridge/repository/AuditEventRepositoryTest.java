@@ -289,7 +289,7 @@ class AuditEventRepositoryTest {
         
         // Delete events older than 7 days
         LocalDateTime cutoffDate = LocalDateTime.now().minusDays(7);
-        auditEventRepository.deleteByTimestampBefore(cutoffDate);
+        auditEventRepository.batchDeleteOldEvents(cutoffDate);
         
         // Verify old event was deleted (should be back to initial count)
         long finalCount = auditEventRepository.count();

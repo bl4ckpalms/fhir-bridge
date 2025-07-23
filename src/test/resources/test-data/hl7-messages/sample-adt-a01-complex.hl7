@@ -1,0 +1,15 @@
+MSH|^~\&|EPIC|MAIN_HOSPITAL|BRIDGE|FHIR_BRIDGE|20240720230000||ADT^A01^ADT_A01|MSG-000013|P|2.4|||||||
+EVN||20240720230000|||DR-070^Doctor^Emergency|20240720230000|
+PID|1||PAT-000013^^^MRN^MR||Rodriguez^Maria^Elena^Jr^MD||19900312|F|||123 Main Street^Apt 4B^Metro City^CA^90210^USA^H^^LA||(555)345-6789^PRN^PH~(555)345-6790^WPN^PH~maria.rodriguez@email.com^NET^Internet|||M|CATH|PAT-000013|345-67-8901|||||||||||20240720230000|
+NK1|1|Rodriguez^Carlos^Miguel|SPO^Spouse^HL70063|123 Main Street^Apt 4B^Metro City^CA^90210^USA^H^^LA|(555)345-6789^PRN^PH|EC^Emergency Contact^HL70131||||||||||||||||||||||||||||
+NK1|2|Rodriguez^Sofia^Elena|MTH^Mother^HL70063|456 Oak Avenue^^Metro City^CA^90211^USA^H^^LA|(555)456-7890^PRN^PH|N^Next of Kin^HL70131||||||||||||||||||||||||||||
+PV1|1|E|ER^01^A^MAIN_HOSPITAL^R^BED^1||||DR-070^Doctor^Emergency^MD|||ER^Emergency^HL70069||E^Emergency^HL70007|||DR-070^Doctor^Emergency^MD|EMR^Emergency Room^HL70018|VIP||||||||||||||||||||20240720230000|
+PV2|||Chest pain, rule out MI|||||||||||||||||||||||||||||
+OBX|1|NM|8480-6^Systolic Blood Pressure^LN|1|145|mmHg|90-140|H|||F|||20240720230500|NURSE-001|
+OBX|2|NM|8462-4^Diastolic Blood Pressure^LN|2|92|mmHg|60-90|H|||F|||20240720230500|NURSE-001|
+OBX|3|NM|8867-4^Heart Rate^LN|3|88|/min|60-100||||F|||20240720230500|NURSE-001|
+OBX|4|NM|9279-1^Respiratory Rate^LN|4|18|/min|12-20||||F|||20240720230500|NURSE-001|
+AL1|1||DRUG^Penicillin^HL70127|MO^Moderate^HL70128|Skin rash and itching|
+AL1|2||FOOD^Peanuts^HL70127|SV^Severe^HL70128|Anaphylactic reaction|
+DG1|1|I10|R06.02^Shortness of breath^ICD10||20240720230000|A^Admitting^HL70052||W^Working^HL70053|
+IN1|1|COMM|BCBS^Blue Cross Blue Shield^HL70072||PO Box 12345^^Metro City^CA^90212^USA|(555)123-0000||||GRP^Group^HL70072|Rodriguez^Maria^Elena|18|19900312|123 Main Street^Apt 4B^Metro City^CA^90210^USA|||||||||||||||||POL-987654321||||||F||||||||||
