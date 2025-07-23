@@ -5,6 +5,8 @@ import ca.uhn.fhir.parser.IParser;
 import com.bridge.model.FhirResource;
 import org.hl7.fhir.r4.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
@@ -28,6 +30,7 @@ public class Hl7ToFhirTransformerImpl implements Hl7ToFhirTransformer {
     }
 
     @Override
+    @Cacheable(value = "fhir-transformations", key = "#parsedData.messageControlId + ':' + #parsedData.patientData?.patientId")
     public List<FhirResource> transformToFhir(ParsedHl7Data parsedData) {
         List<FhirResource> resources = new ArrayList<>();
         

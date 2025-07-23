@@ -1,0 +1,6 @@
+MSH|^~\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20240720190000||MDM^T02^MDM_T02|MSG-000009|P|2.4|||||||
+EVN||20240720190000|||DR-050|20240720190000|
+PID|1||PAT-000009^^^MRN||Thompson^Casey^Lee||19801127|F|||8765 Birch Ln^^Riverside^NY^10001^USA||(555)901-2345|||D|CAUC|PAT-000009|901-23-4567||||||||||||
+PV1|1|I|MED^302^A||||DR-050^Doctor^Attending|||MED|||E|||DR-050^Doctor^Attending|INP|||||||||||||||||||||20240719200000|
+TXA|1|OP|TEXT|20240720190000|DR-050^Doctor^Attending|20240720190000|20240720190000|||||DOC-000001||||||AV||||||F|
+OBX|1|TX|11506-3^Progress Note^LN|1|Patient continues to improve. Vital signs stable. Pain well controlled with current medication regimen. Plan to discharge tomorrow if no complications arise.||||F|||20240720190000|DR-050|

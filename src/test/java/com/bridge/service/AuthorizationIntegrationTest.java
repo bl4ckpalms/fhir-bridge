@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -272,7 +273,7 @@ class AuthorizationIntegrationTest {
         // Test that authorization checks are logged
         authorizationService.hasPermission(physicianUser, Permission.READ_PATIENT_DATA);
         
-        verify(auditService).logAuthorizationCheck(
-                eq("physician-1"), eq("read:patient-data"), anyBoolean());
+        verify(auditService).logAuthorization(
+                eq("physician-1"), eq("read:patient-data"), eq("CHECK"), anyString(), any(Map.class));
     }
 }

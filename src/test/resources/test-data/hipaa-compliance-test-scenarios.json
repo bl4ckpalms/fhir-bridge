@@ -1,0 +1,378 @@
+[
+  {
+    "scenarioId": "HIPAA-001",
+    "category": "Administrative Safeguards",
+    "title": "HIPAA Administrative Safeguards Compliance",
+    "description": "Test compliance with HIPAA administrative safeguards requirements",
+    "testCases": [
+      {
+        "testId": "HIPAA-001-01",
+        "name": "Security Officer Assignment",
+        "description": "Verify system has designated security officer role and responsibilities",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "securityOfficerRole": "SECURITY_OFFICER",
+          "responsibilities": [
+            "SECURITY_POLICY_MANAGEMENT",
+            "INCIDENT_RESPONSE",
+            "ACCESS_CONTROL_MANAGEMENT",
+            "AUDIT_LOG_REVIEW"
+          ],
+          "assignedUsers": ["TEST-SECURITY-OFFICER-001"]
+        }
+      },
+      {
+        "testId": "HIPAA-001-02",
+        "name": "Workforce Training Requirements",
+        "description": "Verify workforce training tracking and compliance",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "trainingRequirements": [
+            "HIPAA_PRIVACY_TRAINING",
+            "SECURITY_AWARENESS_TRAINING",
+            "INCIDENT_RESPONSE_TRAINING",
+            "SYSTEM_ACCESS_TRAINING"
+          ],
+          "trainingFrequency": "ANNUAL",
+          "complianceTracking": true
+        }
+      },
+      {
+        "testId": "HIPAA-001-03",
+        "name": "Information Access Management",
+        "description": "Verify proper information access management procedures",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "accessControlProcedures": [
+            "ROLE_BASED_ACCESS",
+            "MINIMUM_NECESSARY_STANDARD",
+            "ACCESS_REVIEW_PROCESS",
+            "TERMINATION_PROCEDURES"
+          ],
+          "accessReviewFrequency": "QUARTERLY",
+          "documentationRequired": true
+        }
+      },
+      {
+        "testId": "HIPAA-001-04",
+        "name": "Security Incident Procedures",
+        "description": "Verify security incident response procedures are in place",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "incidentTypes": [
+            "UNAUTHORIZED_ACCESS",
+            "DATA_BREACH",
+            "SYSTEM_COMPROMISE",
+            "MALWARE_INFECTION"
+          ],
+          "responseTimeRequirement": "24_HOURS",
+          "notificationProcedures": true,
+          "documentationRequired": true
+        }
+      },
+      {
+        "testId": "HIPAA-001-05",
+        "name": "Contingency Plan",
+        "description": "Verify contingency plan for emergency access and data recovery",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "contingencyProcedures": [
+            "EMERGENCY_ACCESS_PROCEDURES",
+            "DATA_BACKUP_PLAN",
+            "DISASTER_RECOVERY_PLAN",
+            "TESTING_AND_REVISION_PROCEDURES"
+          ],
+          "testingFrequency": "ANNUAL",
+          "recoveryTimeObjective": "4_HOURS",
+          "recoveryPointObjective": "1_HOUR"
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "HIPAA-002",
+    "category": "Physical Safeguards",
+    "title": "HIPAA Physical Safeguards Compliance",
+    "description": "Test compliance with HIPAA physical safeguards requirements",
+    "testCases": [
+      {
+        "testId": "HIPAA-002-01",
+        "name": "Facility Access Controls",
+        "description": "Verify physical access controls to facilities containing PHI",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "accessControlMeasures": [
+            "BADGE_ACCESS_SYSTEM",
+            "VISITOR_MANAGEMENT",
+            "SECURITY_CAMERAS",
+            "ALARM_SYSTEMS"
+          ],
+          "accessLogging": true,
+          "physicalSecurityReviews": "MONTHLY"
+        }
+      },
+      {
+        "testId": "HIPAA-002-02",
+        "name": "Workstation Use Controls",
+        "description": "Verify controls for workstation access and use",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "workstationControls": [
+            "AUTOMATIC_SCREEN_LOCK",
+            "PHYSICAL_POSITIONING",
+            "ACCESS_RESTRICTIONS",
+            "USAGE_MONITORING"
+          ],
+          "screenLockTimeout": "15_MINUTES",
+          "physicalSecurityMeasures": true
+        }
+      },
+      {
+        "testId": "HIPAA-002-03",
+        "name": "Device and Media Controls",
+        "description": "Verify controls for electronic media containing PHI",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "mediaControls": [
+            "ENCRYPTION_REQUIREMENTS",
+            "DISPOSAL_PROCEDURES",
+            "REUSE_PROCEDURES",
+            "ACCOUNTABILITY_MEASURES"
+          ],
+          "encryptionStandard": "AES_256",
+          "disposalMethod": "SECURE_WIPING",
+          "accountabilityTracking": true
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "HIPAA-003",
+    "category": "Technical Safeguards",
+    "title": "HIPAA Technical Safeguards Compliance",
+    "description": "Test compliance with HIPAA technical safeguards requirements",
+    "testCases": [
+      {
+        "testId": "HIPAA-003-01",
+        "name": "Access Control",
+        "description": "Verify technical access control measures",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "accessControlMeasures": [
+            "UNIQUE_USER_IDENTIFICATION",
+            "AUTOMATIC_LOGOFF",
+            "ENCRYPTION_DECRYPTION"
+          ],
+          "uniqueUserIds": true,
+          "automaticLogoffTimeout": "30_MINUTES",
+          "encryptionRequired": true
+        }
+      },
+      {
+        "testId": "HIPAA-003-02",
+        "name": "Audit Controls",
+        "description": "Verify audit controls for PHI access and modification",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "auditRequirements": [
+            "ACCESS_LOGGING",
+            "MODIFICATION_LOGGING",
+            "DELETION_LOGGING",
+            "SYSTEM_ACTIVITY_LOGGING"
+          ],
+          "auditLogRetention": "6_YEARS",
+          "auditLogProtection": "TAMPER_RESISTANT",
+          "regularReview": "MONTHLY"
+        }
+      },
+      {
+        "testId": "HIPAA-003-03",
+        "name": "Integrity Controls",
+        "description": "Verify PHI integrity protection measures",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "integrityMeasures": [
+            "DIGITAL_SIGNATURES",
+            "CHECKSUMS",
+            "VERSION_CONTROL",
+            "BACKUP_VERIFICATION"
+          ],
+          "integrityChecking": "AUTOMATED",
+          "integrityAlerts": true
+        }
+      },
+      {
+        "testId": "HIPAA-003-04",
+        "name": "Person or Entity Authentication",
+        "description": "Verify authentication of users accessing PHI",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "authenticationMethods": [
+            "MULTI_FACTOR_AUTHENTICATION",
+            "STRONG_PASSWORDS",
+            "CERTIFICATE_BASED_AUTH",
+            "BIOMETRIC_AUTH"
+          ],
+          "mfaRequired": true,
+          "passwordComplexity": "HIGH",
+          "authenticationLogging": true
+        }
+      },
+      {
+        "testId": "HIPAA-003-05",
+        "name": "Transmission Security",
+        "description": "Verify security measures for PHI transmission",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "transmissionSecurity": [
+            "END_TO_END_ENCRYPTION",
+            "INTEGRITY_CONTROLS",
+            "ACCESS_CONTROLS"
+          ],
+          "encryptionInTransit": "TLS_1_3",
+          "integrityVerification": true,
+          "transmissionLogging": true
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "HIPAA-004",
+    "category": "Breach Notification",
+    "title": "HIPAA Breach Notification Compliance",
+    "description": "Test compliance with HIPAA breach notification requirements",
+    "testCases": [
+      {
+        "testId": "HIPAA-004-01",
+        "name": "Breach Detection and Assessment",
+        "description": "Verify breach detection and risk assessment procedures",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "detectionMethods": [
+            "AUTOMATED_MONITORING",
+            "MANUAL_REPORTING",
+            "THIRD_PARTY_NOTIFICATION",
+            "AUDIT_LOG_ANALYSIS"
+          ],
+          "assessmentCriteria": [
+            "NATURE_AND_EXTENT",
+            "PERSON_INVOLVED",
+            "PHI_COMPROMISED",
+            "MITIGATION_ACTIONS"
+          ],
+          "assessmentTimeframe": "24_HOURS"
+        }
+      },
+      {
+        "testId": "HIPAA-004-02",
+        "name": "Individual Notification",
+        "description": "Verify individual notification procedures for breaches",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "notificationTimeframe": "60_DAYS",
+          "notificationMethods": [
+            "WRITTEN_NOTICE",
+            "EMAIL_NOTICE",
+            "SUBSTITUTE_NOTICE"
+          ],
+          "requiredContent": [
+            "BREACH_DESCRIPTION",
+            "PHI_INVOLVED",
+            "STEPS_TAKEN",
+            "CONTACT_INFORMATION"
+          ]
+        }
+      },
+      {
+        "testId": "HIPAA-004-03",
+        "name": "HHS Notification",
+        "description": "Verify HHS notification procedures for breaches",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "notificationTimeframe": "60_DAYS",
+          "notificationMethod": "HHS_WEBSITE",
+          "requiredInformation": [
+            "COVERED_ENTITY_INFO",
+            "BREACH_DETAILS",
+            "INDIVIDUALS_AFFECTED",
+            "MITIGATION_EFFORTS"
+          ]
+        }
+      },
+      {
+        "testId": "HIPAA-004-04",
+        "name": "Media Notification",
+        "description": "Verify media notification requirements for large breaches",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "thresholdForMediaNotification": 500,
+          "notificationTimeframe": "60_DAYS",
+          "mediaOutlets": "PROMINENT_MEDIA",
+          "requiredContent": [
+            "BREACH_DESCRIPTION",
+            "CONTACT_INFORMATION",
+            "STEPS_BEING_TAKEN"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "HIPAA-005",
+    "category": "Business Associate Agreements",
+    "title": "HIPAA Business Associate Compliance",
+    "description": "Test compliance with business associate agreement requirements",
+    "testCases": [
+      {
+        "testId": "HIPAA-005-01",
+        "name": "Business Associate Identification",
+        "description": "Verify identification and management of business associates",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "businessAssociateTypes": [
+            "CLOUD_SERVICE_PROVIDERS",
+            "IT_SUPPORT_VENDORS",
+            "LEGAL_SERVICES",
+            "ACCOUNTING_SERVICES",
+            "CONSULTING_SERVICES"
+          ],
+          "baAgreementRequired": true,
+          "complianceMonitoring": true
+        }
+      },
+      {
+        "testId": "HIPAA-005-02",
+        "name": "BAA Contract Requirements",
+        "description": "Verify business associate agreement contract requirements",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "requiredClauses": [
+            "PERMITTED_USES_DISCLOSURES",
+            "SAFEGUARD_REQUIREMENTS",
+            "SUBCONTRACTOR_AGREEMENTS",
+            "BREACH_NOTIFICATION",
+            "TERMINATION_PROCEDURES"
+          ],
+          "contractReviewFrequency": "ANNUAL",
+          "complianceAuditing": true
+        }
+      },
+      {
+        "testId": "HIPAA-005-03",
+        "name": "Subcontractor Management",
+        "description": "Verify management of business associate subcontractors",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "subcontractorRequirements": [
+            "WRITTEN_AGREEMENTS",
+            "SAME_RESTRICTIONS",
+            "SAFEGUARD_COMPLIANCE",
+            "BREACH_NOTIFICATION"
+          ],
+          "subcontractorMonitoring": true,
+          "complianceVerification": "REGULAR"
+        }
+      }
+    ]
+  }
+]

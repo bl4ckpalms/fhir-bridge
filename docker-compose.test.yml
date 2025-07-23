@@ -1,0 +1,249 @@
+# =============================================================================
+# Docker Compose Configuration for Local Testing with Dependencies
+# Complete testing environment with all required services and tools
+# =============================================================================
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database for Testing
+  postgres-test:
+    image: postgres:15-alpine
+    container_name: fhir-bridge-test-db
+    environment:
+      POSTGRES_DB: fhir_bridge_test
+      POSTGRES_USER: fhir_test_user
+      POSTGRES_PASSWORD: fhir_test_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    ports:
+      - "5433:5432"  # Different port to avoid conflicts
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+      - ./infra/db/init:/docker-entrypoint-initdb.d:ro
+      - ./infra/db/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    networks:
+      - fhir-bridge-test
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fhir_test_user -d fhir_bridge_test"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+
+  # Redis Cache for Testing
+  redis-test:
+    image: redis:7-alpine
+    container_name: fhir-bridge-test-cache
+    ports:
+      - "6380:6379"  # Different port to avoid conflicts
+    volumes:
+      - redis_test_data:/data
+      - ./infra/redis/redis-local.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - fhir-bridge-test
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    command: redis-server /usr/local/etc/redis/redis.conf
+    restart: unless-stopped
+
+  # FHIR Bridge Application for Testing
+  fhir-bridge-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    image: fhir-bridge:test
+    container_name: fhir-bridge-test-app
+    environment:
+      # Spring profiles for testing
+      SPRING_PROFILES_ACTIVE: test
+      
+      # Database configuration
+      DB_HOST: postgres-test
+      DB_PORT: 5432
+      DB_NAME: fhir_bridge_test
+      DB_USERNAME: fhir_test_user
+      DB_PASSWORD: fhir_test_password
+      
+      # Redis configuration
+      REDIS_HOST: redis-test
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+      
+      # JWT configuration for testing
+      JWT_ISSUER_URI: http://localhost:8080/auth
+      JWT_SECRET: test-secret-key-for-local-testing-only
+      
+      # Testing-specific configurations
+      LOGGING_LEVEL_COM_BRIDGE: DEBUG
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
+      
+      # JVM options optimized for testing
+      JAVA_OPTS: >-
+        -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=50.0
+        -XX:+UseG1GC
+        -Djava.security.egd=file:/dev/./urandom
+        -Djava.awt.headless=true
+        -Dfile.encoding=UTF-8
+        -Duser.timezone=UTC
+        -Dspring.jpa.show-sql=true
+        -Dspring.jpa.properties.hibernate.format_sql=true
+    ports:
+      - "8083:8080"  # Different port to avoid conflicts
+      - "8084:8081"  # Management port
+      - "5006:5005"  # Debug port
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+      redis-test:
+        condition: service_healthy
+    networks:
+      - fhir-bridge-test
+    volumes:
+      - ./logs:/app/logs
+      - ./target:/app/target
+      - ./src/test/resources:/app/test-resources:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+    restart: unless-stopped
+
+  # Test Data Generator Service
+  test-data-generator:
+    image: alpine:latest
+    container_name: fhir-bridge-test-data-generator
+    volumes:
+      - ./scripts:/scripts:ro
+      - ./src/test/resources/test-data:/test-data
+    networks:
+      - fhir-bridge-test
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+    command: >
+      sh -c "
+        apk add --no-cache curl postgresql-client &&
+        echo 'Waiting for application to be ready...' &&
+        sleep 30 &&
+        echo 'Generating test data...' &&
+        /scripts/generate-test-data.sh
+      "
+    profiles:
+      - test-data
+
+  # PostgreSQL Admin for Testing
+  pgadmin-test:
+    image: dpage/pgadmin4:latest
+    container_name: fhir-bridge-test-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@fhirbridge.local
+      PGADMIN_DEFAULT_PASSWORD: test123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - "5051:80"
+    volumes:
+      - pgadmin_test_data:/var/lib/pgadmin
+      - ./infra/db/pgadmin-servers.json:/pgadmin4/servers.json:ro
+    depends_on:
+      - postgres-test
+    networks:
+      - fhir-bridge-test
+    restart: unless-stopped
+    profiles:
+      - admin
+
+  # Redis Commander for Testing
+  redis-commander-test:
+    image: rediscommander/redis-commander:latest
+    container_name: fhir-bridge-test-redis-commander
+    environment:
+      REDIS_HOSTS: test:redis-test:6379
+      HTTP_USER: test
+      HTTP_PASSWORD: test123
+      PORT: 8081
+    ports:
+      - "8085:8081"
+    depends_on:
+      - redis-test
+    networks:
+      - fhir-bridge-test
+    restart: unless-stopped
+    profiles:
+      - admin
+
+  # HL7 Message Simulator
+  hl7-simulator:
+    image: alpine:latest
+    container_name: fhir-bridge-hl7-simulator
+    volumes:
+      - ./scripts:/scripts:ro
+      - ./src/test/resources/hl7-messages:/hl7-messages:ro
+    networks:
+      - fhir-bridge-test
+    depends_on:
+      fhir-bridge-test:
+        condition: service_healthy
+    command: >
+      sh -c "
+        apk add --no-cache curl &&
+        echo 'Starting HL7 message simulation...' &&
+        /scripts/simulate-hl7-messages.sh
+      "
+    profiles:
+      - simulator
+
+  # Integration Test Runner
+  integration-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: test
+    container_name: fhir-bridge-integration-tests
+    environment:
+      SPRING_PROFILES_ACTIVE: test
+      DB_HOST: postgres-test
+      DB_PORT: 5432
+      DB_NAME: fhir_bridge_test
+      DB_USERNAME: fhir_test_user
+      DB_PASSWORD: fhir_test_password
+      REDIS_HOST: redis-test
+      REDIS_PORT: 6379
+      FHIR_BRIDGE_BASE_URL: http://fhir-bridge-test:8080
+    depends_on:
+      fhir-bridge-test:
+        condition: service_healthy
+    networks:
+      - fhir-bridge-test
+    volumes:
+      - ./target/test-results:/app/target/test-results
+      - ./logs:/app/logs
+    command: ./mvnw test -Dtest=**/*IntegrationTest
+    profiles:
+      - integration-tests
+
+volumes:
+  postgres_test_data:
+    driver: local
+  redis_test_data:
+    driver: local
+  pgadmin_test_data:
+    driver: local
+
+networks:
+  fhir-bridge-test:
+    driver: bridge
+    name: fhir-bridge-test-network
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

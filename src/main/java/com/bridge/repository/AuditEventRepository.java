@@ -4,9 +4,11 @@ import com.bridge.entity.AuditEventEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -143,7 +145,80 @@ public interface AuditEventRepository extends JpaRepository<AuditEventEntity, Lo
     Page<AuditEventEntity> findRecentEvents(@Param("since") LocalDateTime since, Pageable pageable);
 
     /**
-     * Delete old audit events before a certain date
+     * Delete old audit events before a certain date (batch operation)
      */
-    void deleteByTimestampBefore(LocalDateTime cutoffDate);
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM audit_events WHERE timestamp < :cutoffDate", nativeQuery = true)
+    int batchDeleteOldEvents(@Param("cutoffDate") LocalDateTime cutoffDate);
+
+    /**
+     * Find audit events with optimized query for recent activity monitoring
+     */
+    @Query(value = "SELECT a.* FROM audit_events a " +
+           "WHERE a.timestamp >= :since " +
+           "AND a.outcome IN ('SUCCESS', 'FAILURE', 'ERROR') " +
+           "ORDER BY a.timestamp DESC " +
+           "LIMIT :limit", 
+           nativeQuery = true)
+    List<AuditEventEntity> findRecentEventsOptimized(@Param("since") LocalDateTime since, 
+                                                     @Param("limit") int limit);
+
+    /**
+     * Get audit statistics for monitoring dashboard
+     */
+    @Query(value = "SELECT " +
+           "COUNT(*) as total_events, " +
+           "COUNT(CASE WHEN outcome = 'SUCCESS' THEN 1 END) as success_count, " +
+           "COUNT(CASE WHEN outcome = 'FAILURE' THEN 1 END) as failure_count, " +
+           "COUNT(CASE WHEN outcome = 'ERROR' THEN 1 END) as error_count, " +
+           "COUNT(DISTINCT user_id) as unique_users, " +
+           "COUNT(DISTINCT action) as unique_actions " +
+           "FROM audit_events " +
+           "WHERE timestamp >= :since", 
+           nativeQuery = true)
+    Object[] getAuditStatistics(@Param("since") LocalDateTime since);
+
+    /**
+     * Find high-frequency actions for performance monitoring
+     */
+    @Query(value = "SELECT action, COUNT(*) as action_count " +
+           "FROM audit_events " +
+           "WHERE timestamp >= :since " +
+           "GROUP BY action " +
+           "ORDER BY action_count DESC " +
+           "LIMIT :limit", 
+           nativeQuery = true)
+    List<Object[]> findTopActionsByFrequency(@Param("since") LocalDateTime since, 
+                                           @Param("limit") int limit);
+
+    /**
+     * Find users with most activity for monitoring
+     */
+    @Query(value = "SELECT user_id, COUNT(*) as activity_count " +
+           "FROM audit_events " +
+           "WHERE timestamp >= :since " +
+           "GROUP BY user_id " +
+           "ORDER BY activity_count DESC " +
+           "LIMIT :limit", 
+           nativeQuery = true)
+    List<Object[]> findTopUsersByActivity(@Param("since") LocalDateTime since, 
+                                        @Param("limit") int limit);
+
+    /**
+     * Batch insert audit events for high-throughput scenarios
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO audit_events (event_id, user_id, action, resource_type, resource_id, outcome, timestamp, details) " +
+           "VALUES (:eventId, :userId, :action, :resourceType, :resourceId, :outcome, :timestamp, :details)", 
+           nativeQuery = true)
+    void batchInsertAuditEvent(@Param("eventId") String eventId,
+                              @Param("userId") String userId,
+                              @Param("action") String action,
+                              @Param("resourceType") String resourceType,
+                              @Param("resourceId") String resourceId,
+                              @Param("outcome") String outcome,
+                              @Param("timestamp") LocalDateTime timestamp,
+                              @Param("details") String details);
 }

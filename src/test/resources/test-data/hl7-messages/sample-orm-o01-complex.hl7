@@ -1,0 +1,11 @@
+MSH|^~\&|CPOE_SYSTEM|MAIN_HOSPITAL|BRIDGE|FHIR_BRIDGE|20240721010000||ORM^O01^ORM_O01|MSG-000015|P|2.4|||||||
+PID|1||PAT-000015^^^MRN^MR||Williams^Sarah^Michelle||19820628|F|||456 Elm Avenue^Unit 2A^Franklin^TX^75201^USA^H^^TX||(555)567-8901^PRN^PH|||S|AA|PAT-000015|567-89-0123||||||||||||
+PV1|1|I|MED^305^A^MAIN_HOSPITAL^R^BED^2||||DR-080^Doctor^Attending^MD|||MED^Medicine^HL70069||I^Inpatient^HL70007|||DR-080^Doctor^Attending^MD|INP^Inpatient^HL70018|||||||||||||||||||||20240720200000|
+ORC|NW|ORD-000001|FIL-000001||A^Active^HL70038||||20240721010000|||DR-080^Doctor^Attending^MD||||||||||||
+OBR|1|ORD-000001|FIL-000001|CBC^Complete Blood Count with Differential^L|||20240721060000|||||A^ASAP^HL70062|||||DR-080^Doctor^Attending^MD||||||||R^Routine^HL70078||^^^^^R|
+NTE|1||Patient has history of anemia, monitor closely|
+ORC|NW|ORD-000002|FIL-000002||A^Active^HL70038||||20240721010000|||DR-080^Doctor^Attending^MD||||||||||||
+OBR|2|ORD-000002|FIL-000002|BMP^Basic Metabolic Panel^L|||20240721060000|||||R^Routine^HL70062|||||DR-080^Doctor^Attending^MD||||||||R^Routine^HL70078||^^^^^R|
+ORC|NW|ORD-000003|FIL-000003||A^Active^HL70038||||20240721010000|||DR-080^Doctor^Attending^MD||||||||||||
+OBR|3|ORD-000003|FIL-000003|PT^Prothrombin Time^L|||20240721060000|||||R^Routine^HL70062|||||DR-080^Doctor^Attending^MD||||||||R^Routine^HL70078||^^^^^R|
+NTE|1||Patient on warfarin therapy|

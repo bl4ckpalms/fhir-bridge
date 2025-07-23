@@ -37,7 +37,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         boolean hasPermission = rolePermissionMapper.hasPermission(userRoles, permission);
 
         // Log authorization check for audit
-        auditService.logAuthorizationCheck(user.getUserId(), permission.getPermissionCode(), hasPermission);
+        auditService.logAuthorization(user.getUserId(), permission.getPermissionCode(), "CHECK", 
+            hasPermission ? "SUCCESS" : "FAILURE", 
+            Map.of("permission", permission.getPermissionCode(), "roles", userRoles.toString()));
 
         return hasPermission;
     }

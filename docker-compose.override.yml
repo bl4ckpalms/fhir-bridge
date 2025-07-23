@@ -1,0 +1,175 @@
+# =============================================================================
+# Docker Compose Override for Development and Testing
+# This file extends docker-compose.yml with development-specific configurations
+# =============================================================================
+
+version: '3.8'
+
+services:
+  # FHIR Bridge Application - Development Configuration
+  fhir-bridge:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    environment:
+      # Development profile
+      SPRING_PROFILES_ACTIVE: dev
+      
+      # Database configuration
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: fhir_bridge
+      DB_USERNAME: fhir_user
+      DB_PASSWORD: fhir_password
+      
+      # Redis configuration
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+      
+      # JWT configuration for development
+      JWT_ISSUER_URI: http://localhost:8080/auth
+      
+      # Development JVM options
+      JAVA_OPTS: >-
+        -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=50.0
+        -XX:+UseG1GC
+        -Djava.security.egd=file:/dev/./urandom
+        -Djava.awt.headless=true
+        -Dfile.encoding=UTF-8
+        -Duser.timezone=UTC
+        -Dspring.devtools.restart.enabled=true
+        -Dspring.devtools.livereload.enabled=true
+        -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    ports:
+      - "8080:8080"  # Application port
+      - "8081:8081"  # Management/Actuator port
+      - "5005:5005"  # Debug port
+    volumes:
+      # Mount source code for hot reload (if using dev image)
+      - ./src:/app/src:ro
+      - ./logs:/app/logs
+      - ./target:/app/target
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # PostgreSQL Database - Development Configuration
+  postgres:
+    environment:
+      # Additional development settings
+      POSTGRES_DB: fhir_bridge
+      POSTGRES_USER: fhir_user
+      POSTGRES_PASSWORD: fhir_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+      # Enable logging for development
+      POSTGRES_LOG_STATEMENT: all
+      POSTGRES_LOG_MIN_DURATION_STATEMENT: 0
+    volumes:
+      # Mount initialization scripts
+      - ./infra/db/init:/docker-entrypoint-initdb.d:ro
+      # Mount data directory for persistence
+      - postgres_dev_data:/var/lib/postgresql/data
+      # Mount custom PostgreSQL configuration if needed
+      - ./infra/db/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    command: >
+      postgres
+      -c log_statement=all
+      -c log_destination=stderr
+      -c log_min_duration_statement=0
+      -c log_connections=on
+      -c log_disconnections=on
+      -c log_duration=on
+      -c shared_preload_libraries=pg_stat_statements
+    restart: unless-stopped
+
+  # Redis Cache - Development Configuration
+  redis:
+    volumes:
+      - redis_dev_data:/data
+      - ./infra/redis/redis-dev.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf
+    restart: unless-stopped
+
+  # Additional services for development and testing
+
+  # PostgreSQL Admin Interface (pgAdmin)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: fhir-bridge-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@fhirbridge.local
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./infra/db/pgadmin-servers.json:/pgadmin4/servers.json:ro
+    depends_on:
+      - postgres
+    networks:
+      - fhir-bridge-network
+    restart: unless-stopped
+
+  # Redis Commander (Redis Admin Interface)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: fhir-bridge-redis-commander
+    environment:
+      REDIS_HOSTS: local:redis:6379
+      HTTP_USER: admin
+      HTTP_PASSWORD: admin123
+    ports:
+      - "8082:8081"
+    depends_on:
+      - redis
+    networks:
+      - fhir-bridge-network
+    restart: unless-stopped
+
+  # Mailhog for email testing (if needed for notifications)
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: fhir-bridge-mailhog
+    ports:
+      - "1025:1025"  # SMTP port
+      - "8025:8025"  # Web UI port
+    networks:
+      - fhir-bridge-network
+    restart: unless-stopped
+
+  # Nginx for reverse proxy and load balancing (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: fhir-bridge-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./infra/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - fhir-bridge
+    networks:
+      - fhir-bridge-network
+    restart: unless-stopped
+
+volumes:
+  postgres_dev_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  fhir-bridge-network:
+    driver: bridge
+    name: fhir-bridge-dev-network

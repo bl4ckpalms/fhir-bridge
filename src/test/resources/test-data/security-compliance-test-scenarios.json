@@ -1,0 +1,728 @@
+[
+  {
+    "scenarioId": "SEC-001",
+    "category": "Authentication Security",
+    "title": "JWT Token Validation and Expiration",
+    "description": "Test JWT token validation, expiration handling, and token refresh scenarios",
+    "testCases": [
+      {
+        "testId": "SEC-001-01",
+        "name": "Valid JWT Token Authentication",
+        "description": "Verify that valid JWT tokens are accepted and processed correctly",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "userId": "TEST-PHYSICIAN-001",
+          "tokenType": "Bearer",
+          "tokenStatus": "VALID",
+          "expirationTime": "2025-01-15T18:00:00Z",
+          "issuer": "fhir-bridge-auth",
+          "audience": "fhir-bridge-api"
+        }
+      },
+      {
+        "testId": "SEC-001-02",
+        "name": "Expired JWT Token Rejection",
+        "description": "Verify that expired JWT tokens are rejected with appropriate error",
+        "expectedResult": "UNAUTHORIZED",
+        "testData": {
+          "userId": "TEST-PHYSICIAN-001",
+          "tokenType": "Bearer",
+          "tokenStatus": "EXPIRED",
+          "expirationTime": "2025-01-14T10:00:00Z",
+          "issuer": "fhir-bridge-auth",
+          "audience": "fhir-bridge-api"
+        }
+      },
+      {
+        "testId": "SEC-001-03",
+        "name": "Malformed JWT Token Rejection",
+        "description": "Verify that malformed JWT tokens are rejected",
+        "expectedResult": "UNAUTHORIZED",
+        "testData": {
+          "tokenValue": "invalid.jwt.token.format",
+          "tokenType": "Bearer"
+        }
+      },
+      {
+        "testId": "SEC-001-04",
+        "name": "Missing Authorization Header",
+        "description": "Verify that requests without Authorization header are rejected",
+        "expectedResult": "UNAUTHORIZED",
+        "testData": {
+          "authorizationHeader": null
+        }
+      },
+      {
+        "testId": "SEC-001-05",
+        "name": "Invalid Token Signature",
+        "description": "Verify that tokens with invalid signatures are rejected",
+        "expectedResult": "UNAUTHORIZED",
+        "testData": {
+          "userId": "TEST-PHYSICIAN-001",
+          "tokenType": "Bearer",
+          "tokenStatus": "INVALID_SIGNATURE",
+          "tamperedSignature": true
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "SEC-002",
+    "category": "Authorization and RBAC",
+    "title": "Role-Based Access Control Validation",
+    "description": "Test role-based access control for different user types and permissions",
+    "testCases": [
+      {
+        "testId": "SEC-002-01",
+        "name": "Physician Full Access",
+        "description": "Verify physician has access to patient data transformation and consent management",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "userId": "TEST-PHYSICIAN-001",
+          "role": "PHYSICIAN",
+          "requestedPermissions": ["READ_PATIENT_DATA", "WRITE_PATIENT_DATA", "TRANSFORM_HL7_TO_FHIR", "MANAGE_CONSENT"],
+          "organizationId": "TEST-ORG-001"
+        }
+      },
+      {
+        "testId": "SEC-002-02",
+        "name": "Technician Limited Access",
+        "description": "Verify technician has limited access and cannot perform administrative functions",
+        "expectedResult": "FORBIDDEN",
+        "testData": {
+          "userId": "TEST-TECHNICIAN-001",
+          "role": "TECHNICIAN",
+          "requestedPermissions": ["MANAGE_USERS", "DELETE_PATIENT_DATA", "MANAGE_SYSTEM"],
+          "organizationId": "TEST-ORG-002"
+        }
+      },
+      {
+        "testId": "SEC-002-03",
+        "name": "Cross-Organization Access Denial",
+        "description": "Verify users cannot access data from other organizations",
+        "expectedResult": "FORBIDDEN",
+        "testData": {
+          "userId": "TEST-PHYSICIAN-001",
+          "role": "PHYSICIAN",
+          "userOrganizationId": "TEST-ORG-001",
+          "requestedResourceOrganizationId": "TEST-ORG-002",
+          "requestedPermissions": ["READ_PATIENT_DATA"]
+        }
+      },
+      {
+        "testId": "SEC-002-04",
+        "name": "Inactive User Access Denial",
+        "description": "Verify inactive users are denied access to all resources",
+        "expectedResult": "FORBIDDEN",
+        "testData": {
+          "userId": "TEST-INACTIVE-001",
+          "role": "TECHNICIAN",
+          "accountStatus": "INACTIVE",
+          "requestedPermissions": ["API_ACCESS"]
+        }
+      },
+      {
+        "testId": "SEC-002-05",
+        "name": "Patient Self-Access Only",
+        "description": "Verify patients can only access their own data and consent records",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "userId": "TEST-PATIENT-001",
+          "role": "PATIENT",
+          "patientId": "PAT-TEST-001",
+          "requestedResourcePatientId": "PAT-TEST-001",
+          "requestedPermissions": ["READ_CONSENT", "MANAGE_CONSENT"]
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "SEC-003",
+    "category": "Input Validation and Sanitization",
+    "title": "Security Input Validation Tests",
+    "description": "Test input validation and sanitization to prevent injection attacks",
+    "testCases": [
+      {
+        "testId": "SEC-003-01",
+        "name": "SQL Injection Prevention",
+        "description": "Verify SQL injection attempts are blocked and sanitized",
+        "expectedResult": "BAD_REQUEST",
+        "testData": {
+          "maliciousInput": "'; DROP TABLE audit_events; --",
+          "inputField": "hl7Message",
+          "attackType": "SQL_INJECTION"
+        }
+      },
+      {
+        "testId": "SEC-003-02",
+        "name": "XSS Prevention",
+        "description": "Verify cross-site scripting attempts are blocked",
+        "expectedResult": "BAD_REQUEST",
+        "testData": {
+          "maliciousInput": "<script>alert('xss')</script>",
+          "inputField": "sendingApplication",
+          "attackType": "XSS"
+        }
+      },
+      {
+        "testId": "SEC-003-03",
+        "name": "Command Injection Prevention",
+        "description": "Verify command injection attempts are blocked",
+        "expectedResult": "BAD_REQUEST",
+        "testData": {
+          "maliciousInput": "; rm -rf /; echo 'pwned'",
+          "inputField": "receivingApplication",
+          "attackType": "COMMAND_INJECTION"
+        }
+      },
+      {
+        "testId": "SEC-003-04",
+        "name": "Path Traversal Prevention",
+        "description": "Verify path traversal attempts are blocked",
+        "expectedResult": "BAD_REQUEST",
+        "testData": {
+          "maliciousInput": "../../../etc/passwd",
+          "inputField": "resourceId",
+          "attackType": "PATH_TRAVERSAL"
+        }
+      },
+      {
+        "testId": "SEC-003-05",
+        "name": "Oversized Payload Rejection",
+        "description": "Verify oversized payloads are rejected to prevent DoS",
+        "expectedResult": "PAYLOAD_TOO_LARGE",
+        "testData": {
+          "payloadSize": 10485760,
+          "maxAllowedSize": 1048576,
+          "attackType": "DOS_OVERSIZED_PAYLOAD"
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "SEC-004",
+    "category": "TEFCA Compliance",
+    "title": "TEFCA Security and Privacy Requirements",
+    "description": "Test compliance with TEFCA security and privacy requirements",
+    "testCases": [
+      {
+        "testId": "SEC-004-01",
+        "name": "TEFCA Participant Authentication",
+        "description": "Verify TEFCA participants are properly authenticated and authorized",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "userId": "TEST-TEFCA-PARTICIPANT-001",
+          "role": "TEFCA_PARTICIPANT",
+          "tefcaId": "TEFCA-PART-001",
+          "networkRole": "Participant",
+          "requestedPermissions": ["TEFCA_QUERY", "TEFCA_RESPOND"]
+        }
+      },
+      {
+        "testId": "SEC-004-02",
+        "name": "TEFCA Data Minimization",
+        "description": "Verify only minimum necessary data is shared in TEFCA exchanges",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "queryPurpose": "TREATMENT",
+          "requestedDataCategories": ["DEMOGRAPHICS", "ALLERGIES", "MEDICATIONS"],
+          "excludedDataCategories": ["MENTAL_HEALTH", "SUBSTANCE_ABUSE", "GENETIC_DATA"],
+          "dataMinimizationApplied": true
+        }
+      },
+      {
+        "testId": "SEC-004-03",
+        "name": "TEFCA Audit Trail Requirements",
+        "description": "Verify comprehensive audit logging for TEFCA exchanges",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "requiredAuditFields": [
+            "participantId",
+            "queryTimestamp",
+            "queryPurpose",
+            "patientId",
+            "dataShared",
+            "consentStatus",
+            "responseTimestamp"
+          ],
+          "auditRetentionPeriod": "7_YEARS"
+        }
+      },
+      {
+        "testId": "SEC-004-04",
+        "name": "TEFCA Consent Verification",
+        "description": "Verify patient consent is checked before TEFCA data sharing",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "patientId": "PAT-000001",
+          "consentStatus": "ACTIVE",
+          "consentScope": "TEFCA_TREATMENT",
+          "consentExpiration": "2025-12-31T23:59:59Z",
+          "verificationRequired": true
+        }
+      },
+      {
+        "testId": "SEC-004-05",
+        "name": "TEFCA Non-Participant Access Denial",
+        "description": "Verify non-TEFCA participants cannot access TEFCA functions",
+        "expectedResult": "FORBIDDEN",
+        "testData": {
+          "userId": "TEST-PHYSICIAN-001",
+          "role": "PHYSICIAN",
+          "tefcaParticipant": false,
+          "requestedPermissions": ["TEFCA_QUERY", "TEFCA_RESPOND"]
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "SEC-005",
+    "category": "Data Encryption and Transport Security",
+    "title": "Encryption and Secure Transport Validation",
+    "description": "Test data encryption at rest and in transit",
+    "testCases": [
+      {
+        "testId": "SEC-005-01",
+        "name": "TLS 1.3 Enforcement",
+        "description": "Verify only TLS 1.3 or higher is accepted for connections",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "tlsVersion": "1.3",
+          "cipherSuite": "TLS_AES_256_GCM_SHA384",
+          "certificateValidation": true
+        }
+      },
+      {
+        "testId": "SEC-005-02",
+        "name": "Weak TLS Version Rejection",
+        "description": "Verify connections using weak TLS versions are rejected",
+        "expectedResult": "CONNECTION_REFUSED",
+        "testData": {
+          "tlsVersion": "1.1",
+          "cipherSuite": "TLS_RSA_WITH_AES_128_CBC_SHA",
+          "expectedRejection": true
+        }
+      },
+      {
+        "testId": "SEC-005-03",
+        "name": "Database Encryption at Rest",
+        "description": "Verify sensitive data is encrypted in the database",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "encryptedFields": [
+            "patient_ssn",
+            "patient_phone",
+            "patient_email",
+            "consent_details",
+            "audit_event_details"
+          ],
+          "encryptionAlgorithm": "AES-256-GCM"
+        }
+      },
+      {
+        "testId": "SEC-005-04",
+        "name": "Cache Encryption",
+        "description": "Verify cached data is encrypted",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "cacheType": "Redis",
+          "encryptionEnabled": true,
+          "encryptionInTransit": true,
+          "encryptionAtRest": true
+        }
+      },
+      {
+        "testId": "SEC-005-05",
+        "name": "Certificate Validation",
+        "description": "Verify SSL certificate validation is enforced",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "certificateChainValidation": true,
+          "certificateRevocationCheck": true,
+          "hostnameVerification": true
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "SEC-006",
+    "category": "Audit and Compliance Logging",
+    "title": "Comprehensive Audit Trail Validation",
+    "description": "Test audit logging completeness and integrity",
+    "testCases": [
+      {
+        "testId": "SEC-006-01",
+        "name": "Complete Audit Trail",
+        "description": "Verify all required audit fields are captured",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "requiredAuditFields": [
+            "eventId",
+            "userId",
+            "timestamp",
+            "action",
+            "resourceType",
+            "resourceId",
+            "outcome",
+            "sourceIp",
+            "userAgent",
+            "organizationId"
+          ],
+          "auditEventTypes": [
+            "AUTHENTICATION_SUCCESS",
+            "AUTHENTICATION_FAILURE",
+            "AUTHORIZATION_SUCCESS",
+            "AUTHORIZATION_FAILURE",
+            "DATA_ACCESS",
+            "DATA_MODIFICATION",
+            "CONSENT_CHANGE",
+            "SYSTEM_CONFIGURATION_CHANGE"
+          ]
+        }
+      },
+      {
+        "testId": "SEC-006-02",
+        "name": "Audit Log Integrity",
+        "description": "Verify audit logs cannot be modified or deleted",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "auditLogProtection": "WRITE_ONCE_READ_MANY",
+          "tamperDetection": true,
+          "digitalSignature": true,
+          "immutableStorage": true
+        }
+      },
+      {
+        "testId": "SEC-006-03",
+        "name": "Failed Access Attempt Logging",
+        "description": "Verify failed access attempts are logged with sufficient detail",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "failureTypes": [
+            "INVALID_CREDENTIALS",
+            "INSUFFICIENT_PERMISSIONS",
+            "ACCOUNT_LOCKED",
+            "ACCOUNT_DISABLED",
+            "INVALID_TOKEN"
+          ],
+          "loggedDetails": [
+            "attemptedUserId",
+            "sourceIp",
+            "timestamp",
+            "failureReason",
+            "userAgent"
+          ]
+        }
+      },
+      {
+        "testId": "SEC-006-04",
+        "name": "Audit Log Retention",
+        "description": "Verify audit logs are retained for required compliance periods",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "retentionPeriod": "7_YEARS",
+          "archivalProcess": "AUTOMATED",
+          "retrievalCapability": true,
+          "complianceStandards": ["HIPAA", "TEFCA"]
+        }
+      },
+      {
+        "testId": "SEC-006-05",
+        "name": "Real-time Audit Monitoring",
+        "description": "Verify suspicious activities trigger real-time alerts",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "monitoredEvents": [
+            "MULTIPLE_FAILED_LOGINS",
+            "PRIVILEGE_ESCALATION_ATTEMPT",
+            "BULK_DATA_ACCESS",
+            "OFF_HOURS_ACCESS",
+            "UNUSUAL_DATA_PATTERNS"
+          ],
+          "alertThresholds": {
+            "failedLoginAttempts": 5,
+            "bulkDataRecords": 1000,
+            "offHoursWindow": "22:00-06:00"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "SEC-007",
+    "category": "Rate Limiting and DoS Protection",
+    "title": "Denial of Service Protection",
+    "description": "Test rate limiting and DoS protection mechanisms",
+    "testCases": [
+      {
+        "testId": "SEC-007-01",
+        "name": "API Rate Limiting",
+        "description": "Verify API requests are rate limited per user/IP",
+        "expectedResult": "RATE_LIMITED",
+        "testData": {
+          "rateLimitType": "PER_USER",
+          "requestsPerMinute": 100,
+          "burstLimit": 20,
+          "windowSize": "1_MINUTE"
+        }
+      },
+      {
+        "testId": "SEC-007-02",
+        "name": "Concurrent Connection Limiting",
+        "description": "Verify concurrent connections are limited",
+        "expectedResult": "CONNECTION_REFUSED",
+        "testData": {
+          "maxConcurrentConnections": 1000,
+          "connectionTimeout": "30_SECONDS",
+          "queueSize": 100
+        }
+      },
+      {
+        "testId": "SEC-007-03",
+        "name": "Resource Exhaustion Protection",
+        "description": "Verify protection against resource exhaustion attacks",
+        "expectedResult": "SERVICE_UNAVAILABLE",
+        "testData": {
+          "memoryThreshold": "80_PERCENT",
+          "cpuThreshold": "90_PERCENT",
+          "diskThreshold": "85_PERCENT",
+          "protectionAction": "THROTTLE_REQUESTS"
+        }
+      },
+      {
+        "testId": "SEC-007-04",
+        "name": "Slowloris Attack Protection",
+        "description": "Verify protection against slow HTTP attacks",
+        "expectedResult": "CONNECTION_TIMEOUT",
+        "testData": {
+          "requestTimeout": "30_SECONDS",
+          "headerTimeout": "10_SECONDS",
+          "bodyTimeout": "60_SECONDS"
+        }
+      },
+      {
+        "testId": "SEC-007-05",
+        "name": "Distributed Attack Mitigation",
+        "description": "Verify protection against distributed attacks",
+        "expectedResult": "BLOCKED",
+        "testData": {
+          "ipBlockingEnabled": true,
+          "geoBlockingEnabled": true,
+          "behaviorAnalysis": true,
+          "automaticMitigation": true
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "SEC-008",
+    "category": "Data Privacy and Consent",
+    "title": "Privacy and Consent Compliance",
+    "description": "Test privacy protection and consent management compliance",
+    "testCases": [
+      {
+        "testId": "SEC-008-01",
+        "name": "Consent-Based Data Filtering",
+        "description": "Verify data is filtered based on patient consent preferences",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "patientId": "PAT-000001",
+          "consentCategories": ["DEMOGRAPHICS", "ALLERGIES", "MEDICATIONS"],
+          "excludedCategories": ["MENTAL_HEALTH", "SUBSTANCE_ABUSE"],
+          "filteringApplied": true
+        }
+      },
+      {
+        "testId": "SEC-008-02",
+        "name": "Expired Consent Handling",
+        "description": "Verify expired consent prevents data access",
+        "expectedResult": "FORBIDDEN",
+        "testData": {
+          "patientId": "PAT-000002",
+          "consentStatus": "EXPIRED",
+          "expirationDate": "2024-12-31T23:59:59Z",
+          "currentDate": "2025-01-15T10:00:00Z"
+        }
+      },
+      {
+        "testId": "SEC-008-03",
+        "name": "Revoked Consent Enforcement",
+        "description": "Verify revoked consent immediately blocks data access",
+        "expectedResult": "FORBIDDEN",
+        "testData": {
+          "patientId": "PAT-000003",
+          "consentStatus": "REVOKED",
+          "revocationDate": "2025-01-10T14:30:00Z",
+          "revocationReason": "PATIENT_REQUEST"
+        }
+      },
+      {
+        "testId": "SEC-008-04",
+        "name": "Minor Patient Consent",
+        "description": "Verify proper handling of minor patient consent requirements",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "patientId": "PAT-000004",
+          "patientAge": 16,
+          "guardianConsent": true,
+          "guardianId": "GUARDIAN-001",
+          "consentType": "PARENTAL_CONSENT"
+        }
+      },
+      {
+        "testId": "SEC-008-05",
+        "name": "Emergency Override Logging",
+        "description": "Verify emergency consent overrides are properly logged",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "emergencyType": "LIFE_THREATENING",
+          "overrideAuthorization": "PHYSICIAN_EMERGENCY_OVERRIDE",
+          "authorizingPhysician": "TEST-PHYSICIAN-001",
+          "justification": "Patient unconscious, immediate treatment required",
+          "auditRequired": true
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "SEC-009",
+    "category": "Session Management",
+    "title": "Session Security and Management",
+    "description": "Test session security, timeout, and management",
+    "testCases": [
+      {
+        "testId": "SEC-009-01",
+        "name": "Session Timeout Enforcement",
+        "description": "Verify sessions timeout after inactivity period",
+        "expectedResult": "SESSION_EXPIRED",
+        "testData": {
+          "sessionTimeout": "30_MINUTES",
+          "lastActivity": "2025-01-15T09:00:00Z",
+          "currentTime": "2025-01-15T09:35:00Z",
+          "inactivityPeriod": "35_MINUTES"
+        }
+      },
+      {
+        "testId": "SEC-009-02",
+        "name": "Concurrent Session Limiting",
+        "description": "Verify users cannot have excessive concurrent sessions",
+        "expectedResult": "MAX_SESSIONS_EXCEEDED",
+        "testData": {
+          "userId": "TEST-PHYSICIAN-001",
+          "maxConcurrentSessions": 3,
+          "currentSessions": 4,
+          "sessionManagement": "TERMINATE_OLDEST"
+        }
+      },
+      {
+        "testId": "SEC-009-03",
+        "name": "Session Fixation Prevention",
+        "description": "Verify session IDs are regenerated after authentication",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "sessionRegenerationOnAuth": true,
+          "sessionRegenerationOnPrivilegeChange": true,
+          "secureSessionCookies": true
+        }
+      },
+      {
+        "testId": "SEC-009-04",
+        "name": "Session Hijacking Protection",
+        "description": "Verify protection against session hijacking",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "ipAddressBinding": true,
+          "userAgentValidation": true,
+          "sessionTokenEntropy": "HIGH",
+          "httpOnlyCookies": true
+        }
+      },
+      {
+        "testId": "SEC-009-05",
+        "name": "Secure Logout",
+        "description": "Verify secure logout invalidates all session data",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "sessionInvalidation": "COMPLETE",
+          "tokenRevocation": true,
+          "cacheClearing": true,
+          "auditLogEntry": true
+        }
+      }
+    ]
+  },
+  {
+    "scenarioId": "SEC-010",
+    "category": "Error Handling and Information Disclosure",
+    "title": "Secure Error Handling",
+    "description": "Test secure error handling without information disclosure",
+    "testCases": [
+      {
+        "testId": "SEC-010-01",
+        "name": "Generic Error Messages",
+        "description": "Verify error messages don't reveal sensitive system information",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "errorTypes": [
+            "AUTHENTICATION_FAILURE",
+            "AUTHORIZATION_FAILURE",
+            "VALIDATION_ERROR",
+            "SYSTEM_ERROR"
+          ],
+          "prohibitedInformation": [
+            "stack_traces",
+            "database_schema",
+            "file_paths",
+            "internal_ip_addresses",
+            "system_versions"
+          ]
+        }
+      },
+      {
+        "testId": "SEC-010-02",
+        "name": "Error Response Consistency",
+        "description": "Verify error responses are consistent and don't leak timing information",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "responseTimeConsistency": true,
+          "errorFormatConsistency": true,
+          "timingAttackPrevention": true
+        }
+      },
+      {
+        "testId": "SEC-010-03",
+        "name": "Debug Information Filtering",
+        "description": "Verify debug information is not exposed in production",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "environment": "PRODUCTION",
+          "debugModeDisabled": true,
+          "verboseLoggingDisabled": true,
+          "stackTracesSuppressed": true
+        }
+      },
+      {
+        "testId": "SEC-010-04",
+        "name": "404 Error Handling",
+        "description": "Verify 404 errors don't reveal system structure",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "genericNotFoundMessage": true,
+          "noPathDisclosure": true,
+          "noDirectoryListing": true
+        }
+      },
+      {
+        "testId": "SEC-010-05",
+        "name": "Exception Handling Security",
+        "description": "Verify exceptions are handled securely without information leakage",
+        "expectedResult": "SUCCESS",
+        "testData": {
+          "exceptionSanitization": true,
+          "secureExceptionLogging": true,
+          "userFriendlyErrorMessages": true
+        }
+      }
+    ]
+  }
+]

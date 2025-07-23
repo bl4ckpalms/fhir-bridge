@@ -1,0 +1,7 @@
+MSH|^~\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20240720120000||ADT^A03^ADT_A03|MSG-000004|P|2.4|||||||
+EVN||20240720120000|||DR-025|20240720120000|
+PID|1||PAT-000004^^^MRN||Davis^Morgan^Lee||19901205|M|||7890 Elm St^^Riverside^NY^10001^USA||(555)456-7890|||M|CAUC|PAT-000004|456-78-9012||||||||||||
+NK1|1|Davis^Sarah^Ann|SPO|7890 Elm St^^Riverside^NY^10001^USA|(555)456-7891|EC|||||||||||||||||||||||||||||
+PV1|1|I|ICU^201^A||||DR-025^Doctor^Attending|||ICU|||E|||DR-025^Doctor^Attending|INP|||||||||||||||||||||20240719180000|20240720120000|
+PV2|||Emergency admission - chest pain||||||||||||||||||||||||||||
+DG1|1|I10|I21.9^Acute myocardial infarction, unspecified^ICD10||20240719180000|||W|

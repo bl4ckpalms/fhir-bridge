@@ -1,0 +1,8 @@
+MSH|^~\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20240720160000||ADT^A08^ADT_A08|MSG-000006|P|2.4|||||||
+EVN||20240720160000|||DR-035|20240720160000|
+PID|1||PAT-000006^^^MRN||Brown^Casey^Jordan||19750822|M|||1357 Pine St^^Springfield^TX^75201^USA||(555)678-9012|||M|AA|PAT-000006|678-90-1234||||||||||||
+NK1|1|Brown^Jamie^Lee|SPO|1357 Pine St^^Springfield^TX^75201^USA|(555)678-9013|EC|||||||||||||||||||||||||||||
+PV1|1|I|MED^305^B||||DR-035^Doctor^Attending|||MED|||E|||DR-035^Doctor^Attending|INP|||||||||||||||||||||20240720100000|
+PV2|||Patient information update||||||||||||||||||||||||||||
+AL1|1||DRUG^Penicillin^HL70127|MO|Rash and hives|
+AL1|2||FOOD^Shellfish^HL70127|SV|Anaphylaxis|

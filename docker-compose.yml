@@ -1,0 +1,112 @@
+# =============================================================================
+# Docker Compose Configuration for FHIR Bridge Development
+# =============================================================================
+
+version: '3.8'
+
+services:
+  # FHIR Bridge Application
+  fhir-bridge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fhir-bridge:latest
+    container_name: fhir-bridge-app
+    ports:
+      - "8080:8080"  # Application port
+      - "8081:8081"  # Management/Actuator port
+    environment:
+      # Spring profiles
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+      
+      # Database configuration
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: fhir_bridge
+      DB_USERNAME: ${DB_USERNAME:-fhir_user}
+      DB_PASSWORD: ${DB_PASSWORD:-fhir_password}
+      
+      # Redis configuration
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+      
+      # JWT configuration
+      JWT_ISSUER_URI: ${JWT_ISSUER_URI:-http://localhost:8080/auth}
+      
+      # JVM options
+      JAVA_OPTS: >-
+        -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=75.0
+        -XX:+UseG1GC
+        -XX:+UseStringDeduplication
+        -Djava.security.egd=file:/dev/./urandom
+        -Djava.awt.headless=true
+        -Dfile.encoding=UTF-8
+        -Duser.timezone=UTC
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - fhir-bridge-network
+    volumes:
+      - ./logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health/readiness"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+    restart: unless-stopped
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: fhir-bridge-db
+    environment:
+      POSTGRES_DB: fhir_bridge
+      POSTGRES_USER: fhir_user
+      POSTGRES_PASSWORD: fhir_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/db/init:/docker-entrypoint-initdb.d
+    networks:
+      - fhir-bridge-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fhir_user -d fhir_bridge"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: fhir-bridge-cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - fhir-bridge-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    command: redis-server --appendonly yes
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  fhir-bridge-network:
+    driver: bridge
+    name: fhir-bridge-network

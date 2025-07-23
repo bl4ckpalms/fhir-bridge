@@ -1,0 +1,6 @@
+MSH|^~\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20240720200000||MDM^T04^MDM_T02|MSG-000010|P|2.4|||||||
+EVN||20240720200000|||DR-055|20240720200000|
+PID|1||PAT-000010^^^MRN||Anderson^Jordan^Taylor||19701008|M|||4321 Spruce St^^Westfield^TX^75201^USA||(555)012-3456|||M|AA|PAT-000010|012-34-5678||||||||||||
+PV1|1|O|CLINIC-C^3^MAIN||||DR-055^Doctor^Primary|||FAM|||R|||DR-055^Doctor^Primary|OUT|||||||||||||||||||||20240720140000|20240720160000|
+TXA|1|DS|TEXT|20240720200000|DR-055^Doctor^Primary|20240720200000|20240720200000|||||DOC-000002||||||AV||||||F|
+OBX|1|TX|18842-5^Discharge Summary^LN|1|DISCHARGE SUMMARY: Patient admitted for acute exacerbation of COPD. Treated with bronchodilators and corticosteroids. Condition improved significantly. Discharged home with home oxygen therapy and follow-up appointment scheduled.||||F|||20240720200000|DR-055|
