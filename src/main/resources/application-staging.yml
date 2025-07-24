@@ -1,0 +1,184 @@
+# =============================================================================
+# Staging Profile Configuration for FHIR Bridge
+# =============================================================================
+
+spring:
+  # Staging database configuration
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:staging-db.fhirbridge.com}:${DB_PORT:5432}/${DB_NAME:fhir_bridge_staging}
+    username: ${DB_USERNAME:fhir_staging_user}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: ${DB_MAX_POOL_SIZE:30}
+      minimum-idle: ${DB_MIN_IDLE:5}
+      connection-timeout: ${DB_CONNECTION_TIMEOUT:25000}
+      idle-timeout: ${DB_IDLE_TIMEOUT:500000}
+      max-lifetime: ${DB_MAX_LIFETIME:1500000}
+      leak-detection-threshold: ${DB_LEAK_DETECTION:45000}
+      pool-name: FhirBridgeStagingPool
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+        generate_statistics: true
+        jdbc:
+          batch_size: 25
+          fetch_size: 100
+        order_inserts: true
+        order_updates: true
+        batch_versioned_data: true
+
+  # Staging Redis configuration
+  data:
+    redis:
+      host: ${REDIS_HOST:staging-redis.fhirbridge.com}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD}
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: ${REDIS_MAX_ACTIVE:15}
+          max-idle: ${REDIS_MAX_IDLE:8}
+          min-idle: ${REDIS_MIN_IDLE:2}
+          max-wait: ${REDIS_MAX_WAIT:3000ms}
+
+  # Staging security configuration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${JWT_ISSUER_URI:https://auth-staging.fhirbridge.com}
+          jwk-set-uri: ${JWT_JWK_SET_URI:https://auth-staging.fhirbridge.com/.well-known/jwks.json}
+          audiences: ${JWT_AUDIENCES:fhir-bridge-staging-api}
+
+# Management endpoints - more open in staging
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,loggers
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    loggers:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
+      environment: staging
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
+
+# Logging configuration for staging
+logging:
+  level:
+    com.bridge: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.data.redis: DEBUG
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/fhir-bridge-staging.log
+    max-size: 50MB
+    max-history: 7
+    total-size-cap: 500MB
+
+# Application-specific configuration for staging
+fhir-bridge:
+  transformation:
+    timeout: 45s
+    validation:
+      strict: true
+      profiles:
+        - "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+        - "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+        - "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"
+    cache:
+      enabled: true
+      ttl: 30m
+      max-size: 5000
+  consent:
+    cache-ttl: 120s
+    default-policy: DENY
+    categories:
+      - "medical-records"
+      - "lab-results"
+      - "imaging"
+      - "demographics"
+  audit:
+    enabled: true
+    level: DEBUG
+    retention-days: 90
+    anonymize: false  # Don't anonymize in staging for debugging
+  fhir:
+    server:
+      enabled: true
+      base-url: ${FHIR_SERVER_BASE_URL:https://hapi-staging.fhir.org/baseR4}
+      timeout: 30s
+      max-connections: 50
+      retry-attempts: 3
+    validation:
+      enabled: true
+      fail-on-warning: false
+    profiles:
+      us-core: "http://hl7.org/fhir/us/core/"
+      carin-bb: "http://hl7.org/fhir/us/carin-bb/"
+  security:
+    cors:
+      enabled: true
+      allowed-origins: 
+        - "https://staging-app.fhirbridge.com"
+        - "https://staging-admin.fhirbridge.com"
+        - "http://localhost:3000"
+    rate-limiting:
+      enabled: true
+      requests-per-minute: ${RATE_LIMIT_RPM:2000}
+      burst-capacity: ${RATE_LIMIT_BURST:200}
+  monitoring:
+    health-checks:
+      enabled: true
+      interval: 15s
+    metrics:
+      enabled: true
+      export-prometheus: true
+
+# Server configuration for staging
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    include-stacktrace: on-param
+    include-message: always
+    include-binding-errors: always
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+    min-response-size: 1024
+
+# Staging-specific features
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  threads:
+    virtual:
+      enabled: ${VIRTUAL_THREADS_ENABLED:true}

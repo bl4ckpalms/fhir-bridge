@@ -294,9 +294,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "backups" {
       storage_class = "DEEP_ARCHIVE"
     }
 
-    # Keep database backups for 7 years (2555 days) for compliance
+    # Keep database backups for 7 years (2557 days) for compliance
     expiration {
-      days = 2555
+      days = 2557
     }
 
     # Delete non-current versions after 90 days

@@ -4,6 +4,8 @@ import com.bridge.FhirBridgeApplication;
 import com.bridge.entity.AuditEventEntity;
 import com.bridge.entity.ConsentEntity;
 import com.bridge.model.ConsentStatus;
+import com.bridge.model.ConsentVerificationResult;
+import com.bridge.model.DataCategory;
 import com.bridge.repository.AuditEventRepository;
 import com.bridge.repository.ConsentRepository;
 import com.bridge.service.AuditService;
@@ -22,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -64,7 +67,7 @@ class HipaaComplianceValidationTest {
         // Load HIPAA compliance test scenarios
         String scenariosJson = new String(getClass().getClassLoader()
             .getResourceAsStream("test-data/hipaa-compliance-test-scenarios.json")
-            .readAllBytes());
+            .readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
         hipaaTestScenarios = objectMapper.readTree(scenariosJson);
     }
 
@@ -289,13 +292,13 @@ class HipaaComplianceValidationTest {
         limitedConsent.setStatus(ConsentStatus.ACTIVE);
         limitedConsent.setEffectiveDate(LocalDateTime.now().minusDays(30));
         limitedConsent.setExpirationDate(LocalDateTime.now().plusDays(365));
-        limitedConsent.setConsentCategories("DEMOGRAPHICS,ALLERGIES"); // Limited categories
+        limitedConsent.setAllowedCategories(List.of(DataCategory.DEMOGRAPHICS, DataCategory.ALLERGIES));
         consentRepository.save(limitedConsent);
 
         // Verify minimum necessary standard is applied
-        boolean consentValid = consentVerificationService.verifyConsent(
+        ConsentVerificationResult result = consentVerificationService.verifyConsent(
             "PAT-MIN-NECESSARY-001", "TEST-ORG-001");
-        assertTrue(consentValid, "Limited consent should be valid");
+        assertTrue(result.isValid(), "Limited consent should be valid");
 
         // In a real implementation, this would verify:
         // - Only minimum necessary PHI is accessed
@@ -316,9 +319,9 @@ class HipaaComplianceValidationTest {
         LocalDateTime reviewStartTime = LocalDateTime.now().minusDays(1);
         
         // Generate some audit events for testing
-        auditService.logAuthentication("TEST-USER-001", "LOGIN_SUCCESS", "SUCCESS", null);
-        auditService.logAuthentication("TEST-USER-002", "LOGIN_FAILURE", "FAILURE", "Invalid credentials");
-        auditService.logDataAccess("TEST-USER-001", "Patient", "PAT-000001", "READ", "SUCCESS", null);
+        auditService.logAuthentication("TEST-USER-001", "LOGIN_SUCCESS", "SUCCESS", "127.0.0.1", null);
+        auditService.logAuthentication("TEST-USER-002", "LOGIN_FAILURE", "FAILURE", "127.0.0.1", Map.of("reason", "Invalid credentials"));
+        auditService.logAuthorization("TEST-USER-001", "Patient", "READ", "SUCCESS", Map.of("resourceId", "PAT-000001"));
 
         // Retrieve audit events for review
         List<AuditEventEntity> auditEvents = auditEventRepository.findRecentEvents(reviewStartTime);

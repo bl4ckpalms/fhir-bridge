@@ -1,0 +1,240 @@
+{
+  "tefcaTestScenarios": [
+    {
+      "scenarioId": "TEFCA-001",
+      "description": "US Core Patient Profile Validation",
+      "messageType": "ADT_A01",
+      "patient": {
+        "patientId": "PAT-000001",
+        "firstName": "Alex",
+        "lastName": "Smith",
+        "middleName": "Jordan",
+        "dateOfBirth": "1985-03-15",
+        "gender": "M",
+        "race": "2106-3", 
+        "ethnicity": "2186-5",
+        "address": {
+          "line": "1234 Main St",
+          "city": "Springfield",
+          "state": "CA",
+          "postalCode": "90210",
+          "country": "US"
+        },
+        "phone": "(555)123-4567",
+        "email": "alex.smith@email.example"
+      },
+      "expectedProfiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+      ],
+      "requiredFields": [
+        "Patient.identifier",
+        "Patient.name.family",
+        "Patient.name.given",
+        "Patient.gender",
+        "Patient.birthDate",
+        "Patient.address.line",
+        "Patient.address.city",
+        "Patient.address.state",
+        "Patient.address.postalCode"
+      ]
+    },
+    {
+      "scenarioId": "TEFCA-002",
+      "description": "US Core Observation Lab Profile Validation",
+      "messageType": "ORU_R01",
+      "patient": {
+        "patientId": "PAT-000003",
+        "firstName": "Casey",
+        "lastName": "Williams",
+        "dateOfBirth": "1978-11-08",
+        "gender": "F"
+      },
+      "observations": [
+        {
+          "loincCode": "33747-0",
+          "display": "Hemoglobin",
+          "value": 11.8,
+          "unit": "g/dL",
+          "referenceRange": "12.0-15.5"
+        },
+        {
+          "loincCode": "6690-2",
+          "display": "White Blood Cell Count",
+          "value": 12500,
+          "unit": "/uL",
+          "referenceRange": "4500-11000"
+        }
+      ],
+      "expectedProfiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"
+      ]
+    },
+    {
+      "scenarioId": "TEFCA-003",
+      "description": "US Core DocumentReference Profile Validation",
+      "messageType": "MDM_T02",
+      "patient": {
+        "patientId": "PAT-000009",
+        "firstName": "Casey",
+        "lastName": "Thompson",
+        "dateOfBirth": "1980-11-27",
+        "gender": "F"
+      },
+      "document": {
+        "type": "11506-3",
+        "display": "Progress Note",
+        "content": "Patient continues to improve. Vital signs stable. Pain well controlled with current medication regimen. Plan to discharge tomorrow if no complications arise.",
+        "author": "DR-050",
+        "date": "2024-07-20T19:00:00Z"
+      },
+      "expectedProfiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+      ]
+    },
+    {
+      "scenarioId": "TEFCA-004",
+      "description": "Multi-Ethnicity Patient Validation",
+      "messageType": "ADT_A01",
+      "patient": {
+        "patientId": "PAT-000008",
+        "firstName": "Sage",
+        "lastName": "Wilson",
+        "middleName": "River",
+        "dateOfBirth": "1988-06-18",
+        "gender": "F",
+        "race": "2076-8",
+        "ethnicity": "2135-2",
+        "address": {
+          "line": "9753 Willow Dr",
+          "city": "Denver",
+          "state": "CO",
+          "postalCode": "80201",
+          "country": "US"
+        },
+        "phone": "(555)890-1234",
+        "email": "sage.wilson@email.example"
+      },
+      "expectedProfiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+      ]
+    },
+    {
+      "scenarioId": "TEFCA-005",
+      "description": "Pediatric Patient Validation",
+      "messageType": "ADT_A01",
+      "patient": {
+        "patientId": "PAT-000005",
+        "firstName": "Avery",
+        "lastName": "Jones",
+        "middleName": "Quinn",
+        "dateOfBirth": "2001-12-14",
+        "gender": "O",
+        "race": "2131-1",
+        "ethnicity": "UNK",
+        "address": {
+          "line": "7890 Maple Ln",
+          "city": "Washington",
+          "state": "PA",
+          "postalCode": "19101",
+          "country": "US"
+        },
+        "phone": "(555)567-8901",
+        "email": "avery.jones@email.example"
+      },
+      "expectedProfiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+      ]
+    },
+    {
+      "scenarioId": "TEFCA-006",
+      "description": "Geriatric Patient with Complex Conditions",
+      "messageType": "ORU_R01",
+      "patient": {
+        "patientId": "PAT-000004",
+        "firstName": "Riley",
+        "lastName": "Brown",
+        "dateOfBirth": "1965-05-30",
+        "gender": "M",
+        "race": "2028-9",
+        "ethnicity": "2186-5"
+      },
+      "observations": [
+        {
+          "loincCode": "2093-3",
+          "display": "Cholesterol",
+          "value": 220,
+          "unit": "mg/dL",
+          "referenceRange": "<200"
+        },
+        {
+          "loincCode": "2571-8",
+          "display": "Triglyceride",
+          "value": 180,
+          "unit": "mg/dL",
+          "referenceRange": "<150"
+        },
+        {
+          "loincCode": "8480-6",
+          "display": "Systolic Blood Pressure",
+          "value": 145,
+          "unit": "mmHg",
+          "referenceRange": "<120"
+        }
+      ],
+      "expectedProfiles": [
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"
+      ]
+    }
+  ],
+  "securityScenarios": [
+    {
+      "scenarioId": "SEC-001",
+      "description": "HIPAA Minimum Necessary Test",
+      "testType": "privacy",
+      "expectedHeaders": [
+        "X-HIPAA-Compliant: true",
+        "X-Minimum-Necessary: enforced"
+      ]
+    },
+    {
+      "scenarioId": "SEC-002",
+      "description": "Audit Logging Test",
+      "testType": "audit",
+      "expectedEvents": [
+        "Patient.read",
+        "Observation.create",
+        "DocumentReference.update"
+      ]
+    },
+    {
+      "scenarioId": "SEC-003",
+      "description": "Data Encryption Test",
+      "testType": "encryption",
+      "requirements": [
+        "TLS 1.3 in transit",
+        "AES-256 at rest",
+        "JWT token validation"
+      ]
+    }
+  ],
+  "performanceScenarios": [
+    {
+      "scenarioId": "PERF-001",
+      "description": "Single Message Processing",
+      "messageCount": 1,
+      "expectedResponseTime": "<500ms"
+    },
+    {
+      "scenarioId": "PERF-002",
+      "description": "Batch Processing - 100 Messages",
+      "messageCount": 100,
+      "expectedResponseTime": "<30s"
+    },
+    {
+      "scenarioId": "PERF-003",
+      "description": "Load Testing - 1000 Messages",
+      "messageCount": 1000,
+      "expectedResponseTime": "<5min"
+    }
+  ]
+}

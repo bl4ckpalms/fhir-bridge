@@ -1,0 +1,40 @@
+FROM postgres:15-alpine
+
+# Install required packages
+RUN apk add --no-cache \
+    aws-cli \
+    gnupg \
+    curl \
+    bash \
+    jq \
+    tzdata
+
+# Set timezone
+ENV TZ=UTC
+
+# Create backup user and directories
+RUN addgroup -g 1001 backup && \
+    adduser -D -s /bin/bash -u 1001 -G backup backup
+
+# Create backup directories
+RUN mkdir -p /opt/backups/postgresql /opt/scripts /var/log/fhir-bridge && \
+    chown -R backup:backup /opt/backups /opt/scripts /var/log/fhir-bridge
+
+# Copy backup and restore scripts
+COPY backup-database.sh /opt/scripts/
+COPY restore-database.sh /opt/scripts/
+RUN chmod +x /opt/scripts/*.sh && \
+    chown backup:backup /opt/scripts/*.sh
+
+# Create cron job for automated backups
+RUN echo "0 2 * * * /opt/scripts/backup-database.sh production >> /var/log/fhir-bridge/backup-cron.log 2>&1" > /var/spool/cron/crontabs/backup
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD pg_isready -h localhost -p 5432 || exit 1
+
+# Switch to backup user
+USER backup
+
+# Default command
+CMD ["crond", "-f", "-l", "2"]

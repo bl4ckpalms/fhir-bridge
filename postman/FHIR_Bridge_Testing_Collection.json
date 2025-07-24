@@ -1,0 +1,429 @@
+{
+  "info": {
+    "name": "FHIR Bridge API Testing Collection",
+    "description": "Comprehensive testing collection for HL7 v2 to FHIR R4 transformation with TEFCA compliance validation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "patient_id",
+      "value": "PAT-000001",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Get JWT Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"test.user@healthsystem.com\",\n  \"password\": \"TestPass123!\",\n  \"organization\": \"TEST_HEALTH_SYSTEM\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has JWT token\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.environment.set('jwt_token', jsonData.token);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Health Checks",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/actuator/health",
+              "host": ["{{base_url}}"],
+              "path": ["actuator", "health"]
+            }
+          }
+        },
+        {
+          "name": "FHIR Capability Statement",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fhir/metadata",
+              "host": ["{{base_url}}"],
+              "path": ["fhir", "metadata"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "HL7 to FHIR Transformation",
+      "item": [
+        {
+          "name": "Transform ADT_A01 - Patient Admission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/hl7-v2"
+              },
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "MSH|^~\\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20240720083000||ADT^A01^ADT_A01|MSG-000001|P|2.4||||||||\nEVN||20240720083000|||DR-015|20240720083000|\nPID|1||PAT-000001^^^MRN||Smith^Alex^Jordan||19850315|M|||1234 Main St^^Springfield^CA^90210^USA||(555)123-4567|||M|NON|PAT-000001|123-45-6789||||||||||||\nNK1|1|Smith^Jane^Marie|SPO|5678 Main St^^Springfield^CA^90210^USA|(555)123-4568|EC|||||||||||||||||||||||||||||\nPV1|1|O|201^A^MAIN||||DR-015^Doctor^Attending|||MED|||R|||DR-015^Doctor^Attending|OUT|||||||||||||||||||||20240720080000|20240720163000|\nPV2|||Routine outpatient visit||||||||||||||||||||||||||||\nOBX|1|NM|33747-0^Hemoglobin^LN|1|14.2|g/dL|12.0-15.5||||F|||20240720093000|LAB-1|\nOBX|2|NM|6690-2^White Blood Cell Count^LN|2|7500|/uL|4500-11000||||F|||20240720093000|LAB-1|"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/transform/hl7v2-to-fhir",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "transform", "hl7v2-to-fhir"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is valid FHIR Bundle\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.resourceType).to.eql('Bundle');",
+                  "    pm.expect(jsonData.type).to.eql('transaction');",
+                  "});",
+                  "",
+                  "pm.test(\"Contains Patient resource\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const patientEntry = jsonData.entry.find(e => e.resource.resourceType === 'Patient');",
+                  "    pm.expect(patientEntry).to.exist;",
+                  "    pm.expect(patientEntry.resource.id).to.exist;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Transform ORU_R01 - Lab Results",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/hl7-v2"
+              },
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "MSH|^~\\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20240720162000||ORU^R01^ORU_R01|MSG-000003|P|2.4||||||||\nPID|1||PAT-000003^^^MRN||Williams^Casey^Morgan||19781108|F|||9012 Pine Rd^^Georgetown^FL^33101^USA||(555)345-6789|||D|AA|PAT-000003|345-67-8901||||||||||||\nPV1|1|I|305^B^MAIN||||DR-022^Doctor^Attending|||ICU|||E|||DR-022^Doctor^Attending|INP|||||||||||||||||||||20240718221500|\nOBR|1|PLC-000001|FIL-000001|CBC^Complete Blood Count^L|||20240720093000|||||||||DR-015^Doctor^Ordering||||||||F||^^^^^F|\nOBX|1|NM|33747-0^Hemoglobin^LN|1|11.8|g/dL|12.0-15.5|L|||F|||20240720132000|LAB-2|\nOBX|2|NM|6690-2^White Blood Cell Count^LN|2|12500|/uL|4500-11000|H|||F|||20240720132000|LAB-2|\nOBX|3|NM|777-3^Platelet Count^LN|3|285000|/uL|150000-450000||||F|||20240720132000|LAB-2|"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/transform/hl7v2-to-fhir",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "transform", "hl7v2-to-fhir"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains Observation resources\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const observations = jsonData.entry.filter(e => e.resource.resourceType === 'Observation');",
+                  "    pm.expect(observations.length).to.be.greaterThan(0);",
+                  "});",
+                  "",
+                  "pm.test(\"Observations have valid LOINC codes\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const observations = jsonData.entry.filter(e => e.resource.resourceType === 'Observation');",
+                  "    observations.forEach(obs => {",
+                  "        pm.expect(obs.resource.code.coding[0].system).to.eql('http://loinc.org');",
+                  "        pm.expect(obs.resource.code.coding[0].code).to.exist;",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Transform MDM_T02 - Document Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/hl7-v2"
+              },
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "MSH|^~\\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20240720190000||MDM^T02^MDM_T02|MSG-000009|P|2.4||||||||\nEVN||20240720190000|||DR-050|20240720190000|\nPID|1||PAT-000009^^^MRN||Thompson^Casey^Lee||19801127|F|||8765 Birch Ln^^Riverside^NY^10001^USA||(555)901-2345|||D|CAUC|PAT-000009|901-23-4567||||||||||||\nPV1|1|I|MED^302^A||||DR-050^Doctor^Attending|||MED|||E|||DR-050^Doctor^Attending|INP|||||||||||||||||||||20240719200000|\nTXA|1|OP|TEXT|20240720190000|DR-050^Doctor^Attending|20240720190000|20240720190000|||||DOC-000001||||||AV||||||F|\nOBX|1|TX|11506-3^Progress Note^LN|1|Patient continues to improve. Vital signs stable. Pain well controlled with current medication regimen. Plan to discharge tomorrow if no complications arise.||||F|||20240720190000|DR-050|"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/transform/hl7v2-to-fhir",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "transform", "hl7v2-to-fhir"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains DocumentReference\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const docRef = jsonData.entry.find(e => e.resource.resourceType === 'DocumentReference');",
+                  "    pm.expect(docRef).to.exist;",
+                  "    pm.expect(docRef.resource.type.coding[0].code).to.eql('11506-3');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "FHIR Resource Management",
+      "item": [
+        {
+          "name": "Get Patient by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fhir/Patient/{{patient_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["fhir", "Patient", "{{patient_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Search Patients",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fhir/Patient?name=Smith&birthdate=ge1985-01-01",
+              "host": ["{{base_url}}"],
+              "path": ["fhir", "Patient"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Smith"
+                },
+                {
+                  "key": "birthdate",
+                  "value": "ge1985-01-01"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Observations for Patient",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fhir/Observation?patient={{patient_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["fhir", "Observation"],
+              "query": [
+                {
+                  "key": "patient",
+                  "value": "{{patient_id}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "TEFCA Compliance Testing",
+      "item": [
+        {
+          "name": "Validate TEFCA Format",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/hl7-v2"
+              },
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              },
+              {
+                "key": "X-TEFCA-Validation",
+                "value": "true"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "MSH|^~\\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20240720083000||ADT^A01^ADT_A01|MSG-000001|P|2.4||||||||\nEVN||20240720083000|||DR-015|20240720083000|\nPID|1||PAT-000001^^^MRN||Smith^Alex^Jordan||19850315|M|||1234 Main St^^Springfield^CA^90210^USA||(555)123-4567|||M|NON|PAT-000001|123-45-6789||||||||||||"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/transform/hl7v2-to-fhir",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "transform", "hl7v2-to-fhir"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"TEFCA compliance headers present\", function () {",
+                  "    pm.expect(pm.response.headers.get('X-TEFCA-Compliant')).to.eql('true');",
+                  "    pm.expect(pm.response.headers.get('X-TEFCA-Version')).to.exist;",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains US Core profiles\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const patient = jsonData.entry.find(e => e.resource.resourceType === 'Patient');",
+                  "    pm.expect(patient.resource.meta.profile).to.include('http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Performance Testing",
+      "item": [
+        {
+          "name": "Load Test - 100 Messages",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/hl7-v2"
+              },
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "MSH|^~\\&|SENDING_APP|SENDING_FACILITY|RECEIVING_APP|RECEIVING_FACILITY|20240720083000||ADT^A01^ADT_A01|MSG-{{$randomInt}}|P|2.4||||||||\nEVN||20240720083000|||DR-015|20240720083000|\nPID|1||PAT-{{$randomInt}}^^^MRN||Test^Patient^Load||19850315|M|||1234 Test St^^Test^CA^90210^USA||(555)123-4567|||M|NON|PAT-{{$randomInt}}|123-45-6789||||||||||||"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/transform/hl7v2-to-fhir",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "transform", "hl7v2-to-fhir"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

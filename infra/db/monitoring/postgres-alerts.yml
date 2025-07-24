@@ -1,0 +1,212 @@
+# =============================================================================
+# PostgreSQL Alerting Rules for Prometheus
+# =============================================================================
+# These rules provide comprehensive monitoring and alerting for PostgreSQL
+# in the FHIR Bridge production environment
+# =============================================================================
+
+groups:
+  - name: postgresql.rules
+    rules:
+      # Database availability
+      - alert: PostgreSQLDown
+        expr: pg_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: postgresql
+          component: database
+        annotations:
+          summary: "PostgreSQL database is down"
+          description: "PostgreSQL database on {{ $labels.instance }} is down for more than 1 minute"
+
+      # Connection issues
+      - alert: PostgreSQLTooManyConnections
+        expr: pg_stat_database_numbackends / pg_settings_max_connections > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          service: postgresql
+          component: connections
+        annotations:
+          summary: "PostgreSQL has too many connections"
+          description: "PostgreSQL on {{ $labels.instance }} has {{ $value | humanizePercentage }} of connections in use"
+
+      # Storage issues
+      - alert: PostgreSQLDiskSpaceUsage
+        expr: (pg_database_size_bytes / (pg_database_size_bytes + pg_stat_bgwriter_buffers_alloc_bytes)) > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          service: postgresql
+          component: storage
+        annotations:
+          summary: "PostgreSQL disk space usage is high"
+          description: "PostgreSQL database on {{ $labels.instance }} is using {{ $value | humanizePercentage }} of available disk space"
+
+      # Replication lag (if applicable)
+      - alert: PostgreSQLReplicationLag
+        expr: pg_stat_replication_lag > 30
+        for: 5m
+        labels:
+          severity: warning
+          service: postgresql
+          component: replication
+        annotations:
+          summary: "PostgreSQL replication lag is high"
+          description: "PostgreSQL replication lag on {{ $labels.instance }} is {{ $value }} seconds"
+
+      # Lock issues
+      - alert: PostgreSQLTooManyLocks
+        expr: pg_locks_count > 100
+        for: 5m
+        labels:
+          severity: warning
+          service: postgresql
+          component: locks
+        annotations:
+          summary: "PostgreSQL has too many locks"
+          description: "PostgreSQL on {{ $labels.instance }} has {{ $value }} active locks"
+
+      # Long running queries
+      - alert: PostgreSQLLongRunningQueries
+        expr: fhir_bridge_long_running_queries > 300
+        for: 5m
+        labels:
+          severity: warning
+          service: postgresql
+          component: queries
+        annotations:
+          summary: "PostgreSQL has long running queries"
+          description: "PostgreSQL on {{ $labels.instance }} has queries running for more than 5 minutes"
+
+      # Transaction ID exhaustion
+      - alert: PostgreSQLHighXIDConsumption
+        expr: (pg_database_xid_age / 1000000000) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          service: postgresql
+          component: transactions
+        annotations:
+          summary: "PostgreSQL transaction ID consumption is high"
+          description: "PostgreSQL on {{ $labels.instance }} has consumed {{ $value | humanizePercentage }} of transaction IDs"
+
+      # Cache hit ratio
+      - alert: PostgreSQLLowCacheHitRatio
+        expr: (pg_stat_database_blks_hit / (pg_stat_database_blks_hit + pg_stat_database_blks_read)) < 0.95
+        for: 5m
+        labels:
+          severity: warning
+          service: postgresql
+          component: cache
+        annotations:
+          summary: "PostgreSQL cache hit ratio is low"
+          description: "PostgreSQL on {{ $labels.instance }} has a cache hit ratio of {{ $value | humanizePercentage }}"
+
+      # FHIR Bridge specific alerts
+      - alert: FHIRBridgeAuditEventsHigh
+        expr: rate(fhir_bridge_audit_events_count[5m]) > 1000
+        for: 5m
+        labels:
+          severity: warning
+          service: fhir-bridge
+          component: audit
+        annotations:
+          summary: "High audit event rate"
+          description: "FHIR Bridge is generating {{ $value | humanize }} audit events per second"
+
+      - alert: FHIRBridgeConsentExpiringSoon
+        expr: fhir_bridge_consent_expiring_soon > 0
+        for: 1h
+        labels:
+          severity: info
+          service: fhir-bridge
+          component: consent
+        annotations:
+          summary: "Consents expiring soon"
+          description: "{{ $value }} consents are expiring within the next 30 days"
+
+      - alert: FHIRBridgeConsentRecordsHigh
+        expr: fhir_bridge_consent_records_count > 1000000
+        for: 5m
+        labels:
+          severity: info
+          service: fhir-bridge
+          component: consent
+        annotations:
+          summary: "High consent record count"
+          description: "FHIR Bridge has {{ $value }} consent records"
+
+      # Database size alerts
+      - alert: PostgreSQLDatabaseSize
+        expr: pg_database_size_bytes > 10737418240  # 10GB
+        for: 5m
+        labels:
+          severity: warning
+          service: postgresql
+          component: storage
+        annotations:
+          summary: "PostgreSQL database size is large"
+          description: "PostgreSQL database on {{ $labels.instance }} is {{ $value | humanizeBytes }} in size"
+
+      # Deadlock detection
+      - alert: PostgreSQLDeadlocks
+        expr: rate(pg_stat_database_deadlocks[5m]) > 0
+        for: 1m
+        labels:
+          severity: warning
+          service: postgresql
+          component: locks
+        annotations:
+          summary: "PostgreSQL deadlocks detected"
+          description: "PostgreSQL on {{ $labels.instance }} has detected deadlocks"
+
+      # Checkpoint frequency
+      - alert: PostgreSQLCheckpointFrequency
+        expr: rate(pg_stat_bgwriter_checkpoints_req[5m]) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          service: postgresql
+          component: checkpoints
+        annotations:
+          summary: "PostgreSQL checkpoint frequency is high"
+          description: "PostgreSQL on {{ $labels.instance }} is performing {{ $value | humanize }} checkpoints per second"
+
+      # Bloat estimation
+      - alert: PostgreSQLTableBloat
+        expr: fhir_bridge_table_bloat_ratio > 0.2
+        for: 1h
+        labels:
+          severity: info
+          service: postgresql
+          component: bloat
+        annotations:
+          summary: "PostgreSQL table bloat detected"
+          description: "PostgreSQL table {{ $labels.table }} on {{ $labels.instance }} has {{ $value | humanizePercentage }} bloat"
+
+  - name: backup.rules
+    rules:
+      # Backup alerts
+      - alert: PostgreSQLBackupFailed
+        expr: time() - postgresql_backup_last_success_timestamp > 86400  # 24 hours
+        for: 1h
+        labels:
+          severity: critical
+          service: postgresql
+          component: backup
+        annotations:
+          summary: "PostgreSQL backup failed"
+          description: "PostgreSQL backup has not completed successfully in the last 24 hours"
+
+      - alert: PostgreSQLBackupOld
+        expr: time() - postgresql_backup_last_success_timestamp > 172800  # 48 hours
+        for: 1h
+        labels:
+          severity: warning
+          service: postgresql
+          component: backup
+        annotations:
+          summary: "PostgreSQL backup is old"
+          description: "PostgreSQL backup is older than 48 hours"

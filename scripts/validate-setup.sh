@@ -23,7 +23,7 @@ print_success() {
 
 print_warning() {
     echo -e "${YELLOW}[WARNING]${NC} $1"
-}
+}feat: Complete FHIR Bridge Implementation with Consent Management, Docker, and Infrastructure
 
 print_error() {
     echo -e "${RED}[ERROR]${NC} $1"

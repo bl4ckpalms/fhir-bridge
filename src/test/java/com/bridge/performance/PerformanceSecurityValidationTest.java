@@ -20,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -163,9 +165,10 @@ class PerformanceSecurityValidationTest {
                 try {
                     for (int j = 0; j < 10; j++) {
                         auditService.logAuthentication(
-                            "TEST-USER-" + taskId + "-" + j, 
-                            "LOGIN_SUCCESS", 
-                            "SUCCESS", 
+                            "TEST-USER-" + taskId + "-" + j,
+                            "LOGIN_SUCCESS",
+                            "SUCCESS",
+                            "127.0.0.1",
                             null
                         );
                     }
@@ -246,13 +249,14 @@ class PerformanceSecurityValidationTest {
                 dbTasks[i] = CompletableFuture.runAsync(() -> {
                     try {
                         // Simulate database operations through audit service
-                        auditService.logDataAccess(
-                            "STRESS-TEST-USER", 
-                            "Patient", 
-                            "STRESS-TEST-PATIENT", 
-                            "READ", 
-                            "SUCCESS", 
-                            null
+                        Map<String, Object> details = new HashMap<>();
+                        details.put("patientId", "STRESS-TEST-PATIENT");
+                        auditService.logAuthorization(
+                            "STRESS-TEST-USER",
+                            "Patient",
+                            "READ",
+                            "SUCCESS",
+                            details
                         );
                         dbSuccessCount.incrementAndGet();
                     } catch (Exception e) {
@@ -437,13 +441,14 @@ class PerformanceSecurityValidationTest {
         
         // Generate multiple audit events to simulate data growth
         for (int i = 0; i < 100; i++) {
-            auditService.logDataAccess(
-                "SCALING-TEST-USER-" + i, 
-                "Patient", 
-                "SCALING-TEST-PATIENT-" + i, 
-                "READ", 
-                "SUCCESS", 
-                null
+            Map<String, Object> details = new HashMap<>();
+            details.put("patientId", "SCALING-TEST-PATIENT-" + i);
+            auditService.logAuthorization(
+                "SCALING-TEST-USER-" + i,
+                "Patient",
+                "READ",
+                "SUCCESS",
+                details
             );
         }
         
@@ -462,9 +467,10 @@ class PerformanceSecurityValidationTest {
                     try {
                         for (int j = 0; j < 20; j++) {
                             auditService.logAuthentication(
-                                "TRANSACTION-TEST-USER-" + j, 
-                                "LOGIN_SUCCESS", 
-                                "SUCCESS", 
+                                "TRANSACTION-TEST-USER-" + j,
+                                "LOGIN_SUCCESS",
+                                "SUCCESS",
+                                "127.0.0.1",
                                 null
                             );
                             transactionSuccess.incrementAndGet();
@@ -525,7 +531,7 @@ class PerformanceSecurityValidationTest {
         
         // Test Security Controls Restoration
         // Verify audit logging continues after stress
-        auditService.logAuthentication("RECOVERY-TEST-USER", "LOGIN_SUCCESS", "SUCCESS", null);
+        auditService.logAuthentication("RECOVERY-TEST-USER", "LOGIN_SUCCESS", "SUCCESS", "127.0.0.1", null);
         
         List<AuditEventEntity> recoveryAuditEvents = auditEventRepository.findRecentEvents(recoveryTestStart);
         assertTrue(recoveryAuditEvents.size() > 0, "Audit logging should continue after recovery");

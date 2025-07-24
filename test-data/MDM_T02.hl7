@@ -1,0 +1,4 @@
+MSH|^~\&|SENDING|FACILITY|RECV|FACILITY|20240101120000||MDM^T02|MSG003|P|2.5
+PID|1||12345678^^^HOSPITAL^MR||DOE^JOHN^MIDDLE||19800101|M
+TXA|1|CN^Consult Note|20240101120000|20240101120000|12345^SMITH^JANE^MD
+OBX|1|ST|DOC^Document|1|This is a sample consultation note for patient John Doe. The patient presented with chest pain and was evaluated for cardiac conditions.||F

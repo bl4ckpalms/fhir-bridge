@@ -1,0 +1,265 @@
+# =============================================================================
+# AWS Production Profile Configuration for FHIR Bridge
+# =============================================================================
+# This configuration is specifically designed for AWS deployment
+# using RDS PostgreSQL, ElastiCache Redis, and ECS Fargate
+
+spring:
+  # AWS RDS PostgreSQL Configuration
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT:5432}/${DATABASE_NAME:fhirbridge}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: ${DB_MAX_POOL_SIZE:50}
+      minimum-idle: ${DB_MIN_IDLE:10}
+      connection-timeout: ${DB_CONNECTION_TIMEOUT:30000}
+      idle-timeout: ${DB_IDLE_TIMEOUT:600000}
+      max-lifetime: ${DB_MAX_LIFETIME:1800000}
+      leak-detection-threshold: ${DB_LEAK_DETECTION:60000}
+      pool-name: FhirBridgeAWSPool
+      connection-test-query: SELECT 1
+      validation-timeout: 5000
+      initialization-fail-timeout: 0
+  
+  # JPA Configuration optimized for AWS RDS
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+        generate_statistics: false
+        jdbc:
+          batch_size: 50
+          fetch_size: 200
+        order_inserts: true
+        order_updates: true
+        batch_versioned_data: true
+        query:
+          plan_cache_max_size: 2048
+          plan_parameter_metadata_max_size: 2048
+  
+  # AWS ElastiCache Redis Configuration
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD}
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: ${REDIS_MAX_ACTIVE:30}
+          max-idle: ${REDIS_MAX_IDLE:15}
+          min-idle: ${REDIS_MIN_IDLE:5}
+          max-wait: ${REDIS_MAX_WAIT:5000ms}
+      ssl:
+        enabled: true
+  
+  # AWS Cognito OAuth2 Configuration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${JWT_ISSUER_URI:https://cognito-idp.${AWS_REGION:us-east-1}.amazonaws.com/${COGNITO_USER_POOL_ID}}
+          jwk-set-uri: ${JWT_JWK_SET_URI:https://cognito-idp.${AWS_REGION:us-east-1}.amazonaws.com/${COGNITO_USER_POOL_ID}/.well-known/jwks.json}
+          audiences: ${JWT_AUDIENCES:fhir-bridge-api}
+
+# JWT Configuration for AWS Cognito
+jwt:
+  secret: ${JWT_SECRET}
+  access-token-expiration-minutes: ${JWT_ACCESS_TOKEN_EXPIRATION:15}
+  refresh-token-expiration-days: ${JWT_REFRESH_TOKEN_EXPIRATION:7}
+  issuer: ${JWT_ISSUER:fhir-bridge}
+  audience: ${JWT_AUDIENCE:fhir-bridge-api}
+  clock-skew-seconds: ${JWT_CLOCK_SKEW:60}
+
+# OAuth2 Configuration for AWS Cognito
+oauth2:
+  token-endpoint: ${OAUTH2_TOKEN_ENDPOINT:https://${COGNITO_DOMAIN}.auth.${AWS_REGION:us-east-1}.amazoncognito.com/oauth2/token}
+  client-id: ${OAUTH2_CLIENT_ID}
+  client-secret: ${OAUTH2_CLIENT_SECRET}
+  authorization-endpoint: ${OAUTH2_AUTH_ENDPOINT:https://${COGNITO_DOMAIN}.auth.${AWS_REGION:us-east-1}.amazoncognito.com/oauth2/authorize}
+  user-info-endpoint: ${OAUTH2_USER_INFO_ENDPOINT:https://${COGNITO_DOMAIN}.auth.${AWS_REGION:us-east-1}.amazoncognito.com/oauth2/userInfo}
+
+# AWS CloudWatch Management Endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when-authorized
+      show-components: when-authorized
+      probes:
+        enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      cloudwatch:
+        enabled: ${CLOUDWATCH_METRICS_ENABLED:true}
+        namespace: ${CLOUDWATCH_NAMESPACE:fhir-bridge}
+        step: ${CLOUDWATCH_STEP:60s}
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
+      environment: ${ENVIRONMENT:production}
+      region: ${AWS_REGION:us-east-1}
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      slo:
+        http.server.requests: 100ms,500ms,1s,2s,5s
+
+# AWS CloudWatch Logging Configuration
+logging:
+  level:
+    com.bridge: INFO
+    org.springframework.security: WARN
+    org.springframework.web: WARN
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+    org.springframework.cache: INFO
+    org.springframework.data.redis: INFO
+    com.amazonaws: WARN
+    software.amazon.awssdk: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/fhir-bridge-aws.log
+    max-size: 100MB
+    max-history: 30
+    total-size-cap: 3GB
+  pattern:
+    level: "%5p"
+  structured:
+    format:
+      console: json
+      file: json
+  group: ${CLOUDWATCH_LOG_GROUP:/ecs/fhir-bridge}
+  stream-name: ${CLOUDWATCH_LOG_STREAM:ecs-fhir-bridge}
+  region: ${AWS_REGION:us-east-1}
+
+# AWS S3 Configuration for file storage and backups
+aws:
+  s3:
+    audit-logs-bucket: ${S3_AUDIT_LOGS_BUCKET}
+    backups-bucket: ${S3_BACKUPS_BUCKET}
+    artifacts-bucket: ${S3_ARTIFACTS_BUCKET}
+    encryption:
+      enabled: true
+      kms-key-id: ${S3_KMS_KEY_ID}
+  cloudwatch:
+    metrics:
+      enabled: true
+      namespace: fhir-bridge
+    logs:
+      enabled: true
+      retention-days: ${CLOUDWATCH_LOG_RETENTION:90}
+  xray:
+    enabled: ${AWS_XRAY_ENABLED:true}
+    sampling-rate: ${AWS_XRAY_SAMPLING_RATE:0.1}
+
+# Application-specific configuration for AWS
+fhir-bridge:
+  transformation:
+    timeout: 30s
+    validation:
+      strict: true
+      profiles:
+        - "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+        - "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+        - "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"
+    cache:
+      enabled: true
+      ttl: 1h
+      max-size: 10000
+  consent:
+    cache-ttl: 300s
+    default-policy: DENY
+    categories:
+      - "medical-records"
+      - "lab-results"
+      - "imaging"
+      - "demographics"
+  audit:
+    enabled: true
+    level: INFO
+    retention-days: 2555  # 7 years for HIPAA compliance
+    anonymize: true
+    s3-bucket: ${S3_AUDIT_LOGS_BUCKET}
+    cloudwatch-log-group: ${CLOUDWATCH_AUDIT_LOG_GROUP:/audit/fhir-bridge}
+  fhir:
+    server:
+      enabled: true
+      base-url: ${FHIR_SERVER_BASE_URL:https://hapi.fhir.org/baseR4}
+      timeout: 30s
+      max-connections: 100
+      retry-attempts: 3
+    validation:
+      enabled: true
+      fail-on-warning: false
+    profiles:
+      us-core: "http://hl7.org/fhir/us/core/"
+      carin-bb: "http://hl7.org/fhir/us/carin-bb/"
+  security:
+    cors:
+      enabled: true
+      allowed-origins: ${CORS_ALLOWED_ORIGINS}
+    rate-limiting:
+      enabled: true
+      requests-per-minute: ${RATE_LIMIT_RPM:1000}
+      burst-capacity: ${RATE_LIMIT_BURST:100}
+  monitoring:
+    health-checks:
+      enabled: true
+      interval: 30s
+    metrics:
+      enabled: true
+      export-prometheus: true
+      export-cloudwatch: true
+
+# Server configuration for AWS ECS Fargate
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    include-stacktrace: never
+    include-message: never
+    include-binding-errors: never
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+    min-response-size: 1024
+  http2:
+    enabled: true
+
+# AWS-specific Spring configuration
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  threads:
+    virtual:
+      enabled: ${VIRTUAL_THREADS_ENABLED:true}
+  cloud:
+    aws:
+      region:
+        static: ${AWS_REGION:us-east-1}
+      credentials:
+        instance-profile: true
+      stack:
+        auto: false

@@ -1,0 +1,182 @@
+# =============================================================================
+# PostgreSQL Exporter Configuration for Prometheus
+# =============================================================================
+# This configuration enables detailed PostgreSQL metrics collection
+# for monitoring and alerting in production environments
+# =============================================================================
+
+# Connection settings
+auth_modules:
+  default:
+    type: userpass
+    userpass:
+      username: ${POSTGRES_EXPORTER_USER}
+      password: ${POSTGRES_EXPORTER_PASSWORD}
+    options:
+      sslmode: ${POSTGRES_SSL_MODE:-require}
+      fallback_application_name: postgres_exporter
+
+# Custom queries for FHIR Bridge specific metrics
+custom_queries:
+  # FHIR Bridge application metrics
+  - name: fhir_bridge_audit_events_count
+    help: "Total number of audit events"
+    labels:
+      - "table"
+    values:
+      - "count"
+    query: |
+      SELECT 'audit_events' as table, COUNT(*) as count FROM audit_events;
+
+  - name: fhir_bridge_consent_records_count
+    help: "Total number of consent records"
+    labels:
+      - "table"
+      - "status"
+    values:
+      - "count"
+    query: |
+      SELECT 'consent_records' as table, status, COUNT(*) as count 
+      FROM consent_records 
+      GROUP BY status;
+
+  - name: fhir_bridge_audit_events_daily
+    help: "Audit events by day"
+    labels:
+      - "date"
+      - "action"
+      - "outcome"
+    values:
+      - "count"
+    query: |
+      SELECT 
+        DATE(timestamp) as date,
+        action,
+        outcome,
+        COUNT(*) as count
+      FROM audit_events
+      WHERE timestamp >= CURRENT_DATE - INTERVAL '30 days'
+      GROUP BY DATE(timestamp), action, outcome;
+
+  - name: fhir_bridge_consent_expiring_soon
+    help: "Consents expiring within 30 days"
+    labels:
+      - "patient_id"
+      - "organization_id"
+    values:
+      - "days_until_expiration"
+    query: |
+      SELECT 
+        patient_id,
+        organization_id,
+        EXTRACT(DAY FROM (expiration_date - CURRENT_TIMESTAMP)) as days_until_expiration
+      FROM consent_records
+      WHERE expiration_date IS NOT NULL
+        AND expiration_date > CURRENT_TIMESTAMP
+        AND expiration_date <= CURRENT_TIMESTAMP + INTERVAL '30 days';
+
+  # Database performance metrics
+  - name: fhir_bridge_table_sizes
+    help: "Table sizes in bytes"
+    labels:
+      - "table"
+    values:
+      - "size_bytes"
+    query: |
+      SELECT 
+        tablename as table,
+        pg_total_relation_size(schemaname||'.'||tablename) as size_bytes
+      FROM pg_tables
+      WHERE schemaname = 'public'
+        AND tablename IN ('audit_events', 'consent_records', 'consent_allowed_categories');
+
+  - name: fhir_bridge_index_usage
+    help: "Index usage statistics"
+    labels:
+      - "table"
+      - "index"
+    values:
+      - "idx_scan"
+      - "idx_tup_read"
+      - "idx_tup_fetch"
+    query: |
+      SELECT 
+        schemaname as table,
+        indexrelname as index,
+        idx_scan,
+        idx_tup_read,
+        idx_tup_fetch
+      FROM pg_stat_user_indexes
+      WHERE schemaname = 'public';
+
+  - name: fhir_bridge_connection_stats
+    help: "Database connection statistics"
+    labels:
+      - "database"
+    values:
+      - "numbackends"
+      - "xact_commit"
+      - "xact_rollback"
+      - "blks_read"
+      - "blks_hit"
+      - "tup_returned"
+      - "tup_fetched"
+      - "tup_inserted"
+      - "tup_updated"
+      - "tup_deleted"
+    query: |
+      SELECT 
+        datname as database,
+        numbackends,
+        xact_commit,
+        xact_rollback,
+        blks_read,
+        blks_hit,
+        tup_returned,
+        tup_fetched,
+        tup_inserted,
+        tup_updated,
+        tup_deleted
+      FROM pg_stat_database
+      WHERE datname = current_database();
+
+  - name: fhir_bridge_long_running_queries
+    help: "Long running queries"
+    labels:
+      - "pid"
+      - "username"
+      - "query"
+    values:
+      - "duration_seconds"
+    query: |
+      SELECT 
+        pid::text,
+        usename as username,
+        left(query, 100) as query,
+        EXTRACT(EPOCH FROM (now() - query_start)) as duration_seconds
+      FROM pg_stat_activity
+      WHERE state = 'active'
+        AND query NOT LIKE '%pg_stat_activity%'
+        AND query_start < now() - INTERVAL '5 minutes';
+
+# Default metrics to collect
+collectors:
+  - pg_stat_database
+  - pg_stat_user_tables
+  - pg_stat_user_indexes
+  - pg_statio_user_tables
+  - pg_stat_bgwriter
+  - pg_stat_replication
+  - pg_settings
+  - pg_locks
+  - pg_stat_activity
+
+# Exclude certain metrics to reduce cardinality
+exclude_databases:
+  - template0
+  - template1
+
+# Logging configuration
+log:
+  level: info
+  format: json
